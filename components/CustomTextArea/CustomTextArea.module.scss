@@ -1,0 +1,59 @@
+@import '../../styles/variables.scss';
+
+.container {
+    // width: 70%;
+    // height: 9.5rem;
+    position: relative;
+    padding-top: 2rem;
+    // margin-top: 1rem;
+    // margin-inline: auto;
+ 
+    .label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        font-size: 1.5rem;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+ 
+    .textArea {
+        background-color: $background-main;
+        color: $text-main;
+        width: 100%;
+        padding: 15px;
+        border-radius: .2rem 1rem 1rem 1rem;
+        outline: 2px solid $text-main;
+        border: none;
+        box-shadow: none;
+        resize: none;
+        height: 7rem;
+        transition: 0.2s;
+
+        &::-webkit-scrollbar {
+            width: .5rem;
+            height: .5rem;
+        }
+        &::-webkit-scrollbar-button:start:decrement,
+        &::-webkit-scrollbar-button:end:increment {
+            background-color: transparent;
+        }
+        &::-webkit-scrollbar-thumb:vertical {
+            height: 10px;
+            background-color: #666;
+            border: none;
+            -webkit-border-radius: 1rem;
+        }
+
+        &:focus {
+            outline: 3px solid $accent-color;
+            ~ .label {
+                color: $accent-color;
+            }
+        }
+    }
+ }

@@ -1,0 +1,35 @@
+@import '../../styles/variables.scss';
+
+.container {
+    position: relative; 
+    z-index: 100;
+    
+    .button {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    .menu {
+        position: absolute;
+        top: 150%;
+        right: 0;
+        background-color: $background-element;
+        border-radius: 0.75rem;
+        padding: 1.25rem 2rem;
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        transition: .3s;
+
+        &.active {
+            top: 100%;
+            visibility: visible;
+            opacity: 1;  
+            pointer-events: all;
+        }
+    }
+}

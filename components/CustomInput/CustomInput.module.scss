@@ -1,0 +1,66 @@
+@import '../../styles/variables.scss';
+
+.container {
+    position: relative;
+    padding-top: 1rem;
+    // margin-top: 10px;
+    // margin-inline: auto;
+    // width: 70%;
+
+    .input {
+        font-family: inherit;
+        width: 100%;
+        border: 0;
+        border-bottom: 2px solid $text-main;
+        outline: 0;
+        font-size: 1.3rem;
+        color: $text-main;
+        padding: 7px 0;
+        background: transparent;
+        transition: border-color 0.2s;
+
+        &::placeholder {
+            color: transparent;
+        }
+
+        &:placeholder-shown ~ .label {
+            font-size: 1.3rem;
+            cursor: text;
+            top: 20px;
+        }
+
+        &:required, &:invalid { box-shadow:none; }
+
+        &:focus {
+            ~ .label {
+               position: absolute;
+               top: 0;
+               display: block;
+               transition: 0.2s;
+               font-size: 1rem;
+               color: $accent-color;
+               font-weight:700;    
+            }
+         
+            padding-bottom: 6px;  
+            font-weight: 700;
+            border-width: 3px;
+            border-color: $accent-color;
+        }
+    }
+
+    .label {
+        position: absolute;
+        top: 0;
+        display: block;
+        transition: 0.2s;
+        font-size: 1rem;
+        color: $text-main;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+}

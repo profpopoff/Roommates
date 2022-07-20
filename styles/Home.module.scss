@@ -1,0 +1,14 @@
+@import './variables.scss';
+
+.container {
+    height: calc(100vh - $header-height);
+    padding-top: clamp(1em, 3vw, 2.75em);
+    display: grid;
+    gap: clamp(1em, 3vw, 3.75em);
+    grid-template-columns: minmax(0, 1fr) minmax(20rem, 45rem) minmax(20rem, 65rem) minmax(0, 1fr);
+    grid-template-rows: min-content 1fr clamp(1em, 3vw, 2.75em);
+    grid-template-areas: 
+    '. filters map .'
+    '. posts map .'
+    '. posts . .';
+}
