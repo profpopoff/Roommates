@@ -1,5 +1,83 @@
+@import '../../styles/variables.scss';
+
 .container {
     grid-area: filters;
-    background-color: red;
+    display: grid;
+    gap: 1rem;
+    grid-template-areas: 
+    'headline roommatesToggle'
+    'buttons sortBy';
 
+    .headline {
+        grid-area: headline;
+
+        .title {
+            font-size: 1.75rem;
+        }
+
+        .resultNum {
+            font-weight: 400;
+            font-size: 1.25rem;
+            color: $text-grey;
+        }
+    }
+
+    .roommatesToggle {
+        grid-area: roommatesToggle;
+        place-self: start end;
+    }
+
+    .buttons {
+        grid-area: buttons;
+        display: flex;
+        gap: 1rem;
+
+        .button {
+            display: flex;
+            gap: .3rem;
+            align-items: center;
+            padding: 0.5rem .7rem;
+            border-radius: .5rem;
+            border: 1px solid $text-grey;
+            background-color: transparent;
+            color: $text-grey;
+            cursor: pointer;
+            transition: .3s;
+   
+            &:hover {
+               border-color: $accent-color;
+               color: $accent-color;
+            }
+        }
+    }
+
+    .sortBy {
+        grid-area: sortBy;
+        place-self: end;
+        font-weight: 400;
+        font-size: 1.25em;
+        color: $text-grey;
+        cursor: pointer;
+
+        span {
+            font-weight: 700;
+            color: $accent-color;
+        }
+
+        .list {
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            padding: 1rem 1.25rem;
+            list-style: none;
+
+            .item {
+                cursor: pointer;
+
+                &:hover {
+                color: $accent-color;
+                }
+            }
+        }
+    }
 }

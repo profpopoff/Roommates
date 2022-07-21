@@ -15,18 +15,18 @@
 
     .menu {
         position: absolute;
-        top: 150%;
+        top: 200%;
         right: 0;
         background-color: $background-element;
         border-radius: 0.75rem;
-        padding: 1.25rem 2rem;
         visibility: hidden;
         opacity: 0;
         pointer-events: none;
         transition: .3s;
+        cursor: default;
 
         &.active {
-            top: 100%;
+            top: 130%;
             visibility: visible;
             opacity: 1;  
             pointer-events: all;
