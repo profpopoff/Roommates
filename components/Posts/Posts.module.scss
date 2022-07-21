@@ -1,4 +1,114 @@
+@import '../../styles/variables.scss';
+
 .container {
     grid-area: posts;
-    background-color: red;
+    border-radius: 1.25rem 1.25rem 0 0;
+    overflow-y: auto;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    .post {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: min-content auto auto min-content;
+        grid-template-rows: min-content 1fr min-content;
+        grid-template-areas: 
+            'image headline headline favButton'
+            'image conveniences conveniences .'
+            'image rating price price';
+        padding: 1.8rem 2rem;
+        margin-bottom: 1.75rem;
+        border-radius: 1.25rem;
+        background-color: $background-element;
+
+        .image {
+            grid-area: image;
+            position: relative;
+            width: 12.5rem;
+            height: 100%;
+            border-radius: .625rem;
+            overflow: hidden;
+
+            .src {
+                object-fit: cover;
+            }
+        }
+
+        .headline {
+            grid-area: headline;
+
+            .title {
+                font-weight: 500;
+             }
+       
+            .address {
+                font-weight: 400;
+                font-size: 1rem;
+            }
+        }
+
+        .favButton {
+            grid-area: favButton;
+            place-self: start end;
+            width: 2.75rem;
+            aspect-ratio: 1;
+            border: none;
+            border-radius: 30rem;
+            background-color: $background-main;
+            color: $text-grey;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: .15s;
+
+            &:hover {
+                color: $accent-color;
+            }
+        }
+
+        .conveniences {
+            grid-area: conveniences;
+            display: flex;
+            flex-wrap: wrap;
+            list-style: none;
+            padding: 0;
+            color: $text-grey;
+            font-weight: 400;
+            overflow: hidden;
+      
+            li:not(:first-child) {
+               margin-left: 1rem;
+               position: relative;
+      
+               &:after {
+                  content: "•";
+                  position: absolute;
+                  left: -.65rem;
+               }
+            }
+        }
+
+        .rating {
+            grid-area: rating;
+            display: flex;
+            text-align: center;
+            gap: .5rem;
+
+            span {
+                font-size: 1.25rem;
+            }
+        }
+
+        .price {
+            grid-area: price;
+            place-self: end;
+            font-weight: 400;
+
+            span {
+                font-weight: 700;
+                font-size: 24px;
+            }
+        }
+    }
 }
