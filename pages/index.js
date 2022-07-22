@@ -14,7 +14,7 @@ export default function Home() {
       <div className={styles.container}>
         <Filters />
         <Posts />
-        <Map />
+        {/* <Map /> */}
       </div>
     </Layout>
   )

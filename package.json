@@ -14,10 +14,10 @@
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
     "mapbox-gl": "^2.9.2",
+    "mongoose": "^6.4.6",
     "next": "12.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-map-gl": "^7.0.18",
     "react-star-ratings": "^2.3.0",
     "sass": "^1.53.0"
   },
