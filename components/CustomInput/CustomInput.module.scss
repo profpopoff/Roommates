@@ -23,26 +23,29 @@
             color: transparent;
         }
 
-        &:placeholder-shown ~ .label {
+        &:placeholder-shown~.label {
             font-size: 1.3rem;
             cursor: text;
             top: 20px;
         }
 
-        &:required, &:invalid { box-shadow:none; }
+        &:required,
+        &:invalid {
+            box-shadow: none;
+        }
 
         &:focus {
-            ~ .label {
-               position: absolute;
-               top: 0;
-               display: block;
-               transition: 0.2s;
-               font-size: 1rem;
-               color: $accent-color;
-               font-weight:700;    
+            ~.label {
+                position: absolute;
+                top: 0;
+                display: block;
+                transition: 0.2s;
+                font-size: 1rem;
+                color: $accent-color;
+                font-weight: 700;
             }
-         
-            padding-bottom: 6px;  
+
+            padding-bottom: 6px;
             font-weight: 700;
             border-width: 3px;
             border-color: $accent-color;

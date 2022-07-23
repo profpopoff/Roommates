@@ -7,7 +7,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 export default function Map() {
 
     const [map, setMap] = useState()
-    
+
     const mapNode = useRef(null)
 
 
@@ -27,12 +27,12 @@ export default function Map() {
             mapboxMap.getStyle().layers.forEach((layer) => {
                 if (layer.id.endsWith('-label')) {
                     mapboxMap.setLayoutProperty(layer.id, 'text-field', [
-                      'coalesce',
-                      ['get', 'name_ru'],
-                      ['get', 'name'],
-                   ])
+                        'coalesce',
+                        ['get', 'name_ru'],
+                        ['get', 'name'],
+                    ])
                 }
-             })
+            })
         })
 
         setMap(mapboxMap)

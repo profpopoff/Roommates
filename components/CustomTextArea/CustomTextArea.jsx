@@ -7,12 +7,12 @@ export default function CustomTextarea(props) {
 
     return (
         <div className={styles.container}>
-            <textarea 
+            <textarea
                 className={styles.textArea}
-                name={props.name} 
-                placeholder={props.placeholder} 
+                name={props.name}
+                placeholder={props.placeholder}
                 value={text}
-                onChange={e => {setText(e.target.value); props.handleChange(e)}}
+                onChange={e => { setText(e.target.value); props.handleChange(e) }}
             ></textarea>
             <label className={styles.label} htmlFor={props.name}>{props.label}</label>
         </div>

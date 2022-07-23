@@ -4,9 +4,9 @@
     grid-area: filters;
     display: grid;
     gap: 1rem;
-    grid-template-areas: 
-    'headline roommatesToggle'
-    'buttons sortBy';
+    grid-template-areas:
+        'headline roommatesToggle'
+        'buttons sortBy';
 
     .headline {
         grid-area: headline;
@@ -43,10 +43,10 @@
             color: $text-grey;
             cursor: pointer;
             transition: .3s;
-   
+
             &:hover {
-               border-color: $accent-color;
-               color: $accent-color;
+                border-color: $accent-color;
+                color: $accent-color;
             }
         }
     }
@@ -75,7 +75,7 @@
                 cursor: pointer;
 
                 &:hover {
-                color: $accent-color;
+                    color: $accent-color;
                 }
             }
         }

@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    
+
     .logo {
         display: flex;
         align-items: center;
@@ -22,7 +22,7 @@
                 object-fit: contain;
             }
         }
-        
+
         .logoTitle {
             font-size: 1.875em;
 
@@ -89,11 +89,12 @@
                 color: $text-grey;
             }
 
-            &:hover, &.active {
+            &:hover,
+            &.active {
                 color: $accent-color;
             }
         }
-    
+
         .user {
             display: flex;
             align-items: center;

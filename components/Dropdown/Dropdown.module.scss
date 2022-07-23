@@ -1,9 +1,9 @@
 @import '../../styles/variables.scss';
 
 .container {
-    position: relative; 
+    position: relative;
     z-index: 100;
-    
+
     .button {
         -webkit-touch-callout: none;
         -webkit-user-select: none;
@@ -28,7 +28,7 @@
         &.active {
             top: 130%;
             visibility: visible;
-            opacity: 1;  
+            opacity: 1;
             pointer-events: all;
         }
     }

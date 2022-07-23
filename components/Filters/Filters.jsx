@@ -15,10 +15,10 @@ export default function Filters() {
             <Headline />
             <RoommatesToggle />
             <div className={styles.buttons}>
-                <PriceButton/>
-                <TypeButton/>
-                <FloorButton/>
-                <MoreButton/>
+                <PriceButton />
+                <TypeButton />
+                <FloorButton />
+                <MoreButton />
             </div>
             <SortBy />
         </div>
@@ -43,7 +43,7 @@ const RoommatesToggle = () => {
                 name="roommates"
                 label="С соседями"
                 checked={true}
-                // onChange={() => { props.setRoommates(!props.roommates); props.setFilters(!props.new); rmTypes() }}
+            // onChange={() => { props.setRoommates(!props.roommates); props.setFilters(!props.new); rmTypes() }}
             />
         </div>
     )
@@ -59,8 +59,8 @@ const PriceButton = () => {
                 <FontAwesomeIcon icon={faTag} />Цена
             </button>
             <Modal active={priceActive} setActive={setPriceActive}>
-               <h2 className={styles.title}><FontAwesomeIcon icon={faTag} /> Цена</h2>
-               {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
+                <h2 className={styles.title}><FontAwesomeIcon icon={faTag} /> Цена</h2>
+                {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
             </Modal>
         </>
     )
@@ -76,8 +76,8 @@ const TypeButton = () => {
                 <FontAwesomeIcon icon={faBuilding} />Тип
             </button>
             <Modal active={typeActive} setActive={setTypeActive}>
-               <h2 className={styles.title}><FontAwesomeIcon icon={faBuilding} /> Тип</h2>
-               {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
+                <h2 className={styles.title}><FontAwesomeIcon icon={faBuilding} /> Тип</h2>
+                {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
             </Modal>
         </>
     )
@@ -93,8 +93,8 @@ const FloorButton = () => {
                 <FontAwesomeIcon icon={faStairs} />Этаж
             </button>
             <Modal active={floorActive} setActive={setFloorActive}>
-               <h2 className={styles.title}><FontAwesomeIcon icon={faStairs} /> Этаж</h2>
-               {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
+                <h2 className={styles.title}><FontAwesomeIcon icon={faStairs} /> Этаж</h2>
+                {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
             </Modal>
         </>
     )
@@ -110,8 +110,8 @@ const MoreButton = () => {
                 <FontAwesomeIcon icon={faSliders} />Другое
             </button>
             <Modal active={moreActive} setActive={setMoreActive}>
-               <h2 className={styles.title}><FontAwesomeIcon icon={faSliders} /> Другое</h2>
-               {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
+                <h2 className={styles.title}><FontAwesomeIcon icon={faSliders} /> Другое</h2>
+                {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
             </Modal>
         </>
     )
@@ -123,15 +123,15 @@ const SortBy = () => {
 
     return (
         <div className={styles.sortBy}>
-             <Dropdown 
-                    active={sortByActive} 
-                    setActive={setSortByActive}
-                    button={
-                        <div>Сортировать по: <span>Новизне</span></div>
-                    }
-                >
-                    <SortByList />
-                </Dropdown>
+            <Dropdown
+                active={sortByActive}
+                setActive={setSortByActive}
+                button={
+                    <div>Сортировать по: <span>Новизне</span></div>
+                }
+            >
+                <SortByList />
+            </Dropdown>
         </div>
     )
 }

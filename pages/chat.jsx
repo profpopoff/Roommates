@@ -12,19 +12,19 @@ export default function Chat() {
     <Layout title="Chat">
       <div>
         Chat
-        <CustomInput 
+        <CustomInput
           name="email"
           label="Почта"
           type="number"
           value="123"
           handleChange={(e) => console.log(e.target.value)}
         />
-        <CustomTextarea 
-          label="Описание" 
-          name="desc" 
+        <CustomTextarea
+          label="Описание"
+          name="desc"
           value={321}
           handleChange={(e) => console.log(e.target.value)}
-        />  
+        />
         <CustomToggle name='кухня' label="Кухня" checked={true} onChange={(e) => console.log(e.target.value, e.target.checked)} />
       </div>
     </Layout>

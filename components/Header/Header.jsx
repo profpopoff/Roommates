@@ -20,8 +20,8 @@ export default function Header() {
             <Search />
             <nav className={styles.navigation}>
                 <Links />
-                <Dropdown 
-                    active={userMenuActive} 
+                <Dropdown
+                    active={userMenuActive}
                     setActive={setUserMenuActive}
                     button={
                         <User />
@@ -61,7 +61,7 @@ const Search = () => {
 const Links = () => {
 
     const router = useRouter()
-    
+
     return (
         <>
             <Link href="/property">
@@ -98,7 +98,7 @@ const User = () => {
 }
 
 const List = () => {
-    
+
     const router = useRouter()
 
     const [settingsActive, setSettingsActive] = useState(false)
@@ -108,8 +108,8 @@ const List = () => {
             <Link href="/profile">
                 <a className={`${styles.link} ${router.pathname == "/profile" && styles.active}`}><FontAwesomeIcon icon={faUser} />Профиль</a>
             </Link>
-            <button className={styles.link} onClick={() => {setSettingsActive(true)}}><FontAwesomeIcon icon={faGear} />Настройки</button>
-            <Modal active = {settingsActive} setActive={setSettingsActive}>
+            <button className={styles.link} onClick={() => { setSettingsActive(true) }}><FontAwesomeIcon icon={faGear} />Настройки</button>
+            <Modal active={settingsActive} setActive={setSettingsActive}>
                 <h2 className={styles.title}><FontAwesomeIcon icon={faGear} /> Настройки</h2>
             </Modal>
             <button className={styles.link}><FontAwesomeIcon icon={faCircleInfo} />Помощь</button>

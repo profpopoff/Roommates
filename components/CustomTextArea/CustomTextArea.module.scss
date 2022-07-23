@@ -7,7 +7,7 @@
     padding-top: 2rem;
     // margin-top: 1rem;
     // margin-inline: auto;
- 
+
     .label {
         position: absolute;
         top: 0;
@@ -20,7 +20,7 @@
         -ms-user-select: none;
         user-select: none;
     }
- 
+
     .textArea {
         background-color: $background-main;
         color: $text-main;
@@ -38,10 +38,12 @@
             width: .5rem;
             height: .5rem;
         }
+
         &::-webkit-scrollbar-button:start:decrement,
         &::-webkit-scrollbar-button:end:increment {
             background-color: transparent;
         }
+
         &::-webkit-scrollbar-thumb:vertical {
             height: 10px;
             background-color: #666;
@@ -51,9 +53,10 @@
 
         &:focus {
             outline: 3px solid $accent-color;
-            ~ .label {
+
+            ~.label {
                 color: $accent-color;
             }
         }
     }
- }
+}

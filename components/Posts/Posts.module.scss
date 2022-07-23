@@ -14,7 +14,7 @@
         gap: 1.5rem;
         grid-template-columns: min-content auto auto min-content;
         grid-template-rows: min-content 1fr min-content;
-        grid-template-areas: 
+        grid-template-areas:
             'image headline headline favButton'
             'image conveniences conveniences .'
             'image rating price price';
@@ -41,8 +41,8 @@
 
             .title {
                 font-weight: 500;
-             }
-       
+            }
+
             .address {
                 font-weight: 400;
                 font-size: 1rem;
@@ -76,16 +76,16 @@
             color: $text-grey;
             font-weight: 400;
             overflow: hidden;
-      
+
             li:not(:first-child) {
-               margin-left: 1rem;
-               position: relative;
-      
-               &:after {
-                  content: "•";
-                  position: absolute;
-                  left: -.65rem;
-               }
+                margin-left: 1rem;
+                position: relative;
+
+                &:after {
+                    content: "•";
+                    position: absolute;
+                    left: -.65rem;
+                }
             }
         }
 

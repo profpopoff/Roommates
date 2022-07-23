@@ -13,7 +13,7 @@ const ApartmentSchema = new mongoose.Schema(
             apartment: { type: Number, required: true },
         },
         coordinates: { type: [Number], required: true },
-        price: { 
+        price: {
             value: { type: Number, required: true },
             currency: { type: String, default: "RUB" },
             frequency: { type: String, default: "month" },
@@ -36,6 +36,6 @@ const ApartmentSchema = new mongoose.Schema(
         isVisible: { type: Boolean, default: true },
     },
     { timestamps: true }
- )
- 
+)
+
 export default mongoose.models.Apartment || mongoose.model('Apartment', ApartmentSchema)

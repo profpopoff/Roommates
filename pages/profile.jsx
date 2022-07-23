@@ -7,7 +7,7 @@ export default function Profile() {
   return (
     <Layout title="USER NAME VVEDI PLZ">
       <div>
-          profile
+        profile
       </div>
     </Layout>
   )

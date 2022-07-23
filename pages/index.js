@@ -10,7 +10,7 @@ import Map from '../components/Map/Map'
 export default function Home() {
 
   return (
-    <Layout> 
+    <Layout>
       <div className={styles.container}>
         <Filters />
         <Posts />
