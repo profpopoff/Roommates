@@ -1,5 +1,5 @@
-import Apartment from '../../../models/Apartment'
 import dbConnect from '../../../utils/mongo'
+import Apartment from '../../../models/Apartment'
 
 export default async function handler(req, res) {
     const { method } = req
