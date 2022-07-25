@@ -6,8 +6,19 @@ import Layout from '../components/Layout'
 import Filters from '../components/Filters/Filters'
 import Posts from '../components/Posts/Posts'
 import Map from '../components/Map/Map'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
+
+  const [apartments, setApartments] = useState([])
+
+  useEffect(() => {
+    fetch("/api/apartments")
+      .then(response => response.json())
+      .then(data => setApartments(data))
+  }, [])
+
+  console.log(apartments)
 
   return (
     <Layout>
