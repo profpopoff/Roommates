@@ -7,45 +7,48 @@ import { faLocationDot, faHeart as faHeartSolid } from '@fortawesome/free-solid-
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 import StarRatings from 'react-star-ratings'
 
-export default function Posts() {
+import { average } from '../utils'
 
+export default function Posts({ apartments }) {
     return (
         <div className={styles.container}>
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+            {apartments.map(apartment => {
+                const ratings = apartment.reviews?.map(review => review.rating)
+                return (
+                    <Post key={apartment._id} {...apartment} averageRating={average(ratings)} />
+                )
+            })}
         </div>
     )
 }
 
-const Post = () => {
+const Post = (props) => {
     return (
         <div className={styles.post}>
-            <PostImage />
-            <Headline />
+            <PostImage src={props.images[0]} />
+            <Headline title={props.title} {...props.address} />
             <FavButton />
-            <Conveniences />
-            <Rating />
-            <Price />
+            <Conveniences conveniences={props.conveniences} />
+            <Rating averageRating={props.averageRating} />
+            <Price {...props.price} />
         </div>
     )
 }
 
-const PostImage = () => {
+const PostImage = (props) => {
     return (
         <div className={styles.image}>
-            <Image className={styles.src} src="/img/cover.jpeg" alt="" layout="fill" />
+            <Image className={styles.src} src={props.src} alt="" layout="fill" />
         </div>
     )
 }
 
-const Headline = () => {
+const Headline = (props) => {
     return (
         <div className={styles.headline}>
-            <h2 className={styles.title}>Хорошоий места</h2>
+            <h2 className={styles.title}>{props.title}</h2>
             <h3 className={styles.address}>
-                <FontAwesomeIcon icon={faLocationDot} className="icon" /> Улица Пушкина дом Колотушкина
+                <FontAwesomeIcon icon={faLocationDot} className="icon" />{`${props.city}, ${props.street}, д.${props.house}, кв.${props.apartment}`}
             </h3>
         </div>
     )
@@ -62,28 +65,22 @@ const FavButton = () => {
     )
 }
 
-const Conveniences = () => {
-
-    const conveniencesTest = ['Холодильник1', 'Холодильник2', 'Холодильник3', 'Холодильник4', 'Холодильник5', 'Холодильник6', 'Холодильник7', 'Холодильник8']
-
+const Conveniences = (props) => {
     return (
         <ul className={styles.conveniences}>
-            {conveniencesTest.slice(0, 6).map((convenience, index) => (
+            {props.conveniences.slice(0, 6).map((convenience, index) => (
                 <li key={index}>{convenience}</li>
             ))}
         </ul>
     )
 }
 
-const Rating = () => {
-
-    const ratingTest = 3.2345
-
+const Rating = (props) => {
     return (
         <div className={styles.rating}>
-            <span>{ratingTest.toString().substring(0, 3)}</span>
+            <span>{props.averageRating?.toString().substring(0, 3)}</span>
             <StarRatings
-                rating={ratingTest}
+                rating={props.averageRating}
                 starRatedColor="#2B67F6"
                 starDimension="20"
                 starSpacing="2"
@@ -94,15 +91,12 @@ const Rating = () => {
     )
 }
 
-const Price = () => {
-
-    const priceTest = 12312
-
+const Price = (props) => {
     return (
         <div className={styles.price}>
-            <span>{priceTest.toLocaleString('ru', {
+            <span>{props.value.toLocaleString('ru', {
                 style: 'currency',
-                currency: 'RUB',
+                currency: props.currency,
                 minimumFractionDigits: 0
             })}</span>/месяц
         </div>

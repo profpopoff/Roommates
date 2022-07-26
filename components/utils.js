@@ -5,3 +5,11 @@ export const enumerate = (num, dec) => {
     if (num > 100) num = num % 100
     return num === 1 ? dec[0] : num > 1 && num < 5 ? dec[1] : dec[2]
 }
+
+// Среднее значение чисел массива
+export const average = (nums) => {
+    if (nums[0]) {
+        return nums.reduce((a, b) => (a + b)) / nums.length
+    }
+    return 0
+}
