@@ -3,12 +3,19 @@ import Image from 'next/image'
 // import styles from '../styles/Apartment.module.css'
 import Layout from '../../components/Layout'
 
-export default function Apartment() {
+export default function Apartment({ apartment }) {
+
   return (
-    <Layout title="NAZVANIE APARTAMENTOV">
+    <Layout title={apartment.title}>
       <div>
-        Apartment
+        {apartment.title}
       </div>
     </Layout>
   )
+}
+
+export async function getServerSideProps({ params }) {
+  const res = await fetch(`http://localhost:3000/api/apartments/${params.id}`)
+  const data = await res.json()
+  return { props: { apartment: data } }
 }

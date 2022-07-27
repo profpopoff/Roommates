@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
 import styles from './Posts.module.scss'
@@ -25,8 +26,8 @@ export default function Posts({ apartments }) {
 const Post = (props) => {
     return (
         <div className={styles.post}>
-            <PostImage src={props.images[0]} />
-            <Headline title={props.title} {...props.address} />
+            <PostImage id={props._id} src={props.images[0]} />
+            <Headline id={props._id} title={props.title} {...props.address} />
             <FavButton />
             <Conveniences conveniences={props.conveniences} />
             <Rating averageRating={props.averageRating} />
@@ -46,9 +47,11 @@ const PostImage = (props) => {
 const Headline = (props) => {
     return (
         <div className={styles.headline}>
-            <h2 className={styles.title}>{props.title}</h2>
+            <Link href={`/apartment/${props.id}`} passHref>
+                <h2 className={styles.title}>{props.title}</h2>
+            </Link>
             <h3 className={styles.address}>
-                <FontAwesomeIcon icon={faLocationDot} className="icon" />{`${props.city}, ${props.street}, д.${props.house}, кв.${props.apartment}`}
+                <FontAwesomeIcon icon={faLocationDot} className="icon" /> {`${props.city}, ${props.street}, д.${props.house}, кв.${props.apartment}`}
             </h3>
         </div>
     )
