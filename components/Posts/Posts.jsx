@@ -12,7 +12,7 @@ import { average } from '../utils'
 export default function Posts({ apartments }) {
     return (
         <div className={styles.container}>
-            {apartments.map(apartment => {
+            {apartments?.map(apartment => {
                 const ratings = apartment.reviews?.map(review => review.rating)
                 return (
                     <Post key={apartment._id} {...apartment} averageRating={average(ratings)} />
