@@ -1,4 +1,4 @@
-import styles from '../styles/Home.module.scss'
+import styles from '../styles/pages/Home.module.scss'
 
 import Layout from '../components/Layout'
 import Filters from '../components/Filters/Filters'

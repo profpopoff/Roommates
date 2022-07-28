@@ -1,13 +1,14 @@
 import Head from 'next/head'
 import Image from 'next/image'
-// import styles from '../styles/Apartment.module.css'
+import styles from '../../styles/pages/Apartment.module.scss'
+
 import Layout from '../../components/Layout'
 
 export default function Apartment({ apartment }) {
 
   return (
     <Layout title={apartment.title}>
-      <div>
+      <div className={styles.container}>
         {apartment.title}
       </div>
     </Layout>
