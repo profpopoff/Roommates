@@ -4,11 +4,11 @@ import { useState } from 'react'
 import styles from './Posts.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLocationDot, faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
-import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import StarRatings from 'react-star-ratings'
 
 import { average } from '../utils'
+import FavButton from '../FavButton/FavButton'
 
 export default function Posts({ apartments }) {
     return (
@@ -28,7 +28,7 @@ const Post = (props) => {
         <div className={styles.post}>
             <PostImage id={props._id} src={props.images[0]} />
             <Headline id={props._id} title={props.title} {...props.address} />
-            <FavButton />
+            <FavButton />   
             <Conveniences conveniences={props.conveniences} />
             <Rating averageRating={props.averageRating} />
             <Price {...props.price} />
@@ -54,17 +54,6 @@ const Headline = (props) => {
                 <FontAwesomeIcon icon={faLocationDot} className="icon" /> {`${props.city}, ${props.street}, д.${props.house}, кв.${props.apartment}`}
             </h3>
         </div>
-    )
-}
-
-const FavButton = () => {
-
-    const [isFavourite, setIsFavourite] = useState(false)
-
-    return (
-        <button className={styles.favButton} onClick={() => setIsFavourite(!isFavourite)}>
-            {isFavourite ? <FontAwesomeIcon icon={faHeartSolid} /> : <FontAwesomeIcon icon={faHeartRegular} />}
-        </button>
     )
 }
 

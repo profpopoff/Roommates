@@ -50,24 +50,6 @@
             }
         }
 
-        .favButton {
-            grid-area: favButton;
-            place-self: start end;
-            width: 2.75rem;
-            aspect-ratio: 1;
-            border: none;
-            border-radius: 30rem;
-            background-color: $background-main;
-            color: $text-grey;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: .15s;
-
-            &:hover {
-                color: $accent-color;
-            }
-        }
-
         .conveniences {
             grid-area: conveniences;
             display: flex;

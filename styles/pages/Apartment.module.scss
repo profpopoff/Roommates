@@ -1,0 +1,49 @@
+@import '../variables.scss';
+
+.container {
+    max-width: 1920px;
+    margin: 1.75rem auto;
+
+    .info {
+        margin-inline: clamp(1em, 3vw, 3.75em);
+        padding: 1.8rem 2rem;
+        border-radius: 1.25rem;
+        background-color: $background-element;
+        display: grid;
+        gap: 3rem;
+        grid-template-columns: 1.5fr auto 1fr min-content;
+        grid-template-areas:
+            'images headline headline favButton'
+            'images . landlord landlord'
+            'conveniences stats stats stats'
+            'desc desc desc desc';
+        
+        .images {
+            grid-area: images;
+        }
+
+        .headline {
+            grid-area: headline;
+        }
+
+        .landlord {
+            grid-area: landlord;
+        }
+
+        .conveniences {
+            grid-area: conveniences;
+        }
+
+        .stats {
+            grid-area: stats;
+        }
+
+        .desc {
+            grid-area: desc;
+        }
+    }
+
+    .reviews {
+        margin-inline: clamp(1em, 3vw, 3.75em);
+    }
+}
