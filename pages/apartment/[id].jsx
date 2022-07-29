@@ -16,7 +16,13 @@ export default function Apartment({ apartment }) {
       <div className={styles.container}>
         <div className={styles.info}>
           <Images images={apartment.images} />
-          <Headline title={apartment.title} />
+          <Headline
+            title={apartment.title}
+            {...apartment.address}
+            averageRating={apartment.averageRating}
+            {...apartment.price}
+            roommates={apartment.roommates}
+          />
           <Landlord />
           <FavButton />
           <Conveniences />
@@ -78,7 +84,19 @@ const Images = (props) => {
 const Headline = (props) => {
   return (
     <div className={styles.headline}>
-      {props.title}
+      <h1 className={styles.title}>
+        {props.title}
+      </h1>
+      <h3 className={styles.address}>
+        <FontAwesomeIcon icon={faLocationDot} className="icon" /> {`${props.city}, ${props.street}, д.${props.house}, кв.${props.apartment}`}
+      </h3>
+      <div className={styles.price}>
+        <span>{props.value.toLocaleString('ru', {
+          style: 'currency',
+          currency: props.currency,
+          minimumFractionDigits: 0
+        })}</span>/месяц
+      </div>
     </div>
   )
 }
