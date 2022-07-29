@@ -33,8 +33,6 @@ const Images = (props) => {
 
   const [activeImage, setActiveImage] = useState(0)
 
-  console.log(props.images[activeImage])
-
   return (
     <div className={styles.images}>
       <div className={styles.active}>
@@ -75,6 +73,7 @@ const Images = (props) => {
     </div>
   )
 }
+
 
 const Headline = (props) => {
   return (
