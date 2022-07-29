@@ -20,6 +20,74 @@
         
         .images {
             grid-area: images;
+            height: 32rem;
+            display: flex;
+            gap: 1rem;
+
+            .active {
+                flex: 8;
+                position: relative;
+                border-radius: .7rem;
+                background-color: $text-grey;
+
+                .src {
+                    object-fit: contain;
+                }
+
+                &:hover .imgButton {
+                    opacity: .5;
+                }
+
+                .imgButton {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 3rem;
+                    aspect-ratio: 1;
+                    border: none;
+                    border-radius: 50%;
+                    background-color: $background-element;
+                    color: $accent-color;
+                    font-size: 2rem;
+                    opacity: 0;
+                    transition: .3s;
+                    cursor: pointer;
+                
+                    &:hover {
+                        opacity: 1;
+                    }
+
+                    &.next {
+                        right: 1rem;
+                    }
+
+                    &.prev {
+                        left: 1rem;
+                    }
+                }
+            }
+
+            .inactive {
+                flex: 1;
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                border-radius: .7rem;
+                overflow-y: auto;
+                
+                .image {
+                    position: relative;
+                    width: 100%;
+                    aspect-ratio: 1;
+                    border-radius: .7rem;
+                    cursor: pointer;
+                    overflow: hidden;
+
+                    .src {
+                        object-fit: cover;
+                    }
+                }
+            }
         }
 
         .headline {
