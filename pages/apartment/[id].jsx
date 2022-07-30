@@ -9,6 +9,8 @@ import { faComments } from '@fortawesome/free-regular-svg-icons'
 import Layout from '../../components/Layout'
 import FavButton from '../../components/FavButton/FavButton'
 import { useState } from 'react'
+import StarRatings from 'react-star-ratings'
+import { average } from '../../components/utils'
 
 export default function Apartment({ apartment }) {
   return (
@@ -19,8 +21,8 @@ export default function Apartment({ apartment }) {
           <Headline
             title={apartment.title}
             {...apartment.address}
-            averageRating={apartment.averageRating}
             {...apartment.price}
+            reviews={apartment.reviews}
             roommates={apartment.roommates}
           />
           <Landlord />
@@ -82,6 +84,9 @@ const Images = (props) => {
 
 
 const Headline = (props) => {
+
+  const ratings = props.reviews?.map(review => review.rating)
+
   return (
     <div className={styles.headline}>
       <h1 className={styles.title}>
@@ -97,6 +102,19 @@ const Headline = (props) => {
           minimumFractionDigits: 0
         })}</span>/месяц
       </div>
+      {
+        !!ratings.length &&
+        <div className={styles.rating}>
+          <span className={styles.number}>{average(ratings).toString().substring(0, 3)}</span>
+          <StarRatings
+            rating={average(ratings)}
+            starRatedColor="#2B67F6"
+            starDimension="22"
+            starSpacing="2"
+            name="rating"
+          />
+        </div>
+      }
     </div>
   )
 }

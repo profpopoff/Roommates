@@ -76,7 +76,7 @@ const Rating = (props) => {
                 starRatedColor="#2B67F6"
                 starDimension="20"
                 starSpacing="2"
-                starHoverColor="blue"
+                // starHoverColor="blue"
                 name="rating"
             />
         </div>
