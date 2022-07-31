@@ -7,6 +7,18 @@ body {
   font-size: 1rem;
   color: $text-main;
   background-color: $background-main;
+
+  &::-webkit-scrollbar {
+    width: .1rem;
+
+    &-track {
+      background: $background-element;
+    }
+
+    &-thumb {
+      background: $text-grey;
+    }
+  }
 }
 
 a {
