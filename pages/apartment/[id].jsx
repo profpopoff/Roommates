@@ -27,7 +27,7 @@ export default function Apartment({ apartment, landlord }) {
           />
           <Landlord {...landlord} />
           <FavButton />
-          <Conveniences />
+          <Conveniences conveniences={apartment.conveniences} />
           <Stats />
           <Desc />
         </div>
@@ -146,10 +146,12 @@ const Landlord = (props) => {
   )
 }
 
-const Conveniences = () => {
+const Conveniences = (props) => {
   return (
     <ul className={styles.conveniences}>
-      Conveniences
+      {props.conveniences?.map((convenience) => (
+        <li key={convenience}>{convenience}</li>
+      ))}
     </ul>
   )
 }

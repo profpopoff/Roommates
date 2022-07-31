@@ -186,9 +186,39 @@
                 }
             }
         }
-
+        
         .conveniences {
             grid-area: conveniences;
+            position: relative;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+            align-items: center;
+            column-gap: 4rem;
+            padding: 0;
+            list-style: none;
+            color: $text-grey;
+            font-size: 1.2rem;
+            font-weight: 400;
+            overflow: hidden;
+
+            li {
+                position: relative;
+                flex: 1 1 auto;
+                text-align: center;
+
+                &:first-letter {
+                    text-transform: uppercase;
+                }
+
+                &:after {
+                    content: "•";
+                    position: absolute;
+                    left: -2.4rem;
+                    color: $accent-color;
+                    font-size: 1.7rem;
+                }
+            }
         }
 
         .stats {
