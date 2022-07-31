@@ -29,7 +29,7 @@ export default function Apartment({ apartment, landlord }) {
           <FavButton />
           <Conveniences conveniences={apartment.conveniences} />
           <Stats {...apartment.stats} />
-          <Desc />
+          <Desc desc={apartment.desc} />
         </div>
         <Reviews />
       </div>
@@ -175,10 +175,13 @@ const Stats = (props) => {
   )
 }
 
-const Desc = () => {
+const Desc = (props) => {
   return (
     <div className={styles.desc}>
-      desc
+      <div className={styles.map}>
+        map
+      </div>
+      <p className={styles.text}>{props.desc}</p>
     </div>
   )
 }

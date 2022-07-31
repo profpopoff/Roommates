@@ -198,7 +198,7 @@
             padding: 0;
             list-style: none;
             color: $text-grey;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 400;
             overflow: hidden;
 
@@ -252,6 +252,19 @@
 
         .desc {
             grid-area: desc;
+            font-weight: 400;
+            font-size: 1.5rem;
+            white-space: pre-wrap;
+
+            .map {
+                float: right;
+                margin: 0 0 1rem 1rem;
+                width: 40%;
+                aspect-ratio: 3/2;
+                border-radius: 1.25rem;
+                overflow: hidden;
+                background-color: cyan;
+            }
         }
     }
 
