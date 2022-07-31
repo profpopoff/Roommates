@@ -129,7 +129,7 @@ const Landlord = (props) => {
       <div className={styles.image}>
         <Image
           className={styles.src}
-          src={props?.image ? props?.image : '/img/default-user.png'}
+          src={props?.image ? props.image : '/img/default-user.png'}
           alt=""
           layout="fill"
         />
