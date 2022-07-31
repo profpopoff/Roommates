@@ -12,7 +12,7 @@ import { useState } from 'react'
 import StarRatings from 'react-star-ratings'
 import { average } from '../../components/utils'
 
-export default function Apartment({ apartment }) {
+export default function Apartment({ apartment, landlord }) {
   return (
     <Layout title={apartment.title}>
       <div className={styles.container}>
@@ -25,7 +25,7 @@ export default function Apartment({ apartment }) {
             reviews={apartment.reviews}
             roommates={apartment.roommates}
           />
-          <Landlord />
+          <Landlord {...landlord} />
           <FavButton />
           <Conveniences />
           <Stats />
@@ -46,7 +46,7 @@ const Images = (props) => {
       <div className={styles.active}>
         <Image
           className={styles.src}
-          src={props.images[activeImage]}
+          src={props?.images[activeImage]}
           alt=""
           layout="fill"
           onClick={activeImage === props.images.length - 1 ? () => setActiveImage(0) : () => setActiveImage(activeImage + 1)}
@@ -119,10 +119,29 @@ const Headline = (props) => {
   )
 }
 
-const Landlord = () => {
+const Landlord = (props) => {
   return (
     <div className={styles.landlord}>
-      landlord
+      <div className={styles.text}>
+        <h3 className={styles.role}>Арендодатель</h3>
+        <h2 className={styles.name}>{props?.name} {props?.surname}</h2>
+      </div>
+      <div className={styles.image}>
+        <Image
+          className={styles.src}
+          src={props?.image ? props?.image : '/img/default-user.png'}
+          alt=""
+          layout="fill"
+        />
+        <button
+          className={styles.chatBtn}
+        // onClick={createConverstion}
+        >
+          <FontAwesomeIcon icon={faComments} />
+          <span className="sr-only">Начать чат с арендатором</span>
+        </button>
+      </div>
+
     </div>
   )
 }
@@ -160,7 +179,10 @@ const Reviews = () => {
 }
 
 export async function getServerSideProps({ params }) {
-  const res = await fetch(`http://localhost:3000/api/apartments/${params.id}`)
-  const data = await res.json()
-  return { props: { apartment: data } }
+  const aprtmentRes = await fetch(`http://localhost:3000/api/apartments/${params.id}`)
+  const apartment = await aprtmentRes.json()
+  const landlordRes = await fetch(`http://localhost:3000/api/users/${apartment.landlordId}`)
+  const landlord = await landlordRes.json()
+
+  return { props: { apartment, landlord } }
 }

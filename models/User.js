@@ -2,12 +2,13 @@ import mongoose from 'mongoose'
 
 const UserSchema = new mongoose.Schema(
     {
-        name: { type: String, required: true, minlength: 3, maxlength: 60 },
+        name: { type: String, required: true, minlength: 2, maxlength: 20 },
+        surname: { type: String, required: true, minlength: 2, maxlength: 20 },
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         isAdmin: { type: Boolean, default: false },
-        phoneNumber: { type: String, required: true, unique: true },
-        profilePicture: { type: String }
+        phone: { type: String, required: true, unique: true },
+        image: { type: String }
     },
     { timestamps: true }
 )
