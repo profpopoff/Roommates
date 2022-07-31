@@ -28,7 +28,7 @@ export default function Apartment({ apartment, landlord }) {
           <Landlord {...landlord} />
           <FavButton />
           <Conveniences conveniences={apartment.conveniences} />
-          <Stats />
+          <Stats {...apartment.stats} />
           <Desc />
         </div>
         <Reviews />
@@ -156,10 +156,21 @@ const Conveniences = (props) => {
   )
 }
 
-const Stats = () => {
+const Stats = (props) => {
   return (
     <div className={styles.stats}>
-      Stats
+      <div className={styles.stat}>
+        <h3 className={styles.category}>Этаж</h3>
+        <h2 className={styles.value}>{props.floor}</h2>
+      </div>
+      <div className={styles.stat}>
+        <h3 className={styles.category}>Площадь</h3>
+        <h2 className={styles.value}>{props.area}&#13217;</h2>
+      </div>
+      <div className={styles.stat}>
+        <h3 className={styles.category}>{`Комнат${props.rooms > 1 ? '' : 'а'}`}</h3>
+        <h2 className={styles.value}>{props.rooms}</h2>
+      </div>
     </div>
   )
 }

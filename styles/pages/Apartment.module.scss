@@ -186,7 +186,7 @@
                 }
             }
         }
-        
+
         .conveniences {
             grid-area: conveniences;
             position: relative;
@@ -223,6 +223,31 @@
 
         .stats {
             grid-area: stats;
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+
+            .stat {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 100%;
+
+                &:not(:last-child) {
+                    border-right: 1px solid $text-grey;
+                }
+
+                .category {
+                    font-weight: 400;
+                    font-size: 30px;
+                }
+
+                .value {
+                    font-size: 2rem;
+                    font-weight: 700;
+                    color: $accent-color;
+                }
+            }
         }
 
         .desc {
