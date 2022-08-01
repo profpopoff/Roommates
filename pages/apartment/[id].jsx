@@ -203,7 +203,7 @@ export async function getServerSideProps({ params }) {
     const reviewers = await Promise.all(
       apartment.reviews.map(review => {
         return fetch(`http://localhost:3000/api/users/${review.userId}`)
-        .then(response => response.json())
+          .then(response => response.json())
       })
     )
     return { props: { apartment, landlord, reviewers } }

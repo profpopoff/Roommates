@@ -135,13 +135,13 @@
             grid-area: landlord;
             display: flex;
             gap: 1rem;
-            place-self: end;
+            place-self: flex-end;
 
             .text {
                 display: flex;
                 flex-direction: column;
-                justify-content: end;
-                align-items: end;
+                justify-content: flex-end;
+                align-items: flex-end;
 
                 .role {
                     font-weight: 400;
