@@ -12,7 +12,7 @@ import { useState } from 'react'
 import StarRatings from 'react-star-ratings'
 import { average } from '../../components/utils'
 
-export default function Apartment({ apartment, landlord }) {
+export default function Apartment({ apartment, landlord, reviewers }) {
   return (
     <Layout title={apartment?.title}>
       <div className={styles.container}>
@@ -31,7 +31,7 @@ export default function Apartment({ apartment, landlord }) {
           <Stats {...apartment?.stats} />
           <Desc desc={apartment?.desc} />
         </div>
-        <Reviews />
+        {!!apartment.reviews.length && <Reviews reviews={apartment.reviews} reviewers={reviewers} />}
       </div>
     </Layout>
   )
@@ -66,9 +66,8 @@ const Images = (props) => {
       </div>
       <div className={styles.inactive}>
         {props.images.map((image, index) => (
-          <div className={styles.image}>
+          <div className={styles.image} key={index}>
             <Image
-              key={index}
               className={styles.src}
               src={image}
               alt=""
@@ -186,7 +185,8 @@ const Desc = (props) => {
   )
 }
 
-const Reviews = () => {
+const Reviews = (props) => {
+  console.log(props)
   return (
     <div className={styles.reviews}>
       reviews
@@ -195,10 +195,19 @@ const Reviews = () => {
 }
 
 export async function getServerSideProps({ params }) {
-  const aprtmentRes = await fetch(`http://localhost:3000/api/apartments/${params.id}`)
-  const apartment = await aprtmentRes.json()
-  const landlordRes = await fetch(`http://localhost:3000/api/users/${apartment.landlordId}`)
-  const landlord = await landlordRes.json()
+  const apartment = await fetch(`http://localhost:3000/api/apartments/${params.id}`)
+    .then(response => response.json())
+  const landlord = await fetch(`http://localhost:3000/api/users/${apartment.landlordId}`)
+    .then(response => response.json())
+  if (apartment.reviews.length) {
+    const reviewers = await Promise.all(
+      apartment.reviews.map(review => {
+        return fetch(`http://localhost:3000/api/users/${review.userId}`)
+        .then(response => response.json())
+      })
+    )
+    return { props: { apartment, landlord, reviewers } }
+  }
 
   return { props: { apartment, landlord } }
 }
