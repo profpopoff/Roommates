@@ -1,29 +1,14 @@
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
-import styles from './Posts.module.scss'
+import styles from './Post.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import StarRatings from 'react-star-ratings'
 
-import { average } from '../utils'
 import FavButton from '../FavButton/FavButton'
 
-export default function Posts({ apartments }) {
-    return (
-        <div className={styles.container}>
-            {apartments?.map(apartment => {
-                const ratings = apartment.reviews?.map(review => review.rating)
-                return (
-                    <Post key={apartment._id} {...apartment} averageRating={average(ratings)} />
-                )
-            })}
-        </div>
-    )
-}
-
-const Post = (props) => {
+export default function Post(props) {
     return (
         <div className={styles.post}>
             <PostImage id={props._id} src={props.images[0]} />

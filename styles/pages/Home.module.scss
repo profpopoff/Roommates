@@ -11,4 +11,14 @@
         '. filters map .'
         '. posts map .'
         '. posts . .';
+
+    .posts {
+        grid-area: posts;
+        border-radius: 1.25rem 1.25rem 0 0;
+        overflow-y: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
 }

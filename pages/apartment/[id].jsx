@@ -14,22 +14,22 @@ import { average } from '../../components/utils'
 
 export default function Apartment({ apartment, landlord }) {
   return (
-    <Layout title={apartment.title}>
+    <Layout title={apartment?.title}>
       <div className={styles.container}>
         <div className={styles.info}>
-          <Images images={apartment.images} />
+          <Images images={apartment?.images} />
           <Headline
-            title={apartment.title}
-            {...apartment.address}
-            {...apartment.price}
-            reviews={apartment.reviews}
-            roommates={apartment.roommates}
+            title={apartment?.title}
+            {...apartment?.address}
+            {...apartment?.price}
+            reviews={apartment?.reviews}
+            roommates={apartment?.roommates}
           />
           <Landlord {...landlord} />
           <FavButton />
-          <Conveniences conveniences={apartment.conveniences} />
-          <Stats {...apartment.stats} />
-          <Desc desc={apartment.desc} />
+          <Conveniences conveniences={apartment?.conveniences} />
+          <Stats {...apartment?.stats} />
+          <Desc desc={apartment?.desc} />
         </div>
         <Reviews />
       </div>
