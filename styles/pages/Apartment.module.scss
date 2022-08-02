@@ -3,6 +3,7 @@
 .container {
     max-width: 1920px;
     margin: 1.75rem auto;
+    padding-bottom: 3rem;
 
     .info {
         margin-inline: clamp(1em, 3vw, 3.75em);
@@ -152,7 +153,6 @@
                 .name {
                     font-weight: 500;
                     font-size: 2.5rem;
-                    text-transform: capitalize;
                 }
             }
 
@@ -269,6 +269,58 @@
     }
 
     .reviews {
-        margin-inline: clamp(1em, 3vw, 3.75em);
+        margin: 1.75rem clamp(1em, 3vw, 3.75em);
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+
+        .review {
+            max-width: 35rem;
+            height: min-content;
+            padding: 2rem 1.7rem;
+            display: flex;
+            flex-direction: column;
+            gap: .3rem;
+            border-radius: .7rem;
+            background-color: $background-element;
+
+            .reviewer {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                .image {
+                    position: relative;
+                    width: 2rem;
+                    height: 2rem;
+
+                    .src {
+                        border-radius: 50%;
+                        object-fit: cover;
+                    }
+                }
+
+                .name {
+                    font-size: 1.7rem;
+                }
+            }
+
+            .rating {
+                display: flex;
+                gap: .5rem;
+
+                .number {
+                    font-size: 1.4rem;
+                    font-weight: 400;
+                }
+            }
+
+            .text {
+                font-size: 1.3rem;
+                white-space: pre-wrap;
+                font-weight: 400;
+            }
+        }
     }
 }

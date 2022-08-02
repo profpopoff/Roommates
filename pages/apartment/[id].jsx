@@ -186,10 +186,34 @@ const Desc = (props) => {
 }
 
 const Reviews = (props) => {
-  console.log(props)
   return (
     <div className={styles.reviews}>
-      reviews
+      {props.reviews.map((review, index) => (
+        <div className={styles.review} key={review._id}>
+          <div className={styles.reviewer}>
+            <div className={styles.image}>
+              <Image
+                className={styles.src}
+                src={props.reviewers[index].image ? props.reviewers[index].image : '/img/default-user.png'}
+                alt=""
+                layout="fill"
+              />
+            </div>
+            <h2 className={styles.name}>{props.reviewers[index].name}</h2>
+          </div>
+          <div className={styles.rating}>
+            <h3 className={styles.number}>{review.rating}</h3>
+            <StarRatings
+              rating={review.rating}
+              starRatedColor="#2B67F6"
+              starDimension="20"
+              starSpacing="5"
+              name='rating'
+            />
+          </div>
+          <p className={styles.text}>{review.review}</p>
+        </div>
+      ))}
     </div>
   )
 }
