@@ -29,16 +29,15 @@ export default async function handler(req, res) {
             res.setHeader(
                 "Set-Cookie",
                 cookie.serialize("token", token, {
-                    httpOnly: true,
                     sameSite: "strict",
                     maxAge: 60 * 60 * 24 * 30,
                     path: "/",
                 })
             )
 
-            // const { password, ...otherInfo } = user._doc
-            // res.status(200).json({ token, ...otherInfo })
-            res.status(200).json("Success!")
+            const { password, ...otherInfo } = user._doc
+            res.status(200).json({ token, ...otherInfo })
+            // res.status(200).json("Success!")
         } catch (error) {
             res.status(500).json(error)
         }

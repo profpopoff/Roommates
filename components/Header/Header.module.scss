@@ -71,6 +71,15 @@
         display: flex;
         gap: clamp(.5em, 1vw, 1.5em);
 
+        .authForm {
+            width: 70%;
+            margin-inline: auto;
+
+            .submitBtn {
+                margin-top: 1.5rem;
+            }
+        }
+
         .link {
             display: flex;
             align-items: center;
