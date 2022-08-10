@@ -2,6 +2,7 @@ import dbConnect from '../../../utils/mongo'
 import User from '../../../models/User'
 import CryptoJS from 'crypto-js'
 import jwt from 'jsonwebtoken'
+import cookie from 'cookie'
 
 export default async function handler(req, res) {
     const { method } = req
@@ -11,10 +12,10 @@ export default async function handler(req, res) {
     if (method === 'POST') {
         try {
             const user = await User.findOne({ email: req.body.email })
-            if (!user) return res.status(401).json('Wrong credentials')
+            if (!user) return res.status(401).json('Invalid credentials!')
 
             const decryptedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET_PASS).toString(CryptoJS.enc.Utf8)
-            if (decryptedPassword !== req.body.password) return res.status(401).json('Wrong password')
+            if (decryptedPassword !== req.body.password) return res.status(401).json('Invalid credentials!')
 
             const token = jwt.sign(
                 {
@@ -22,11 +23,22 @@ export default async function handler(req, res) {
                     isAdmin: user.isAdmin
                 },
                 process.env.SECRET_JWT,
-                { expiresIn: '3d' }
+                { expiresIn: '30d' }
             )
 
-            const { password, ...otherInfo } = user._doc
-            res.status(200).json({ token, ...otherInfo })
+            res.setHeader(
+                "Set-Cookie",
+                cookie.serialize("token", token, {
+                    httpOnly: true,
+                    sameSite: "strict",
+                    maxAge: 60 * 60 * 24 * 30,
+                    path: "/",
+                })
+            )
+
+            // const { password, ...otherInfo } = user._doc
+            // res.status(200).json({ token, ...otherInfo })
+            res.status(200).json("Success!")
         } catch (error) {
             res.status(500).json(error)
         }
