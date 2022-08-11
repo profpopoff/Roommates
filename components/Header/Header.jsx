@@ -84,11 +84,11 @@ const Auth = () => {
 
     return (
         <>
-            <button className={styles.link} onClick={() => { setSettingsActive(true) }}><FontAwesomeIcon icon={faGear} /></button>
+            <button className={styles.settingsBtn} onClick={() => { setSettingsActive(true) }}><FontAwesomeIcon icon={faGear} /></button>
             <Settings settingsActive={settingsActive} setSettingsActive={setSettingsActive} />
-            <button onClick={() => { setLoginActive(true) }}>Вход</button>
+            <button className={styles.logInBtn} onClick={() => { setLoginActive(true) }}>Вход</button>
             <Login loginActive={loginActive} setLoginActive={setLoginActive} />
-            <button onClick={() => { setRegisterActive(true) }}>Регистрация</button>
+            <button className={styles.signInBrn} onClick={() => { setRegisterActive(true) }}>Регистрация</button>
             <Register registerActive={registerActive} setRegisterActive={setRegisterActive} />
         </>
     )

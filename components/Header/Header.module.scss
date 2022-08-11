@@ -71,6 +71,53 @@
         display: flex;
         gap: clamp(.5em, 1vw, 1.5em);
 
+        .settingsBtn {
+            border: none;
+            background-color: transparent;
+            color: $text-main;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: .15s;
+
+            &:hover {
+                color: $accent-color;
+            }
+        }
+
+        .logInBtn {
+            padding: .6rem;
+            border-radius: .5rem;
+            border: 2px solid $text-main;
+            background-color: transparent;
+            color: $text-main;
+            font-size: 1.3rem;
+            font-weight: 300;
+            cursor: pointer;
+            transition: .15s;
+
+            &:hover {
+                color: $accent-color;
+                border-color: $accent-color;
+            }
+        }
+
+        .signInBrn {
+            padding: .6rem;
+            border-radius: .5rem;
+            border: 2px solid $text-main;
+            background-color: $text-main;
+            color: $background-element;
+            font-size: 1.3rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .15s;
+
+            &:hover {
+                background-color: $accent-color;
+                border-color: $accent-color;
+            }
+        }
+
         .authForm {
             width: 70%;
             margin-inline: auto;
