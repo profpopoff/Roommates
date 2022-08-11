@@ -145,7 +145,7 @@ const Login = (props) => {
                     type='password'
                     handleChange={loginFormHandler}
                 />
-                <button className={styles.submitBtn} onClick={loginHandler}>Войти</button>
+                <button className="submit-btn" onClick={loginHandler}>Войти</button>
             </form>
         </Modal>
     )

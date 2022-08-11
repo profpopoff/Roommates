@@ -46,6 +46,24 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
+.submit-btn {
+  margin-top: 2rem;
+  padding: .6rem;
+  border-radius: .5rem;
+  border: 2px solid $text-main;
+  background-color: $text-main;
+  color: $background-element;
+  font-size: 1.2rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .15s;
+
+  &:hover {
+    background-color: $accent-color;
+    border-color: $accent-color;
+  }
+}
+
 /* Josh's Custom CSS Reset https://www.joshwcomeau.com/css/custom-css-reset/ */
 *,
 *::before,
