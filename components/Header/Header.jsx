@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { useState} from 'react'
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './Header.module.scss'
 
@@ -13,6 +13,7 @@ import Dropdown from '../Dropdown/Dropdown'
 import Modal from '../Modal/Modal'
 import CustomInput from '../CustomInput/CustomInput'
 import { exit, set } from '../../redux/userSlice'
+import { useRef } from 'react'
 
 export default function Header() {
     return (
@@ -102,6 +103,8 @@ const Settings = (props) => {
     )
 }
 
+// todo: add error handler
+
 const Login = (props) => {
 
     const dispatch = useDispatch()
@@ -134,14 +137,14 @@ const Login = (props) => {
             <h2 className={styles.title}>Вход</h2>
             <form className={styles.authForm}>
                 <CustomInput
-                    name='email'
-                    label='Email'
+                    name={props.loginActive ? 'email' : 'loginEmail'}
+                    label='Почта'
                     type='email'
                     handleChange={loginFormHandler}
                 />
                 <CustomInput
-                    name='password'
-                    label='Password'
+                    name={props.loginActive ? 'password' : 'loginPassword'}
+                    label='Пароль'
                     type='password'
                     handleChange={loginFormHandler}
                 />
@@ -151,10 +154,83 @@ const Login = (props) => {
     )
 }
 
+
+// todo: fix error handling
 const Register = (props) => {
+
+    const [registerForm, setRegiserForm] = useState({})
+    const [passwordCheck, setPasswordCheck] = useState(null)
+    const [error, setError] = useState(null)
+
+    const registerFormHandler = event => {
+        setRegiserForm({ ...registerForm, [event.target.name]: event.target.value })
+    }
+
+    const registerHandler = async (e) => {
+        e.preventDefault()
+        if (passwordCheck === registerForm.password) {
+            setError(null)
+            try {
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify(registerForm),
+                })
+            } catch (error) { 
+                setError(error.message)
+            }
+        } else {
+            setError("Пароли не совпадают!")
+        }
+    }
+
     return (
         <Modal active={props.registerActive} setActive={props.setRegisterActive}>
             <h2 className={styles.title}>Регистрация</h2>
+            <form className={styles.authForm}>
+                <CustomInput
+                    name={props.registerActive ? 'email' : 'registerEmail'}
+                    label='Почта'
+                    type='email'
+                    handleChange={registerFormHandler}
+                />
+                <CustomInput
+                    name={props.registerActive ? 'password' : 'registerPassword'}
+                    label='Пароль'
+                    type='password'
+                    handleChange={registerFormHandler}
+                />
+                <CustomInput
+                    name='repeat-password'
+                    label='Повторите пароль'
+                    type='password'
+                    handleChange={(e) => setPasswordCheck(e.target.value)}
+                />
+                <div className={styles.name}>
+                    <CustomInput
+                        name='name'
+                        label='Имя'
+                        type='text'
+                        handleChange={registerFormHandler}
+                    />
+                    <CustomInput
+                        name='surname'
+                        label='Фамилия'
+                        type='text'
+                        handleChange={registerFormHandler}
+                    />
+                </div>
+                <CustomInput
+                    name='phone'
+                    label='Телефон'
+                    type='phone'
+                    handleChange={registerFormHandler}
+                />
+                <button className="submit-btn" onClick={registerHandler}>Выполнить</button>
+                {!!error && <div>{error}</div>}
+            </form>
         </Modal>
     )
 }

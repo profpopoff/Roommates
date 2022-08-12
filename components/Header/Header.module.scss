@@ -122,8 +122,13 @@
             width: 70%;
             margin-inline: auto;
 
-            .submitBtn {
-                margin-top: 1.5rem;
+            .name {
+                display: flex;
+                gap: 1rem;
+                
+                * {
+                    flex: 1;
+                }
             }
         }
 

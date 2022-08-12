@@ -11,10 +11,11 @@ export default async function handler(req, res) {
 
         const newUser = new User({
             name: req.body.name,
+            surname: req.body.surname,
             email: req.body.email,
             password: CryptoJS.AES.encrypt(req.body.password, process.env.SECRET_PASS).toString(),
-            phoneNumber: req.body.phoneNumber,
-            profilePicture: req.body.profilePicture
+            phone: req.body.phone,
+            image: req.body.image
         })
 
         try {
