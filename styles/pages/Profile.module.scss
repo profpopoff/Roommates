@@ -1,0 +1,26 @@
+@import '../variables.scss';
+
+.container {
+    height: calc(100vh - $header-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .wrapper {
+        width: 43rem;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 2rem;
+        border-radius: 1.5rem;
+        background-color: $background-element;
+
+        .image {
+            position: relative;
+            width: 5rem;
+            aspect-ratio: 1;
+        }
+    }
+}
