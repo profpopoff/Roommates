@@ -36,14 +36,15 @@
             align-items: center;
             padding: 0.5rem .7rem;
             border-radius: .5rem;
-            border: 1px solid var(--text-grey);
+            border: 2px solid var(--text-grey);
             background-color: transparent;
             color: var(--text-grey);
             cursor: pointer;
             transition: .3s;
 
             &:hover {
-                border-color: var(--accent-color);
+                box-shadow: 0px 0px 0px 2px var(--accent-color);
+                border-color: transparent;
                 color: var(--accent-color);
             }
         }
