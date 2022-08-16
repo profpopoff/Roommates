@@ -30,6 +30,6 @@ const filtersSlice = createSlice({
     }
 })
 
-export const { setFilers, resetFilters } = filtersSlice.actions;
+export const { setFilers, resetFilters } = filtersSlice.actions
 
-export default filtersSlice.reducer;
+export default filtersSlice.reducer

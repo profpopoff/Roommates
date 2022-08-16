@@ -7,15 +7,15 @@ export const userSlice = createSlice({
     },
     reducers: {
         set: (state, action) => {
-            state.info = action.payload;
+            state.info = action.payload
         },
         exit: (state) => {
-            state.info = null;
+            state.info = null
         },
     }
 })
 
 
-export const { set, exit } = userSlice.actions;
+export const { set, exit } = userSlice.actions
 
-export default userSlice.reducer;
+export default userSlice.reducer
