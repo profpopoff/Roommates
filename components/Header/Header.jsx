@@ -5,12 +5,14 @@ import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './Header.module.scss'
 
+import { useTheme } from 'next-themes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faUser, faGear, faCircleInfo, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { faComments, faHeart, faBuilding } from '@fortawesome/free-regular-svg-icons'
 
 import Dropdown from '../Dropdown/Dropdown'
 import Modal from '../Modal/Modal'
+import CustomToggle from '../CustomToggle/CustomToggle'
 import CustomInput from '../CustomInput/CustomInput'
 import { exit, set } from '../../redux/userSlice'
 import { useRef } from 'react'
@@ -96,9 +98,18 @@ const Auth = () => {
 }
 
 const Settings = (props) => {
+
+    const { theme, setTheme } = useTheme()
+
     return (
         <Modal active={props.settingsActive} setActive={props.setSettingsActive}>
             <h2 className={styles.title}><FontAwesomeIcon icon={faGear} /> Настройки</h2>
+            <CustomToggle
+                name="theme"
+                label="Темная тема"
+                checked={theme === 'dark'}
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            />
         </Modal>
     )
 }
@@ -178,7 +189,7 @@ const Register = (props) => {
                     },
                     body: JSON.stringify(registerForm),
                 })
-            } catch (error) { 
+            } catch (error) {
                 setError(error.message)
             }
         } else {

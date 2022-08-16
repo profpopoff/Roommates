@@ -1,5 +1,3 @@
-@import '../../styles/variables.scss';
-
 .container {
     grid-area: filters;
     display: grid;
@@ -18,7 +16,7 @@
         .resultNum {
             font-weight: 400;
             font-size: 1.25rem;
-            color: $text-grey;
+            color: var(--text-grey);
         }
     }
 
@@ -38,15 +36,15 @@
             align-items: center;
             padding: 0.5rem .7rem;
             border-radius: .5rem;
-            border: 1px solid $text-grey;
+            border: 1px solid var(--text-grey);
             background-color: transparent;
-            color: $text-grey;
+            color: var(--text-grey);
             cursor: pointer;
             transition: .3s;
 
             &:hover {
-                border-color: $accent-color;
-                color: $accent-color;
+                border-color: var(--accent-color);
+                color: var(--accent-color);
             }
         }
     }
@@ -56,12 +54,12 @@
         place-self: end;
         font-weight: 400;
         font-size: 1.25em;
-        color: $text-grey;
+        color: var(--text-grey);
         cursor: pointer;
 
         span {
             font-weight: 700;
-            color: $accent-color;
+            color: var(--accent-color);
         }
 
         .list {
@@ -75,7 +73,7 @@
                 cursor: pointer;
 
                 &:hover {
-                    color: $accent-color;
+                    color: var(--accent-color);
                 }
             }
         }

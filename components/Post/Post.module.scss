@@ -1,5 +1,3 @@
-@import '../../styles/variables.scss';
-
 .post {
     display: grid;
     gap: 1.5rem;
@@ -12,7 +10,7 @@
     padding: 1.8rem 2rem;
     margin-bottom: 1.75rem;
     border-radius: 1.25rem;
-    background-color: $background-element;
+    background-color: var(--background-element);
 
     .image {
         grid-area: image;
@@ -47,7 +45,7 @@
         flex-wrap: wrap;
         list-style: none;
         padding: 0;
-        color: $text-grey;
+        color: var(--text-grey);
         font-weight: 400;
         overflow: hidden;
 

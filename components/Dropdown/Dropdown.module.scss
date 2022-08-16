@@ -1,5 +1,3 @@
-@import '../../styles/variables.scss';
-
 .container {
     position: relative;
     z-index: 100;
@@ -17,7 +15,7 @@
         position: absolute;
         top: 200%;
         right: 0;
-        background-color: $background-element;
+        background-color: var(--background-element);
         border-radius: 0.75rem;
         visibility: hidden;
         opacity: 0;

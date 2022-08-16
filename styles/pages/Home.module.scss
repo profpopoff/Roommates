@@ -1,7 +1,5 @@
-@import '../variables.scss';
-
 .container {
-    height: calc(100vh - $header-height);
+    height: calc(100vh - var(--header-height));
     padding-top: clamp(1em, 3vw, 2.75em);
     display: grid;
     gap: clamp(1em, 3vw, 3.75em);

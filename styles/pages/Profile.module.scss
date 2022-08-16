@@ -1,7 +1,5 @@
-@import '../variables.scss';
-
 .container {
-    height: calc(100vh - $header-height);
+    height: calc(100vh - var(--header-height));
     display: flex;
     align-items: center;
     justify-content: center;
@@ -15,7 +13,7 @@
         text-align: center;
         gap: 2rem;
         border-radius: 1.5rem;
-        background-color: $background-element;
+        background-color: var(--background-element);
 
         .image {
             position: relative;

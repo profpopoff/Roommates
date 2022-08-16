@@ -5,24 +5,25 @@ body {
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
   font-size: 1rem;
-  color: $text-main;
-  background-color: $background-main;
+  color: var(--text-main);
+  background-color: var(--background-main);
+  transition: background 0.25s ease-in-out;
 
   &::-webkit-scrollbar {
     width: .1rem;
 
     &-track {
-      background: $background-element;
+      background: var(--background-element);
     }
 
     &-thumb {
-      background: $text-grey;
+      background: var(--text-grey);
     }
   }
 }
 
 a {
-  color: $text-main;
+  color: var(--text-main);
   text-decoration: none;
 }
 
@@ -50,17 +51,17 @@ input[type=number]::-webkit-outer-spin-button {
   margin-top: 1.5rem;
   padding: .6rem;
   border-radius: .5rem;
-  border: 2px solid $text-main;
-  background-color: $text-main;
-  color: $background-element;
+  border: 2px solid var(--text-main);
+  background-color: var(--text-main);
+  color: var(--background-element);
   font-size: 1.2rem;
   font-weight: 600;
   cursor: pointer;
   transition: .15s;
 
   &:hover {
-    background-color: $accent-color;
-    border-color: $accent-color;
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
   }
 }
 

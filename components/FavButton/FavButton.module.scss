@@ -1,5 +1,3 @@
-@import '../../styles/variables.scss';
-
 .favButton {
     grid-area: favButton;
     place-self: start end;
@@ -7,13 +5,13 @@
     aspect-ratio: 1;
     border: none;
     border-radius: 30rem;
-    background-color: $background-main;
-    color: $text-grey;
+    background-color: var(--background-main);
+    color: var(--text-grey);
     font-size: 1.5rem;
     cursor: pointer;
     transition: .15s;
 
     &:hover {
-        color: $accent-color;
+        color: var(--accent-color);
     }
 }
