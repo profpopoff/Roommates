@@ -91,7 +91,7 @@ const Auth = () => {
             <Settings settingsActive={settingsActive} setSettingsActive={setSettingsActive} />
             <button className={styles.logInBtn} onClick={() => { setLoginActive(true) }}>Вход</button>
             <Login loginActive={loginActive} setLoginActive={setLoginActive} />
-            <button className={styles.signInBrn} onClick={() => { setRegisterActive(true) }}>Регистрация</button>
+            <button className={styles.signInBtn} onClick={() => { setRegisterActive(true) }}>Регистрация</button>
             <Register registerActive={registerActive} setRegisterActive={setRegisterActive} />
         </>
     )
@@ -104,12 +104,14 @@ const Settings = (props) => {
     return (
         <Modal active={props.settingsActive} setActive={props.setSettingsActive}>
             <h2 className={styles.title}><FontAwesomeIcon icon={faGear} /> Настройки</h2>
-            <CustomToggle
-                name="theme"
-                label="Темная тема"
-                checked={theme === 'dark'}
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-            />
+            <div className={styles.settings}>
+                <CustomToggle
+                    name="theme"
+                    label="Темная тема"
+                    checked={theme === 'dark'}
+                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                />
+            </div>
         </Modal>
     )
 }

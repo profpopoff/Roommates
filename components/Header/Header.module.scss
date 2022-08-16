@@ -79,7 +79,15 @@
 
             &:hover {
                 color: var(--accent-color);
+                transform: scale(1.1);
             }
+        }
+
+        .settings {
+            padding-block: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
         }
 
         .logInBtn {
@@ -89,20 +97,21 @@
             background-color: transparent;
             color: var(--text-main);
             font-size: 1.3rem;
-            font-weight: 300;
+            font-weight: 400;
             cursor: pointer;
-            transition: .15s;
+            transition: all .15s ease-in-out;
 
             &:hover {
+                box-shadow: 0px 0px 0px 3px var(--accent-color);
+                border-color: transparent;
                 color: var(--accent-color);
-                border-color: var(--accent-color);
             }
         }
 
-        .signInBrn {
+        .signInBtn {
             padding: .6rem;
             border-radius: .5rem;
-            border: 2px solid var(--text-main);
+            border: none;
             background-color: var(--text-main);
             color: var(--background-element);
             font-size: 1.3rem;
@@ -112,7 +121,7 @@
 
             &:hover {
                 background-color: var(--accent-color);
-                border-color: var(--accent-color);
+                box-shadow: 0px 0px 0px 3px var(--accent-color);
             }
         }
 
@@ -123,7 +132,7 @@
             .name {
                 display: flex;
                 gap: 1rem;
-                
+
                 * {
                     flex: 1;
                 }
@@ -147,6 +156,11 @@
                 border-radius: 40%;
                 font-size: 1.5rem;
                 color: var(--text-grey);
+
+                &:hover,
+                &.active {
+                    transform: scale(1.1);
+                }
             }
 
             &:hover,
