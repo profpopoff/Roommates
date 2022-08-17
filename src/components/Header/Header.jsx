@@ -168,7 +168,7 @@ const Login = (props) => {
 }
 
 
-// todo: fix error handling
+// todo: fix error handling (when u submit wrong data it still authorizes (probably cookies problem))
 const Register = (props) => {
 
     const [registerForm, setRegiserForm] = useState({})
@@ -223,20 +223,20 @@ const Register = (props) => {
                 />
                 <div className={styles.name}>
                     <CustomInput
-                        name='name'
+                        name={props.registerActive ? 'name' : 'registerName'}
                         label='Имя'
                         type='text'
                         handleChange={registerFormHandler}
                     />
                     <CustomInput
-                        name='surname'
+                        name={props.registerActive ? 'surname' : 'registerSurname'}
                         label='Фамилия'
                         type='text'
                         handleChange={registerFormHandler}
                     />
                 </div>
                 <CustomInput
-                    name='phone'
+                    name={props.registerActive ? 'phone' : 'registerPhone'}
                     label='Телефон'
                     type='phone'
                     handleChange={registerFormHandler}
