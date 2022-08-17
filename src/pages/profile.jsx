@@ -9,6 +9,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone, faEnvelope, faPenToSquare, faComments, faHeart, faBuilding, faHouseChimney } from '@fortawesome/free-solid-svg-icons'
 
 import Layout from '../components/Layout'
+import Modal from '../components/Modal/Modal'
+import CustomInput from '../components/CustomInput/CustomInput'
 
 export default function Profile() {
 
@@ -29,8 +31,6 @@ export default function Profile() {
 
 const Picture = ({ image }) => {
 
-  const user = useSelector((state) => state.user.info)
-
   const [editActive, setEditActive] = useState(false)
 
   return (
@@ -39,7 +39,64 @@ const Picture = ({ image }) => {
       <button className={styles.editBtn} onClick={() => { setEditActive(true) }}>
         <FontAwesomeIcon icon={faPenToSquare} /> <span className="sr-only">Edit profile</span>
       </button>
+      <Edit editActive={editActive} setEditActive={setEditActive} />
     </div>
+  )
+}
+
+const Edit = (props) => {
+
+  const user = useSelector((state) => state.user.info)
+
+  const [editForm, setEditForm] = useState({})
+
+  const changeEditHandler = event => {
+    setEditForm({ ...editForm, [event.target.name]: event.target.value })
+  }
+
+  const editHandler = async (e) => {
+    e.preventDefault()
+    console.log(editForm)
+  }
+
+
+  return user && (
+    <Modal active={props.editActive} setActive={props.setEditActive}>
+      <h2 className={styles.title}><FontAwesomeIcon icon={faPenToSquare} /> Редактировать</h2>
+      <form className={styles.editForm} onSubmit={editHandler}>
+        <CustomInput
+          name='email'
+          label='Почта'
+          type='email'
+          value={user.email}
+          handleChange={changeEditHandler}
+        />
+        <div className={styles.name}>
+          <CustomInput
+            name='name'
+            label='Имя'
+            type='text'
+            value={user.name}
+            handleChange={changeEditHandler}
+          />
+          <CustomInput
+            name='surname'
+            label='Фамилия'
+            type='text'
+            value={user.surname}
+            handleChange={changeEditHandler}
+          />
+        </div>
+        <CustomInput
+          name='phone'
+          label='Телефон'
+          type='phone'
+          value={user.phone}
+          handleChange={changeEditHandler}
+        />
+        <input type="submit" className="submit-btn" value="Выполнить" />
+      </form>
+    </Modal>
   )
 }
 
