@@ -17,8 +17,85 @@
 
         .image {
             position: relative;
-            width: 5rem;
+            width: 8rem;
             aspect-ratio: 1;
+
+            .src {
+                border-radius: 50%;
+                object-fit: cover;
+            }
+
+            .editBtn {
+                position: absolute;
+                bottom: -.7rem;
+                right: -.7rem;
+                width: 3.2rem;
+                aspect-ratio: 1;
+                border: none;
+                border-radius: 50%;
+                background-color: var(--background-element);
+                color: var(--text-main);
+                font-size: 1.5rem;
+                cursor: pointer;
+                transition: .15s;
+
+                &:hover {
+                    color: var(--accent-color);
+                }
+            }
+        }
+    }
+
+    .headline {
+        display: flex;
+        flex-direction: column;
+        gap: .2rem;
+        font-size: 1.5rem;
+
+        .name {
+            margin-bottom: .8rem;
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            text-transform: capitalize;
+        }
+
+        .phone {
+            font-weight: 300;
+        }
+
+        .email {
+            font-weight: 300;
+        }
+    }
+
+    .navigation {
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+
+        .navBtn {
+            width: 100%;
+            padding-block: .5rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            cursor: pointer;
+            color: var(--text-main);
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: .15s;
+
+            .icon {
+                font-size: 1.5rem;
+            }
+
+            &:not(:last-child) {
+                border-right: 1px solid var(--text-main);
+            }
+
+            &:hover {
+                color: var(--accent-color);
+            }
         }
     }
 }
