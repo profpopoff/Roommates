@@ -127,7 +127,7 @@ const SortBy = () => {
                 active={sortByActive}
                 setActive={setSortByActive}
                 button={
-                    <div>Сортировать по: <span>Новизне</span></div>
+                    <>Сортировать по: <span>Новизне</span></>
                 }
             >
                 <SortByList />
