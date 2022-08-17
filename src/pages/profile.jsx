@@ -47,8 +47,8 @@ const Headline = (props) => {
   return (
     <div className={styles.headline}>
       <h3 className={styles.name}>{props.name} {props.surname}</h3>
-      <h3 className={styles.phone}><FontAwesomeIcon icon={faPhone} /> {props.phone}</h3>
-      <h3 className={styles.email}><FontAwesomeIcon icon={faEnvelope} /> {props.email}</h3>
+      <h3 className={styles.contact}><FontAwesomeIcon icon={faPhone} />{props.phone}</h3>
+      <h3 className={styles.contact}><FontAwesomeIcon icon={faEnvelope} />{props.email}</h3>
     </div>
   )
 }
