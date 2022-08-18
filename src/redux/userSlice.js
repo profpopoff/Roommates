@@ -7,11 +7,11 @@ export const userSlice = createSlice({
     },
     reducers: {
         set: (state, action) => {
-            state.info = action.payload
+            state.info = {...state.info, ...action.payload}
         },
         exit: (state) => {
             state.info = null
-        },
+        }
     }
 })
 

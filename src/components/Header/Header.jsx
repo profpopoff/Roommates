@@ -116,7 +116,7 @@ const Settings = (props) => {
     )
 }
 
-// todo: add error handler
+// todo: add error handler (when u submit wrong data it still authorizes (probably cookies problem (dipatch takes shit to soon)))
 
 const Login = (props) => {
 
@@ -168,7 +168,7 @@ const Login = (props) => {
 }
 
 
-// todo: fix error handling (when u submit wrong data it still authorizes (probably cookies problem))
+// todo: fix error handling 
 const Register = (props) => {
 
     const [registerForm, setRegiserForm] = useState({})

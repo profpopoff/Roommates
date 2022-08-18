@@ -2,7 +2,9 @@ import dbConnect from '../../../utils/mongo'
 import User from '../../../models/User'
 
 export default async function handler(req, res) {
-    const { method, query: { id } } = req
+
+    const { method, query: { id }, cookies } = req
+    const token = cookies.token
 
     dbConnect()
 
@@ -17,6 +19,11 @@ export default async function handler(req, res) {
     }
 
     if (method === 'PUT') {
+
+        if (!token) {
+            return res.status(401).json("Not authenticated!")
+        }
+
         try {
             const user = await User.findByIdAndUpdate(id, req.body, { new: true, })
             res.status(200).json(user)
@@ -26,6 +33,11 @@ export default async function handler(req, res) {
     }
 
     if (method === 'DELETE') {
+
+        if (!token) {
+            return res.status(401).json("Not authenticated!")
+        }
+
         try {
             await User.findByIdAndDelete(id)
             res.status(200).json('User deleted successfully')

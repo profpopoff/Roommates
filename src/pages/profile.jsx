@@ -11,6 +11,7 @@ import { faPhone, faEnvelope, faPenToSquare, faComments, faHeart, faBuilding, fa
 import Layout from '../components/Layout'
 import Modal from '../components/Modal/Modal'
 import CustomInput from '../components/CustomInput/CustomInput'
+import { set } from '../redux/userSlice'
 
 export default function Profile() {
 
@@ -47,16 +48,29 @@ const Picture = ({ image }) => {
 const Edit = (props) => {
 
   const user = useSelector((state) => state.user.info)
-
+  const dispatch = useDispatch()
+  
   const [editForm, setEditForm] = useState({})
-
+  
   const changeEditHandler = event => {
     setEditForm({ ...editForm, [event.target.name]: event.target.value })
   }
-
+  
   const editHandler = async (e) => {
     e.preventDefault()
-    console.log(editForm)
+    try {
+      console.log(user, editForm)
+      const response = await fetch(`/api/users/${user._id}`, {
+          method: 'PUT',
+          headers: {
+              'Content-Type': 'application/json;charset=utf-8'
+          },
+          body: JSON.stringify(editForm),
+      })
+      dispatch(set(editForm))
+  } catch (error) {
+    console.log(error)
+  }
   }
 
 
