@@ -14,7 +14,7 @@ import Dropdown from '../Dropdown/Dropdown'
 import Modal from '../Modal/Modal'
 import CustomToggle from '../CustomToggle/CustomToggle'
 import CustomInput from '../CustomInput/CustomInput'
-import { exit, set } from '../../redux/userSlice'
+import { exit, setUser } from '../../redux/slices/user'
 import { useRef } from 'react'
 
 export default function Header() {
@@ -139,7 +139,7 @@ const Login = (props) => {
                 body: JSON.stringify(loginForm),
             })
             const user = await response.json();
-            dispatch(set(user))
+            dispatch(setUser(user))
         } catch (error) {
             console.log(error)
         }

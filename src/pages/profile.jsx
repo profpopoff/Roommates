@@ -11,7 +11,7 @@ import { faPhone, faEnvelope, faPenToSquare, faComments, faHeart, faBuilding, fa
 import Layout from '../components/Layout'
 import Modal from '../components/Modal/Modal'
 import CustomInput from '../components/CustomInput/CustomInput'
-import { set } from '../redux/userSlice'
+import { setUser } from '../redux/slices/user'
 
 export default function Profile() {
 
@@ -66,7 +66,7 @@ const Edit = (props) => {
           },
           body: JSON.stringify(editForm),
       })
-      dispatch(set(editForm))
+      dispatch(setUser(editForm))
   } catch (error) {
     console.log(error)
   }

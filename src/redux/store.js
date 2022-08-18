@@ -1,10 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit'
-import userReducer from './userSlice'
-import filtersReducer from './filtersSlice'
+import { createWrapper } from 'next-redux-wrapper'
 
-export default configureStore({
+import userReducer from './slices/user'
+import filtersReducer from './slices/filters'
+
+const makeStore = () => configureStore({
     reducer: {
         user: userReducer,
         filters: filtersReducer
-    }
+    },
+    devTools: true
 })
+
+export const wrapper = createWrapper(makeStore)

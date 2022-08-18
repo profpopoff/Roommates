@@ -6,7 +6,7 @@ import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import jwt from 'jsonwebtoken'
 import cookie from 'cookie'
-import { set } from '../redux/userSlice'
+import { setUser } from '../redux/slices/user'
 
 export default function Layout({ children, title }) {
 
@@ -19,7 +19,7 @@ export default function Layout({ children, title }) {
       const decodedToken = jwt.decode(token)
       fetch(`/api/users/${decodedToken.id}`)
         .then(response => response.json())
-        .then(user => dispatch(set(user)))
+        .then(user => dispatch(setUser(user)))
     }
   }, [])
 
