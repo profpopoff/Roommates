@@ -59,7 +59,6 @@ const Edit = (props) => {
   const editHandler = async (e) => {
     e.preventDefault()
     try {
-      console.log(user, editForm)
       const response = await fetch(`/api/users/${user._id}`, {
           method: 'PUT',
           headers: {
