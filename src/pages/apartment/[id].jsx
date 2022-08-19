@@ -11,11 +11,12 @@ import jwt from 'jsonwebtoken'
 import { wrapper } from '../../redux/store'
 import { getUser } from '../api/users/[id]'
 import { setUser } from '../../redux/slices/user'
+import { getApartment } from '../api/apartments/[id]'
 import Layout from '../../components/Layout'
 import FavButton from '../../components/FavButton/FavButton'
 import { useState } from 'react'
 import StarRatings from 'react-star-ratings'
-import { average } from '../../components/utils'
+import { average, jsonParser } from '../../utils/functions'
 
 export default function Apartment({ apartment, landlord, reviewers }) {
   return (
@@ -223,7 +224,6 @@ const Reviews = (props) => {
   )
 }
 
-// todo: добавь в апи getApartment(id)
 export const getServerSideProps = wrapper.getServerSideProps(store => async ({ params, req }) => {
 
   const cookies = req.headers.cookie
@@ -232,22 +232,19 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ p
     const { token } = cookie.parse(cookies)
     const decodedToken = jwt.decode(token)
     const user = await getUser(decodedToken.id)
-    store.dispatch(setUser(JSON.parse(JSON.stringify(user))))
+    store.dispatch(setUser(jsonParser(user)))
   }
 
-  const apartment = await fetch(`http://localhost:3000/api/apartments/${params.id}`)
-    .then(response => response.json())
-  const landlord = await fetch(`http://localhost:3000/api/users/${apartment.landlordId}`)
-    .then(response => response.json())
+  const apartment = await getApartment(params.id)
+  const landlord = await getUser(apartment.landlordId)
   if (apartment.reviews.length) {
     const reviewers = await Promise.all(
       apartment.reviews.map(review => (
-        fetch(`http://localhost:3000/api/users/${review.userId}`)
-          .then(response => response.json())
+        getUser(review.userId)
       ))
     )
-    return { props: { apartment, landlord, reviewers } }
+    return { props: { apartment: jsonParser(apartment), landlord: jsonParser(landlord), reviewers: jsonParser(reviewers) } }
   }
 
-  return { props: { apartment, landlord } }
+  return { props: { apartment: jsonParser(apartment), landlord: jsonParser(landlord) } }
 })
