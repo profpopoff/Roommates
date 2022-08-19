@@ -12,7 +12,7 @@ import Layout from '../../components/Layout'
 import { getApartment } from '../api/apartments/[id]'
 import { jsonParser } from '../../utils/functions'
 
-export default function Property({properties}) {
+export default function Property({ properties }) {
   return (
     <Layout title="My Property">
       <div className={styles.container}>

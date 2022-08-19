@@ -16,6 +16,7 @@ import { setUser } from '../redux/slices/user'
 import Layout from '../components/Layout'
 import Modal from '../components/Modal/Modal'
 import CustomInput from '../components/CustomInput/CustomInput'
+import { jsonParser } from '../utils/functions'
 
 export default function Profile() {
 
@@ -169,6 +170,6 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ r
     const { token } = cookie.parse(cookies)
     const decodedToken = jwt.decode(token)
     const user = await getUser(decodedToken.id)
-    store.dispatch(setUser(JSON.parse(JSON.stringify(user))))
+    store.dispatch(setUser(jsonParser(user)))
   }
 })

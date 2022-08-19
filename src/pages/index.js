@@ -11,7 +11,7 @@ import Layout from '../components/Layout'
 import Filters from '../components/Filters/Filters'
 import Post from '../components/Post/Post'
 import Map from '../components/Map/Map'
-import { average } from '../utils/functions'
+import { average, jsonParser } from '../utils/functions'
 
 export default function Home({ apartments }) {
   return (
@@ -40,10 +40,10 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ r
     const { token } = cookie.parse(cookies)
     const decodedToken = jwt.decode(token)
     const user = await getUser(decodedToken.id)
-    store.dispatch(setUser(JSON.parse(JSON.stringify(user))))
+    store.dispatch(setUser(jsonParser(user)))
   }
 
   const apartments = await getApartments()
 
-  return { props: { apartments: JSON.parse(JSON.stringify(apartments)) } }
+  return { props: { apartments: jsonParser(apartments) } }
 })
