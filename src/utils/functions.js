@@ -13,3 +13,5 @@ export const average = (nums) => {
     }
     return 0
 }
+
+export const jsonParser = (data) => JSON.parse(JSON.stringify(data))
