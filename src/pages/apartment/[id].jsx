@@ -5,7 +5,12 @@ import styles from '../../styles/pages/Apartment.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot, faPhone, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
 import { faComments } from '@fortawesome/free-regular-svg-icons'
+import * as cookie from 'cookie'
+import jwt from 'jsonwebtoken'
 
+import { wrapper } from '../../redux/store'
+import { getUser } from '../api/users/[id]'
+import { setUser } from '../../redux/slices/user'
 import Layout from '../../components/Layout'
 import FavButton from '../../components/FavButton/FavButton'
 import { useState } from 'react'
@@ -218,20 +223,31 @@ const Reviews = (props) => {
   )
 }
 
-export async function getServerSideProps({ params }) {
+// todo: добавь в апи getApartment(id)
+export const getServerSideProps = wrapper.getServerSideProps(store => async ({ params, req }) => {
+
+  const cookies = req.headers.cookie
+
+  if (cookies) {
+    const { token } = cookie.parse(cookies)
+    const decodedToken = jwt.decode(token)
+    const user = await getUser(decodedToken.id)
+    store.dispatch(setUser(JSON.parse(JSON.stringify(user))))
+  }
+
   const apartment = await fetch(`http://localhost:3000/api/apartments/${params.id}`)
     .then(response => response.json())
   const landlord = await fetch(`http://localhost:3000/api/users/${apartment.landlordId}`)
     .then(response => response.json())
   if (apartment.reviews.length) {
     const reviewers = await Promise.all(
-      apartment.reviews.map(review => {
-        return fetch(`http://localhost:3000/api/users/${review.userId}`)
+      apartment.reviews.map(review => (
+        fetch(`http://localhost:3000/api/users/${review.userId}`)
           .then(response => response.json())
-      })
+      ))
     )
     return { props: { apartment, landlord, reviewers } }
   }
 
   return { props: { apartment, landlord } }
-}
+})

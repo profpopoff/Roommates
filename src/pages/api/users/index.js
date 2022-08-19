@@ -1,10 +1,22 @@
 import dbConnect from '../../../utils/mongo'
 import User from '../../../models/User'
 
+export async function getUsers() {
+
+    await dbConnect()
+
+    try {
+        const users = await User.find()
+        return users
+    } catch (error) {
+        return error
+    }
+}
+
 export default async function handler(req, res) {
     const { method } = req
 
-    dbConnect()
+    await dbConnect()
 
     if (method === 'GET') {
         try {

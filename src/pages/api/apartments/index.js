@@ -1,10 +1,22 @@
 import dbConnect from '../../../utils/mongo'
 import Apartment from '../../../models/Apartment'
 
+export async function getApartments() {
+
+    await dbConnect()
+
+    try {
+        const apartments = await Apartment.find()
+        return apartments
+    } catch (error) {
+        return error
+    }
+}
+
 export default async function handler(req, res) {
     const { method } = req
 
-    dbConnect()
+    await dbConnect()
 
     if (method === 'GET') {
         try {
