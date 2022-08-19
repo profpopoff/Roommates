@@ -3,7 +3,7 @@ import styles from './Filters.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faBuilding, faStairs, faSliders, faArrowDownShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 
-import { enumerate } from '../utils'
+import { enumerate } from '../../utils/functions'
 import CustomToggle from '../CustomToggle/CustomToggle'
 import Modal from '../Modal/Modal'
 import Dropdown from '../Dropdown/Dropdown'

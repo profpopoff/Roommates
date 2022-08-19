@@ -11,7 +11,7 @@ import Layout from '../components/Layout'
 import Filters from '../components/Filters/Filters'
 import Post from '../components/Post/Post'
 import Map from '../components/Map/Map'
-import { average } from '../components/utils'
+import { average } from '../utils/functions'
 
 export default function Home({ apartments }) {
   return (
