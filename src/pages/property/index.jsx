@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import styles from '../../styles/pages/Property.module.scss'
 
 import * as cookie from 'cookie'
@@ -80,6 +81,9 @@ const Edit = (props) => {
     router.replace(router.asPath)
   }
 
+  const user = useSelector((state) => state.user.info)
+  const dispatch = useDispatch()
+
   const [editForm, setEditForm] = useState({})
 
   const editFormHandler = event => {
@@ -101,6 +105,21 @@ const Edit = (props) => {
     }
   }
 
+  const deleteHandler = async (id) => {
+    try {
+      await fetch(`/api/users/${user._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({ property: user.property.filter(item => item !== props._id) }),
+      }).then(dispatch(setUser({ property: user.property.filter(item => item !== props._id) })))
+      await fetch(`/api/apartments/${id}`, { method: 'DELETE' })
+        .then(res => { res.status < 300 && refreshData() })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <Modal active={props.editActive} setActive={props.setEditActive}>
@@ -128,6 +147,15 @@ const Edit = (props) => {
         />
         <input type="submit" className="submit-btn" value="Выполнить" />
       </form>
+      <button
+        className={styles.deleteBtn}
+        onClick={e => {
+          e.preventDefault()
+          deleteHandler(props._id)
+        }}
+      >
+        <FontAwesomeIcon icon={faTrashCan} className="icon" /> удалить запись
+      </button>
     </Modal>
   )
 }

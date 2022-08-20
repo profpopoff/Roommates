@@ -78,15 +78,18 @@
          .editForm {
             width: 70%;
             margin-inline: auto;
+         }
 
-            .name {
-               display: flex;
-               gap: 1rem;
-
-               * {
-                  flex: 1;
-               }
-            }
+         .deleteBtn {
+            display: block;
+            margin-inline: auto;
+            margin-top: 1rem;
+            border: none;
+            background-color: transparent;
+            color: rgb(255, 38, 0);
+            font-weight: 400;
+            text-transform: uppercase;
+            cursor: pointer;
          }
       }
    }
