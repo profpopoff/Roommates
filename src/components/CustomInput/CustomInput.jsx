@@ -5,10 +5,6 @@ export default function CustomInput(props) {
 
     const [text, setText] = useState(props.value ? props.value : '')
 
-    // useEffect(() => {
-    //    setText(props.value)
-    // }, [props.value])
-
     return (
         <div className={styles.container}>
             <input

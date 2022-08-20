@@ -1,10 +1,7 @@
 .container {
-    // width: 70%;
-    // height: 9.5rem;
     position: relative;
     padding-top: 2rem;
-    // margin-top: 1rem;
-    // margin-inline: auto;
+    margin-top: 1rem;
 
     .label {
         position: absolute;
@@ -23,7 +20,7 @@
         background-color: var(--background-main);
         color: var(--text-main);
         width: 100%;
-        padding: 15px;
+        padding: 1rem;
         border-radius: .2rem 1rem 1rem 1rem;
         outline: 2px solid var(--text-main);
         border: none;

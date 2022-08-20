@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 export default function CustomTextarea(props) {
 
-    const [text, setText] = useState(props.value)
+    const [text, setText] = useState(props.value ? props.value : '')
 
     return (
         <div className={styles.container}>
