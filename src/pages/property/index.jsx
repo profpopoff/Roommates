@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
 import styles from '../../styles/pages/Property.module.scss'
 
@@ -17,6 +18,9 @@ import { getApartment } from '../api/apartments/[id]'
 import { jsonParser } from '../../utils/functions'
 import Layout from '../../components/Layout'
 import CustomToggle from '../../components/CustomToggle/CustomToggle'
+import Modal from '../../components/Modal/Modal'
+import CustomInput from '../../components/CustomInput/CustomInput'
+import CustomTextArea from '../../components/CustomTextArea/CustomTextArea'
 
 export default function Property({ properties }) {
   return (
@@ -62,8 +66,69 @@ const Buttons = (props) => {
       <button className={styles.editBtn} onClick={() => setEditActive(true)}>
         <FontAwesomeIcon icon={faPenToSquare} /> Редактировать
       </button>
+      <Edit {...props} editActive={editActive} setEditActive={setEditActive} />
       <VisibilityToggle {...props} />
     </div>
+  )
+}
+
+// todo: add error handler
+const Edit = (props) => {
+
+  const router = useRouter()
+  const refreshData = () => {
+    router.replace(router.asPath)
+  }
+
+  const [editForm, setEditForm] = useState({})
+
+  const editFormHandler = event => {
+    setEditForm({ ...editForm, [event.target.name]: event.target.value })
+  }
+
+  const editHandler = async (e) => {
+    e.preventDefault()
+    try {
+      await fetch(`/api/apartments/${props._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(editForm),
+      }).then(res => { res.status < 300 && refreshData() })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+
+  return (
+    <Modal active={props.editActive} setActive={props.setEditActive}>
+      <h2 className={styles.title}><FontAwesomeIcon icon={faPenToSquare} /> Редактировать</h2>
+      <form className={styles.editForm} onSubmit={editHandler}>
+        <CustomInput
+          name='title'
+          label='Название'
+          type='text'
+          value={props.title}
+          handleChange={editFormHandler}
+        />
+        <CustomInput
+          name='price.value'
+          label='Цена'
+          type='number'
+          value={props.price.value}
+          handleChange={editFormHandler}
+        />
+        <CustomTextArea
+          label="Описание"
+          name="desc"
+          value={props.desc}
+          handleChange={editFormHandler}
+        />
+        <input type="submit" className="submit-btn" value="Выполнить" />
+      </form>
+    </Modal>
   )
 }
 
