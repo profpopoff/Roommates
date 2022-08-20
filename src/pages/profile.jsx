@@ -54,27 +54,27 @@ const Edit = (props) => {
 
   const user = useSelector((state) => state.user.info)
   const dispatch = useDispatch()
-  
+
   const [editForm, setEditForm] = useState({})
-  
+
   const changeEditHandler = event => {
     setEditForm({ ...editForm, [event.target.name]: event.target.value })
   }
-  
+
   const editHandler = async (e) => {
     e.preventDefault()
     try {
       const response = await fetch(`/api/users/${user._id}`, {
-          method: 'PUT',
-          headers: {
-              'Content-Type': 'application/json;charset=utf-8'
-          },
-          body: JSON.stringify(editForm),
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify(editForm),
       })
       dispatch(setUser(editForm))
-  } catch (error) {
-    console.log(error)
-  }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
 
