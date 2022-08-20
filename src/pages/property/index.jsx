@@ -107,14 +107,8 @@ const Edit = (props) => {
 
   const deleteHandler = async (id) => {
     try {
-      await fetch(`/api/users/${user._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify({ property: user.property.filter(item => item !== props._id) }),
-      }).then(dispatch(setUser({ property: user.property.filter(item => item !== props._id) })))
       await fetch(`/api/apartments/${id}`, { method: 'DELETE' })
+        .then(dispatch(setUser({ property: user.property.filter(item => item !== props._id) })))
         .then(res => { res.status < 300 && refreshData() })
     } catch (error) {
       console.log(error)

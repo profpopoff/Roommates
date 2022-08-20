@@ -1,5 +1,6 @@
 import dbConnect from '../../../utils/mongo'
 import Apartment from '../../../models/Apartment'
+import User from '../../../models/User'
 
 export async function getApartment(id) {
 
@@ -38,6 +39,9 @@ export default async function handler(req, res) {
 
     if (method === 'DELETE') {
         try {
+            const apartment = await Apartment.findById(id)
+            const user = await User.findById(apartment.landlordId)
+            await User.findByIdAndUpdate(apartment.landlordId, {property: user.property.filter(item => item !== id)}, { new: true, })
             await Apartment.findByIdAndDelete(id)
             res.status(200).json('Deleted successfully')
         } catch (error) {
