@@ -21,7 +21,7 @@ export default function Home({ apartments }) {
         <div className={styles.posts}>
           {apartments?.map(apartment => {
             const ratings = apartment.reviews?.map(review => review.rating)
-            return (
+            return apartment.isVisible && (
               <Post key={apartment._id} {...apartment} averageRating={average(ratings)} />
             )
           })}

@@ -1,24 +1,95 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useState } from 'react'
 import styles from '../../styles/pages/Property.module.scss'
 
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLocationDot, faCirclePlus, faBed, faRotateLeft } from '@fortawesome/free-solid-svg-icons'
+import { faTrashCan, faPenToSquare } from '@fortawesome/free-regular-svg-icons'
 
 import { wrapper } from '../../redux/store'
-import { getUser } from '../api/users/[id]'
 import { setUser } from '../../redux/slices/user'
-import Layout from '../../components/Layout'
+import { getUser } from '../api/users/[id]'
 import { getApartment } from '../api/apartments/[id]'
 import { jsonParser } from '../../utils/functions'
+import Layout from '../../components/Layout'
+import CustomToggle from '../../components/CustomToggle/CustomToggle'
 
 export default function Property({ properties }) {
   return (
     <Layout title="My Property">
       <div className={styles.container}>
-        Property
+        {properties.map(property => (
+          <div className={styles.property} key={property._id}>
+            <Headline id={property._id} title={property.title} {...property.address} {...property.price} />
+            <Buttons {...property} />
+          </div>
+        ))}
       </div>
     </Layout>
+  )
+}
+
+const Headline = (props) => {
+  return (
+    <div className={styles.headline}>
+      <Link href={`/apartment/${props.id}`} passHref>
+        <h2 className={styles.title}>{props.title}</h2>
+      </Link>
+      <h3 className={styles.address}>
+        <FontAwesomeIcon icon={faLocationDot} />{`${props.city}, ${props.street}, д.${props.house}, кв.${props.apartment}`}
+      </h3>
+      <h3 className={styles.price}>
+        <span>{props.value.toLocaleString('ru', {
+          style: 'currency',
+          currency: props.currency,
+          minimumFractionDigits: 0
+        })}</span>/месяц
+      </h3>
+    </div>
+  )
+}
+
+const Buttons = (props) => {
+
+  const [editActive, setEditActive] = useState(false)
+
+  return (
+    <div className={styles.buttons}>
+      <button className={styles.editBtn} onClick={() => setEditActive(true)}>
+        <FontAwesomeIcon icon={faPenToSquare} /> Редактировать
+      </button>
+      <VisibilityToggle {...props} />
+    </div>
+  )
+}
+
+const VisibilityToggle = (props) => {
+
+  const VisibilityHandler = async (e) => {
+    try {
+      await fetch(`/api/apartments/${e.target.value.split('_')[1]}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({ [e.target.value.split('_')[0]]: e.target.checked }),
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  return (
+    <CustomToggle
+      name={"isVisible_" + props._id}
+      label="Отображать"
+      checked={props.isVisible}
+      onClick={VisibilityHandler}
+    />
   )
 }
 
