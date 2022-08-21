@@ -29,7 +29,15 @@ export default async function handler(req, res) {
 
     if (method === 'POST') {
         try {
-            const apartment = await Apartment.create(req.body)
+            const address = `${req.body.address.city}, ${req.body.address.street}, ${req.body.address.house}`
+            let coordinates = {}
+            await fetch(`http://api.positionstack.com/v1/forward?access_key=${process.env.GEOCODER_TOKEN}&query=${address}`)
+                .then(response => response.json())
+                .then(data => {
+                    coordinates.latitude = data.data[0].latitude
+                    coordinates.longitude = data.data[0].longitude
+                })
+            const apartment = await Apartment.create({ ...req.body, coordinates: {...coordinates} })
             res.status(200).json(apartment)
         } catch (error) {
             res.status(500).json(error)
