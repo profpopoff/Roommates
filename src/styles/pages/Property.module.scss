@@ -93,4 +93,25 @@
          }
       }
    }
+
+   .addBtn {
+      width: 15rem;
+      margin-inline: auto;
+      padding: .3rem .5rem;
+      border-radius: .5rem;
+      border: 2px solid var(--text-main);
+      background-color: transparent;
+      color: var(--text-main);
+      font-weight: 600;
+      text-transform: uppercase;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      transition: .15s;
+
+      &:hover {
+         border-color: var(--accent-color);
+         color: var(--accent-color);
+      }
+   }
 }

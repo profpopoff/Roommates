@@ -33,6 +33,9 @@ export default function Property({ properties }) {
             <Buttons {...property} />
           </div>
         ))}
+        <Link href={'/property/create'} passHref>
+          <button className={styles.addBtn}><FontAwesomeIcon icon={faCirclePlus} className="icon" /> Добавить</button>
+        </Link>
       </div>
     </Layout>
   )
