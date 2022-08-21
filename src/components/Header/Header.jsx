@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
@@ -248,22 +248,25 @@ const Register = (props) => {
 }
 
 const Links = () => {
+
+    const router = useRouter()
+
     return (
         <>
             <Link href="/property">
-                <a className={`${styles.link} ${styles.main} ${Router.pathname == "/property" && styles.active}`}>
+                <a className={`${styles.link} ${styles.main} ${router.pathname == "/property" && styles.active}`}>
                     <FontAwesomeIcon icon={faBuilding} />
                     <span className="sr-only">Моя недвижимость</span>
                 </a>
             </Link>
             <Link href="/chat">
-                <a className={`${styles.link} ${styles.main} ${Router.pathname == "/chat" && styles.active}`}>
+                <a className={`${styles.link} ${styles.main} ${router.pathname == "/chat" && styles.active}`}>
                     <FontAwesomeIcon icon={faComments} />
                     <span className="sr-only">Чаты</span>
                 </a>
             </Link>
             <Link href="/favourites">
-                <a className={`${styles.link} ${styles.main} ${Router.pathname == "/favourites" && styles.active}`}>
+                <a className={`${styles.link} ${styles.main} ${router.pathname == "/favourites" && styles.active}`}>
                     <FontAwesomeIcon icon={faHeart} />
                     <span className="sr-only">Избранное</span>
                 </a>
@@ -288,6 +291,8 @@ const User = () => {
 
 const List = () => {
 
+    const router = useRouter()
+
     const dispatch = useDispatch()
 
     const [settingsActive, setSettingsActive] = useState(false)
@@ -295,15 +300,15 @@ const List = () => {
     const logout = async () => {
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         dispatch(exit())
-        if (['/profile', '/chat', '/favourites', '/property', '/property/create'].includes(Router.pathname)) {
-            Router.push('/')
+        if (['/profile', '/chat', '/favourites', '/property', '/property/create'].includes(router.pathname)) {
+            router.push('/')
         }
     }
 
     return (
         <div className={styles.list}>
             <Link href="/profile">
-                <a className={`${styles.link} ${Router.pathname == "/profile" && styles.active}`}><FontAwesomeIcon icon={faUser} />Профиль</a>
+                <a className={`${styles.link} ${router.pathname == "/profile" && styles.active}`}><FontAwesomeIcon icon={faUser} />Профиль</a>
             </Link>
             <button className={styles.link} onClick={() => { setSettingsActive(true) }}><FontAwesomeIcon icon={faGear} />Настройки</button>
             <Settings settingsActive={settingsActive} setSettingsActive={setSettingsActive} />
