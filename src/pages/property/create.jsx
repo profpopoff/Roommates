@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import styles from '../../styles/pages/CreateProperty.module.scss'
 
 import * as cookie from 'cookie'
@@ -16,6 +17,7 @@ import CustomTextArea from '../../components/CustomTextArea/CustomTextArea'
 import { jsonParser } from '../../utils/functions'
 import { useEffect } from 'react'
 
+// todo: add error and succes handling
 export default function CreateProperty() {
   return (
     <Layout title="Create Property">
@@ -28,7 +30,10 @@ export default function CreateProperty() {
   )
 }
 
+// todo: add "type" selector
 const Form = () => {
+
+  const user = useSelector((state) => state.user.info)
 
   const [createForm, setCreateForm] = useState({})
 
@@ -38,7 +43,17 @@ const Form = () => {
 
   const createHandler = async event => {
     event.preventDefault()
-    console.log(createForm)
+    try {
+      const response = await fetch('/api/apartments', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({ ...createForm, landlordId: user._id }),
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (

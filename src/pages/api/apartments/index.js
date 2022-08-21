@@ -37,7 +37,7 @@ export default async function handler(req, res) {
                     coordinates.latitude = data.data[0].latitude
                     coordinates.longitude = data.data[0].longitude
                 })
-            const apartment = await Apartment.create({ ...req.body, coordinates: {...coordinates} })
+            const apartment = await Apartment.create({ ...req.body, coordinates: { ...coordinates } })
             res.status(200).json(apartment)
         } catch (error) {
             res.status(500).json(error)
