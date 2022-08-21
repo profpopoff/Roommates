@@ -1,0 +1,47 @@
+.container {
+   padding: 1.75rem;
+   display: flex;
+   justify-content: center;
+
+   .wrapper {
+      width: 55rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      align-items: center;
+      border-radius: 1.5rem;
+      background-color: var(--background-element);
+   }
+
+   .addForm {
+      width: 70%;
+
+      .numbers {
+         display: flex;
+         gap: 2rem;
+
+         * {
+            flex: 1;
+         }
+      }
+
+      .stats {
+         display: flex;
+         gap: 2rem;
+
+         * {
+            flex: 1;
+         }
+      }
+
+      .conveniences {
+         margin-top: 1rem;
+         display: flex;
+         justify-content: center;
+         flex-wrap: wrap;
+         row-gap: .5rem;
+         column-gap: 3rem;
+      }
+   }
+}
