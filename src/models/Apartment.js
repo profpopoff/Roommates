@@ -1,5 +1,6 @@
 import mongoose from 'mongoose'
 
+// todo: delete default value at 'image'
 const ApartmentSchema = new mongoose.Schema(
     {
         title: { type: String, required: true, unique: true },
@@ -21,7 +22,7 @@ const ApartmentSchema = new mongoose.Schema(
             currency: { type: String, default: "RUB" },
             frequency: { type: String, default: "month" },
         },
-        images: { type: [String] },
+        images: { type: [String], default: "/img/cover.jpeg" },
         conveniences: { type: [String] },
         stats: {
             floor: { type: Number, required: true },
