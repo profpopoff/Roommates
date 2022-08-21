@@ -1,5 +1,6 @@
 import dbConnect from '../../../utils/mongo'
 import Apartment from '../../../models/Apartment'
+import User from '../../../models/User'
 
 export async function getApartments() {
 
@@ -38,6 +39,8 @@ export default async function handler(req, res) {
                     coordinates.longitude = data.data[0].longitude
                 })
             const apartment = await Apartment.create({ ...req.body, coordinates: { ...coordinates } })
+            const user = await User.findById(apartment.landlordId)
+            await User.findByIdAndUpdate(apartment.landlordId, { property: [...user.property, apartment._id] }, { new: true, })
             res.status(200).json(apartment)
         } catch (error) {
             res.status(500).json(error)

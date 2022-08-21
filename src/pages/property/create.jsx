@@ -44,7 +44,7 @@ const Form = () => {
   const createHandler = async event => {
     event.preventDefault()
     try {
-      const response = await fetch('/api/apartments', {
+      const apartment = await fetch('/api/apartments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
