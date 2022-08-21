@@ -12,7 +12,10 @@ const ApartmentSchema = new mongoose.Schema(
             house: { type: String, required: true },
             apartment: { type: Number, required: true },
         },
-        coordinates: { type: [Number], required: true },
+        coordinates: {
+            longitude: { type: Number, required: true },
+            latitude: { type: Number, required: true },
+        },
         price: {
             value: { type: Number, required: true },
             currency: { type: String, default: "RUB" },
