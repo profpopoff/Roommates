@@ -43,13 +43,31 @@ const Form = () => {
 
   const createHandler = async event => {
     event.preventDefault()
+
+    const formData = new FormData()
+
+    formData.append('upload_preset', 'roommates')
+
+    let newImages = []
+
+    for (const file of createForm.images) {
+
+      formData.append('file', file)
+
+      const data = await fetch('https://api.cloudinary.com/v1_1/placewithroommates/image/upload', {
+        method: 'POST',
+        body: formData
+      }).then(r => r.json())
+      newImages.push(data.secure_url)
+    }
+    
     try {
       const apartment = await fetch('/api/apartments', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify({ ...createForm, landlordId: user._id }),
+        body: JSON.stringify({ ...createForm, landlordId: user._id, images: newImages }),
       })
     } catch (error) {
       console.log(error)
@@ -65,6 +83,7 @@ const Form = () => {
       <Stats changeHandler={changeHandler} />
       <CustomTextArea label="Описание" name="desc" handleChange={e => changeHandler(e.target.name, e.target.value)} />
       <Conveniences changeHandler={changeHandler} />
+      <Files changeHandler={changeHandler} />
       <input type="submit" className="submit-btn" value="Выполнить" />
     </form>
   )
@@ -170,6 +189,25 @@ const Conveniences = ({ changeHandler }) => {
       <CustomToggle name='можно с животными' label="Можно с животными" checked={false} onChange={addConvenience} />
       <CustomToggle name='можно с детьми' label="Можно с детьми" checked={false} onChange={addConvenience} />
     </div>
+  )
+}
+
+const Files = ({ changeHandler }) => {
+
+  const addImages = event => {
+    changeHandler('images', event.target.files)
+  }
+
+  return (
+    <input
+      className="files"
+      name='file'
+      type="file"
+      multiple
+      id="file"
+      accept=".png,.jpeg,.jpg,.webp"
+      onChange={addImages}
+    />
   )
 }
 
