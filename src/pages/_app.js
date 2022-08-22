@@ -1,5 +1,5 @@
 import { wrapper } from '../redux/store'
-import '../styles/global/globals.scss'
+import '../styles/global/index.scss'
 
 import { ThemeProvider } from 'next-themes'
 import '@fortawesome/fontawesome-svg-core/styles.css'
