@@ -17,11 +17,10 @@
         top: 200%;
         right: 0;
         border-radius: 0.75rem;
-        -webkit-filter: drop-shadow(0 0 .05rem var(--accent-color));
-        filter: drop-shadow(0 0 .05rem var(--accent-color));
-        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#444')";
-        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#444')";
         background-color: var(--background-element);
+        -webkit-box-shadow: 0 0 3px 0px var(--accent-color) inset;
+        -moz-box-shadow: 0 0 3px 0px var(--accent-color) inset;
+        box-shadow: 0 0 3px 0px var(--accent-color) inset;
         text-align: center;
         visibility: hidden;
         opacity: 0;

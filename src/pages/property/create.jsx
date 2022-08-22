@@ -12,8 +12,8 @@ import { setUser } from '../../redux/slices/user'
 import { getUser } from '../api/users/[id]'
 import Layout from '../../components/Layout'
 import Dropdown from '../../components/Dropdown/Dropdown'
-import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomToggle from '../../components/CustomToggle/CustomToggle'
+import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomTextArea from '../../components/CustomTextArea/CustomTextArea'
 import { jsonParser } from '../../utils/functions'
 import { useEffect } from 'react'
@@ -105,13 +105,21 @@ const Type = ({ changeHandler }) => {
         active={typeActive}
         setActive={setTypeActive}
         button={
-          <span className={styles.dropDownTitle}><span>Тип:</span><span>{type}</span></span>
+          <div className={styles.dropDownTitle}>
+            <span>Тип:</span>
+            <span>
+              {type === 'room' ? 'Комната' : type === 'flat' ? 'Квартира' : type == 'house' ? 'Дом' : type == 'bed' ? 'Кровать' : 'Таунхаус'}
+            </span>
+          </div>
         }
       >
         <ul className={styles.list}>
           {type !== 'bed' && <li className={styles.item}
             onClick={() => { setType('bed'); setTypeActive(false); changeHandler('type', 'bed') }}
-          >Спальное место</li>}
+          >Кровать</li>}
+          {type !== 'room' && <li className={styles.item}
+            onClick={() => { setType('room'); setTypeActive(false); changeHandler('type', 'room') }}
+          >Комната</li>}
           {type !== 'flat' && <li className={styles.item}
             onClick={() => { setType('flat'); setTypeActive(false); changeHandler('type', 'flat') }}
           >Квартира</li>}
