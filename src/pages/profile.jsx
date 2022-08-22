@@ -57,21 +57,32 @@ const Edit = (props) => {
 
   const [editForm, setEditForm] = useState({})
 
-  const changeEditHandler = event => {
+  const editFormHandler = event => {
     setEditForm({ ...editForm, [event.target.name]: event.target.value })
   }
 
   const editHandler = async (e) => {
     e.preventDefault()
+
+    const formData = new FormData()
+
+    formData.append('upload_preset', 'roommates')
+    formData.append('file', editForm.image[0])
+
+    const data = await fetch('https://api.cloudinary.com/v1_1/placewithroommates/image/upload', {
+      method: 'POST',
+      body: formData
+    }).then(r => r.json())
+
     try {
-      const response = await fetch(`/api/users/${user._id}`, {
+      const newUser = await fetch(`/api/users/${user._id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify(editForm),
-      })
-      dispatch(setUser(editForm))
+        body: JSON.stringify({ ...editForm, image: data.secure_url }),
+      }).then(res => res.json())
+      dispatch(setUser({ ...editForm, image: data.secure_url }))
     } catch (error) {
       console.log(error)
     }
@@ -87,7 +98,7 @@ const Edit = (props) => {
           label='Почта'
           type='email'
           value={user.email}
-          handleChange={changeEditHandler}
+          handleChange={editFormHandler}
         />
         <div className={styles.name}>
           <CustomInput
@@ -95,14 +106,14 @@ const Edit = (props) => {
             label='Имя'
             type='text'
             value={user.name}
-            handleChange={changeEditHandler}
+            handleChange={editFormHandler}
           />
           <CustomInput
             name='surname'
             label='Фамилия'
             type='text'
             value={user.surname}
-            handleChange={changeEditHandler}
+            handleChange={editFormHandler}
           />
         </div>
         <CustomInput
@@ -110,7 +121,12 @@ const Edit = (props) => {
           label='Телефон'
           type='phone'
           value={user.phone}
-          handleChange={changeEditHandler}
+          handleChange={editFormHandler}
+        />
+        <input
+          type="file"
+          accept=".png,.jpeg,.jpg,.webp"
+          onChange={e => setEditForm({ ...editForm, image: e.target.files })}
         />
         <input type="submit" className="submit-btn" value="Выполнить" />
       </form>
