@@ -37,8 +37,10 @@ a {
 }
 
 .submit-btn {
+  display: block;
+  margin-inline: auto;
   margin-top: 1.5rem;
-  padding: .6rem;
+  padding: .7rem 1.4rem;
   border-radius: .5rem;
   border: 2px solid var(--text-main);
   background-color: var(--text-main);
@@ -51,5 +53,23 @@ a {
   &:hover {
     background-color: var(--accent-color);
     border-color: var(--accent-color);
+  }
+}
+
+input::file-selector-button {
+  margin-top: 1rem;
+  padding: .5rem;
+  border-radius: .5rem;
+  border: 1px solid var(--text-main);
+  background-color: transparent;
+  color: var(--text-main);
+  font-size: 1.2rem;
+  font-weight: 400;
+  cursor: pointer;
+  transition: .15s;
+
+  &:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
   }
 }
