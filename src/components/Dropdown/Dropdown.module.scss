@@ -11,11 +11,18 @@
     }
 
     .menu {
+        width: 100%;
+        z-index: 100;
         position: absolute;
         top: 200%;
         right: 0;
-        background-color: var(--background-element);
         border-radius: 0.75rem;
+        -webkit-filter: drop-shadow(0 0 .05rem var(--accent-color));
+        filter: drop-shadow(0 0 .05rem var(--accent-color));
+        -ms-filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#444')";
+        filter: "progid:DXImageTransform.Microsoft.Dropshadow(OffX=0, OffY=0, Color='#444')";
+        background-color: var(--background-element);
+        text-align: center;
         visibility: hidden;
         opacity: 0;
         pointer-events: none;

@@ -17,23 +17,62 @@
    .addForm {
       width: 70%;
 
-      .numbers {
+      .title {
+         text-align: center;
+      }
+
+      .flex {
          display: flex;
          gap: 2rem;
+         align-items: flex-end;
 
          * {
             flex: 1;
          }
       }
 
-      .stats {
-         display: flex;
-         gap: 2rem;
+      .type {
+         flex: .5;
+         color: var(--text-main);
+         font-weight: 400;
+         font-size: 1.35rem;
+         cursor: pointer;
 
-         * {
-            flex: 1;
+         .dropDownTitle {
+            display: flex;
+            justify-content: space-between;
+
+            *:nth-child(1) {
+               text-align: start;
+            }
+            *:nth-child(2) {
+               color: var(--accent-color);
+               text-align: end;
+               font-weight: 700;
+            }
+         }
+
+         .list {
+            // width: 12rem;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            gap: .5rem;
+            padding: 1rem 1.25rem;
+            list-style: none;
+            font-size: 1.15rem;
+
+            .item {
+               cursor: pointer;
+               transition: .15s;
+
+               &:hover {
+                  color: var(--accent-color);
+               }
+            }
          }
       }
+
 
       .conveniences {
          margin-top: 1rem;

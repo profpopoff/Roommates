@@ -11,8 +11,9 @@ import { wrapper } from '../../redux/store'
 import { setUser } from '../../redux/slices/user'
 import { getUser } from '../api/users/[id]'
 import Layout from '../../components/Layout'
-import CustomToggle from '../../components/CustomToggle/CustomToggle'
+import Dropdown from '../../components/Dropdown/Dropdown'
 import CustomInput from '../../components/CustomInput/CustomInput'
+import CustomToggle from '../../components/CustomToggle/CustomToggle'
 import CustomTextArea from '../../components/CustomTextArea/CustomTextArea'
 import { jsonParser } from '../../utils/functions'
 import { useEffect } from 'react'
@@ -77,7 +78,10 @@ const Form = () => {
   return (
     <form className={styles.addForm} onSubmit={createHandler}>
       <h2 className={styles.title}>Добавление записи</h2>
-      <CustomInput label="Заголовок" name="title" type="text" handleChange={e => changeHandler(e.target.name, e.target.value)} />
+      <div className={styles.flex}>
+        <CustomInput label="Заголовок" name="title" type="text" handleChange={e => changeHandler(e.target.name, e.target.value)} />
+        <Type changeHandler={changeHandler} />
+      </div>
       <Address changeHandler={changeHandler} />
       <Price changeHandler={changeHandler} />
       <Stats changeHandler={changeHandler} />
@@ -86,6 +90,40 @@ const Form = () => {
       <Files changeHandler={changeHandler} />
       <input type="submit" className="submit-btn" value="Выполнить" />
     </form>
+  )
+}
+
+const Type = ({ changeHandler }) => {
+
+  const [typeActive, setTypeActive] = useState(false)
+
+  const [type, setType] = useState('flat')
+
+  return (
+    <div className={styles.type}>
+      <Dropdown
+        active={typeActive}
+        setActive={setTypeActive}
+        button={
+          <span className={styles.dropDownTitle}><span>Тип:</span><span>{type}</span></span>
+        }
+      >
+        <ul className={styles.list}>
+          {type !== 'bed' && <li className={styles.item}
+            onClick={() => { setType('bed'); setTypeActive(false); changeHandler('type', 'bed') }}
+          >Спальное место</li>}
+          {type !== 'flat' && <li className={styles.item}
+            onClick={() => { setType('flat'); setTypeActive(false); changeHandler('type', 'flat') }}
+          >Квартира</li>}
+          {type !== 'house' && <li className={styles.item}
+            onClick={() => { setType('house'); setTypeActive(false); changeHandler('type', 'house') }}
+          >Дом</li>}
+          {type !== 'townhouse' && <li className={styles.item}
+            onClick={() => { setType('townhouse'); setTypeActive(false); changeHandler('type', 'townhouse') }}
+          >Таунхаус</li>}
+        </ul>
+      </Dropdown>
+    </div>
   )
 }
 
@@ -105,7 +143,7 @@ const Address = ({ changeHandler }) => {
     <div className={styles.address}>
       <CustomInput label="Город" name="city" type="text" handleChange={addressHandler} />
       <CustomInput label="Улица" name="street" type="text" handleChange={addressHandler} />
-      <div className={styles.numbers}>
+      <div className={styles.flex}>
         <CustomInput label="Дом" name="house" type="text" handleChange={addressHandler} />
         <CustomInput label="Квартира" name="apartment" type="number" handleChange={addressHandler} />
       </div>
@@ -148,7 +186,7 @@ const Stats = ({ changeHandler }) => {
   }, [stats])
 
   return (
-    <div className={styles.stats}>
+    <div className={styles.flex}>
       <CustomInput label="Этаж" name="floor" type="number" handleChange={statsHandler} />
       <CustomInput label="Площадь (&#13217;)" name="area" type="number" handleChange={statsHandler} />
       <CustomInput label="Кол-во комнат" name="rooms" type="number" handleChange={statsHandler} />

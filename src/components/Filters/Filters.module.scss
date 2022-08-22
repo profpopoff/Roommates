@@ -54,7 +54,7 @@
         grid-area: sortBy;
         place-self: end;
         font-weight: 400;
-        font-size: 1.25em;
+        font-size: 1.25rem;
         color: var(--text-grey);
         cursor: pointer;
 
@@ -69,9 +69,11 @@
             gap: .5rem;
             padding: 1rem 1.25rem;
             list-style: none;
+            
 
             .item {
                 cursor: pointer;
+                transition: .15s;
 
                 &:hover {
                     color: var(--accent-color);

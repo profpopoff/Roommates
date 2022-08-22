@@ -73,3 +73,20 @@ input::file-selector-button {
     color: var(--accent-color);
   }
 }
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+  padding: 1rem 1.25rem;
+  font-size: 1.25em;
+  list-style: none;
+
+  .item {
+    cursor: pointer;
+
+    &:hover {
+      color: var(--accent-color);
+    }
+  }
+}
