@@ -60,7 +60,7 @@ const Form = () => {
       }).then(r => r.json())
       newImages.push(data.secure_url)
     }
-    
+
     try {
       const apartment = await fetch('/api/apartments', {
         method: 'POST',
@@ -200,11 +200,8 @@ const Files = ({ changeHandler }) => {
 
   return (
     <input
-      className="files"
-      name='file'
       type="file"
       multiple
-      id="file"
       accept=".png,.jpeg,.jpg,.webp"
       onChange={addImages}
     />
