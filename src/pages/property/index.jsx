@@ -27,7 +27,7 @@ export default function Property({ properties }) {
   return (
     <Layout title="My Property">
       <div className={styles.container}>
-        {!!properties.length && properties.map(property => (
+        {properties && properties.map(property => (
           <div className={styles.property} key={property._id}>
             <Headline id={property._id} title={property.title} {...property.address} {...property.price} />
             <Buttons {...property} />
