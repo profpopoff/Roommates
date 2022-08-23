@@ -7,9 +7,11 @@ export const useHttp = () => {
    const [success, setSuccess] = useState(false)
 
    const request = useCallback(async (url, method = 'GET', body = 'null', headers = {}) => {
+
       setLoading(true)
       setError(null)
       setSuccess(false)
+
       try {
 
          const response = await fetch(url, { method, body, headers })
@@ -17,8 +19,7 @@ export const useHttp = () => {
          const data = await response.json()
 
          if (!response.ok) {
-            console.log(data)
-            throw new Error(data || 'Something went wrong...')
+            throw new Error(data.message || 'Something went wrong...')
          }
 
          setLoading(false)

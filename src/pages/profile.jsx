@@ -15,6 +15,7 @@ import { getUser } from './api/users/[id]'
 import { setUser } from '../redux/slices/user'
 import Layout from '../components/Layout'
 import Modal from '../components/Modal/Modal'
+import { useHttp } from '../hooks/http.hook'
 import CustomInput from '../components/CustomInput/CustomInput'
 import { jsonParser } from '../utils/functions'
 
@@ -52,6 +53,8 @@ const Picture = ({ image }) => {
 
 const Edit = (props) => {
 
+  const { request, success, loading, error } = useHttp()
+
   const user = useSelector((state) => state.user.info)
   const dispatch = useDispatch()
 
@@ -64,27 +67,26 @@ const Edit = (props) => {
   const editHandler = async (e) => {
     e.preventDefault()
 
-    const formData = new FormData()
+    if (editForm.image) {
+      const formData = new FormData()
 
-    formData.append('upload_preset', 'roommates')
-    formData.append('file', editForm.image[0])
+      formData.append('upload_preset', 'roommates')
+      formData.append('file', editForm.image[0])
 
-    const data = await fetch('https://api.cloudinary.com/v1_1/placewithroommates/image/upload', {
-      method: 'POST',
-      body: formData
-    }).then(r => r.json())
-
-    try {
-      const newUser = await fetch(`/api/users/${user._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify({ ...editForm, image: data.secure_url }),
-      }).then(res => res.json())
-      dispatch(setUser({ ...editForm, image: data.secure_url }))
-    } catch (error) {
-      console.log(error)
+      const data = await request('https://api.cloudinary.com/v1_1/placewithroommates/image/upload', 'POST', formData)
+      try {
+        const newUser = await request(`/api/users/${user._id}`, 'PUT',
+          JSON.stringify({ ...editForm, image: data.secure_url }),
+          { 'Content-Type': 'application/json;charset=utf-8' })
+        dispatch(setUser({ ...editForm, image: data.secure_url }))
+      } catch (error) { }
+    } else {
+      try {
+        const newUser = await request(`/api/users/${user._id}`, 'PUT',
+          JSON.stringify(editForm),
+          { 'Content-Type': 'application/json;charset=utf-8' })
+        dispatch(setUser(editForm))
+      } catch (error) { }
     }
   }
 
@@ -128,7 +130,9 @@ const Edit = (props) => {
           accept=".png,.jpeg,.jpg,.webp"
           onChange={e => setEditForm({ ...editForm, image: e.target.files })}
         />
-        <input type="submit" className="submit-btn" value="Выполнить" />
+        <input className="submit-btn" type="submit" disabled={loading} value={loading ? 'Выполнение...' : 'Выполнить'} />
+        {error && <span className='error'>{error}</span>}
+        {success && <span className='success'>Профиль успешно изменен!</span>}
       </form>
     </Modal>
   )

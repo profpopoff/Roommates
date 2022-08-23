@@ -12,10 +12,10 @@ export default async function handler(req, res) {
     if (method === 'POST') {
         try {
             const user = await User.findOne({ email: req.body.email })
-            if (!user) return res.status(401).json('Invalid credentials!')
+            if (!user) return res.status(401).json({ message: 'Invalid credentials!' })
 
             const decryptedPassword = CryptoJS.AES.decrypt(user.password, process.env.SECRET_PASS).toString(CryptoJS.enc.Utf8)
-            if (decryptedPassword !== req.body.password) return res.status(401).json('Invalid credentials!')
+            if (decryptedPassword !== req.body.password) return res.status(401).json({ message: 'Invalid credentials!' })
 
             const token = jwt.sign(
                 {
@@ -37,7 +37,6 @@ export default async function handler(req, res) {
 
             const { password, ...otherInfo } = user._doc
             res.status(200).json({ token, ...otherInfo })
-            // res.status(200).json("Success!")
         } catch (error) {
             res.status(500).json(error)
         }

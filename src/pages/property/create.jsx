@@ -59,9 +59,12 @@ const Form = () => {
         newImages.push(data.secure_url)
       }
     }
-    const data = await request('/api/apartments', 'POST',
-      JSON.stringify({ ...createForm, landlordId: user._id, images: newImages }),
-      { 'Content-Type': 'application/json;charset=utf-8' })
+    
+    try {
+      const data = await request('/api/apartments', 'POST',
+        JSON.stringify({ ...createForm, landlordId: user._id, images: newImages }),
+        { 'Content-Type': 'application/json;charset=utf-8' })
+    } catch (error) { }
   }
 
   return (

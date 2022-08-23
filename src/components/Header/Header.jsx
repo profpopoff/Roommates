@@ -14,6 +14,7 @@ import Dropdown from '../Dropdown/Dropdown'
 import Modal from '../Modal/Modal'
 import CustomToggle from '../CustomToggle/CustomToggle'
 import CustomInput from '../CustomInput/CustomInput'
+import { useHttp } from '../../hooks/http.hook'
 import { exit, setUser } from '../../redux/slices/user'
 
 export default function Header() {
@@ -115,9 +116,9 @@ const Settings = (props) => {
     )
 }
 
-// todo: add error handler (when u submit wrong data it still authorizes (probably cookies problem (dipatch takes shit to soon)))
-
 const Login = (props) => {
+
+    const { request, success, loading, error } = useHttp()
 
     const dispatch = useDispatch()
 
@@ -130,24 +131,15 @@ const Login = (props) => {
     const loginHandler = async (e) => {
         e.preventDefault()
         try {
-            const response = await fetch('/api/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json;charset=utf-8'
-                },
-                body: JSON.stringify(loginForm),
-            })
-            const user = await response.json();
-            dispatch(setUser(user))
-        } catch (error) {
-            console.log(error)
-        }
+            const user = await request('/api/auth/login', 'POST', JSON.stringify(loginForm), { 'Content-Type': 'application/json;charset=utf-8' })
+            if (user) { dispatch(setUser(user)) }
+        } catch (error) { }
     }
 
     return (
         <Modal active={props.loginActive} setActive={props.setLoginActive}>
             <h2 className={styles.title}>Вход</h2>
-            <form className={styles.authForm}>
+            <form className={styles.authForm} onSubmit={loginHandler}>
                 <CustomInput
                     name={props.loginActive ? 'email' : 'loginEmail'}
                     label='Почта'
@@ -160,19 +152,20 @@ const Login = (props) => {
                     type='password'
                     handleChange={loginFormHandler}
                 />
-                <button className="submit-btn" onClick={loginHandler}>Войти</button>
+                <input className="submit-btn" type="submit" disabled={loading} value={loading ? 'Вход...' : 'Войти'} />
+                {error && <span className='error'>{error}</span>}
             </form>
         </Modal>
     )
 }
 
-
-// todo: fix error handling 
 const Register = (props) => {
+
+    const { request, success, loading, error } = useHttp()
 
     const [registerForm, setRegiserForm] = useState({})
     const [passwordCheck, setPasswordCheck] = useState(null)
-    const [error, setError] = useState(null)
+    const [dontMatch, setDontMatch] = useState(false)
 
     const registerFormHandler = event => {
         setRegiserForm({ ...registerForm, [event.target.name]: event.target.value })
@@ -181,27 +174,35 @@ const Register = (props) => {
     const registerHandler = async (e) => {
         e.preventDefault()
         if (passwordCheck === registerForm.password) {
-            setError(null)
-            try {
-                const response = await fetch('/api/auth/register', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify(registerForm),
-                })
-            } catch (error) {
-                setError(error.message)
+            setDontMatch(false)
+
+            if (registerForm.image) {
+                const formData = new FormData()
+
+                formData.append('upload_preset', 'roommates')
+                formData.append('file', registerForm.image[0])
+
+                const data = await request('https://api.cloudinary.com/v1_1/placewithroommates/image/upload', 'POST', formData)
+
+                try {
+                    const user = await request('/api/auth/register', 'POST',
+                        JSON.stringify({ ...registerForm, image: data.secure_url }),
+                        { 'Content-Type': 'application/json;charset=utf-8' })
+                } catch (error) { }
+            } else {
+                try {
+                    const user = await request('/api/auth/register', 'POST',
+                        JSON.stringify(registerForm),
+                        { 'Content-Type': 'application/json;charset=utf-8' })
+                } catch (error) { }
             }
-        } else {
-            setError("Пароли не совпадают!")
-        }
+        } else { setDontMatch(true) }
     }
 
     return (
         <Modal active={props.registerActive} setActive={props.setRegisterActive}>
             <h2 className={styles.title}>Регистрация</h2>
-            <form className={styles.authForm}>
+            <form className={styles.authForm} onSubmit={registerHandler}>
                 <CustomInput
                     name={props.registerActive ? 'email' : 'registerEmail'}
                     label='Почта'
@@ -240,8 +241,15 @@ const Register = (props) => {
                     type='phone'
                     handleChange={registerFormHandler}
                 />
-                <button className="submit-btn" onClick={registerHandler}>Выполнить</button>
-                {!!error && <div>{error}</div>}
+                <input
+                    type="file"
+                    accept=".png,.jpeg,.jpg,.webp"
+                    onChange={e => setRegiserForm({ ...registerForm, image: e.target.files })}
+                />
+                <input className="submit-btn" type="submit" disabled={loading} value={loading ? 'Выполнение...' : 'Выполнить'} />
+                {error && <span className='error'>{error}</span>}
+                {success && <span className='success'>Регистрация завершена!</span>}
+                {dontMatch && <span className='error'>Пароли не совпадают</span>}
             </form>
         </Modal>
     )
