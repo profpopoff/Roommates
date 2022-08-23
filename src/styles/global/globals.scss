@@ -54,6 +54,27 @@ a {
     background-color: var(--accent-color);
     border-color: var(--accent-color);
   }
+
+  &:disabled {
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+  }
+}
+
+.error {
+  display: block;
+  margin-top: 1rem;
+  color: rgb(255, 38, 0);
+  font-size: 1.2rem;
+  font-weight: 400;
+}
+
+.success {
+  display: block;
+  margin-top: 1rem;
+  color: rgb(0, 226, 11);
+  font-size: 1.2rem;
+  font-weight: 400;
 }
 
 input::file-selector-button {
