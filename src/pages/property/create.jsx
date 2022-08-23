@@ -18,7 +18,6 @@ import CustomTextArea from '../../components/CustomTextArea/CustomTextArea'
 import { useHttp } from '../../hooks/http.hook'
 import { jsonParser } from '../../utils/functions'
 
-// todo: add error and succes handling
 export default function CreateProperty() {
   return (
     <Layout title="Create Property">
@@ -60,12 +59,9 @@ const Form = () => {
         newImages.push(data.secure_url)
       }
     }
-
-    try {
-      const data = await request('/api/apartments', 'POST',
-        JSON.stringify({ ...createForm, landlordId: user._id, images: newImages }),
-        { 'Content-Type': 'application/json;charset=utf-8' })
-    } catch (error) { }
+    const data = await request('/api/apartments', 'POST',
+      JSON.stringify({ ...createForm, landlordId: user._id, images: newImages }),
+      { 'Content-Type': 'application/json;charset=utf-8' })
   }
 
   return (
@@ -81,7 +77,7 @@ const Form = () => {
       <CustomTextArea label="Описание" name="desc" handleChange={e => changeHandler(e.target.name, e.target.value)} />
       <Conveniences changeHandler={changeHandler} />
       <Files changeHandler={changeHandler} />
-      <input type="submit" disabled={loading} className="submit-btn" value={loading ? 'Выполнение...' : 'Выполнить'} />
+      <input className="submit-btn" type="submit" disabled={loading} value={loading ? 'Выполнение...' : 'Выполнить'} />
       {error && <span className='error'>{error}</span>}
       {success && <span className='success'>Запись успешно добавлена!</span>}
     </form>
