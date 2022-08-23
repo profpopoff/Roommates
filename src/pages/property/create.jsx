@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styles from '../../styles/pages/CreateProperty.module.scss'
 
@@ -15,8 +15,8 @@ import Dropdown from '../../components/Dropdown/Dropdown'
 import CustomToggle from '../../components/CustomToggle/CustomToggle'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomTextArea from '../../components/CustomTextArea/CustomTextArea'
+import { useHttp } from '../../hooks/http.hook'
 import { jsonParser } from '../../utils/functions'
-import { useEffect } from 'react'
 
 // todo: add error and succes handling
 export default function CreateProperty() {
@@ -31,10 +31,11 @@ export default function CreateProperty() {
   )
 }
 
-// todo: add "type" selector
 const Form = () => {
 
   const user = useSelector((state) => state.user.info)
+
+  const { request, success, loading, error } = useHttp()
 
   const [createForm, setCreateForm] = useState({})
 
@@ -50,29 +51,21 @@ const Form = () => {
     formData.append('upload_preset', 'roommates')
 
     let newImages = []
+    if (createForm.images && createForm.title && createForm.address && createForm.price && createForm.stats && createForm.desc && createForm.conveniences) {
+      for (const file of createForm.images) {
+        formData.append('file', file)
 
-    for (const file of createForm.images) {
+        const data = await request('https://api.cloudinary.com/v1_1/placewithroommates/image/upload', 'POST', formData)
 
-      formData.append('file', file)
-
-      const data = await fetch('https://api.cloudinary.com/v1_1/placewithroommates/image/upload', {
-        method: 'POST',
-        body: formData
-      }).then(r => r.json())
-      newImages.push(data.secure_url)
+        newImages.push(data.secure_url)
+      }
     }
 
     try {
-      const apartment = await fetch('/api/apartments', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8'
-        },
-        body: JSON.stringify({ ...createForm, landlordId: user._id, images: newImages }),
-      })
-    } catch (error) {
-      console.log(error)
-    }
+      const data = await request('/api/apartments', 'POST',
+        JSON.stringify({ ...createForm, landlordId: user._id, images: newImages }),
+        { 'Content-Type': 'application/json;charset=utf-8' })
+    } catch (error) { }
   }
 
   return (
@@ -88,7 +81,9 @@ const Form = () => {
       <CustomTextArea label="Описание" name="desc" handleChange={e => changeHandler(e.target.name, e.target.value)} />
       <Conveniences changeHandler={changeHandler} />
       <Files changeHandler={changeHandler} />
-      <input type="submit" className="submit-btn" value="Выполнить" />
+      <input type="submit" disabled={loading} className="submit-btn" value={loading ? 'Выполнение...' : 'Выполнить'} />
+      {error && <span className='error'>{error}</span>}
+      {success && <span className='success'>Запись успешно добавлена!</span>}
     </form>
   )
 }
@@ -141,11 +136,8 @@ const Address = ({ changeHandler }) => {
 
   const addressHandler = event => {
     setAddress({ ...address, [event.target.name]: event.target.value })
+    changeHandler('address', { ...address, [event.target.name]: event.target.value })
   }
-
-  useEffect(() => {
-    changeHandler('address', address)
-  }, [address])
 
   return (
     <div className={styles.address}>
@@ -166,11 +158,8 @@ const Price = ({ changeHandler }) => {
 
   const priceHandler = event => {
     setPrice({ ...price, [event.target.name]: event.target.value })
+    changeHandler('price', { ...price, [event.target.name]: event.target.value })
   }
-
-  useEffect(() => {
-    changeHandler('price', price)
-  }, [price])
 
   return (
     <div className={styles.price}>
@@ -187,11 +176,8 @@ const Stats = ({ changeHandler }) => {
 
   const statsHandler = event => {
     setStats({ ...stats, [event.target.name]: event.target.value })
+    changeHandler('stats', { ...stats, [event.target.name]: event.target.value })
   }
-
-  useEffect(() => {
-    changeHandler('stats', stats)
-  }, [stats])
 
   return (
     <div className={styles.flex}>
@@ -209,14 +195,12 @@ const Conveniences = ({ changeHandler }) => {
   const addConvenience = event => {
     if (event.target.checked) {
       setConveniences([...conveniences, event.target.value])
+      changeHandler('conveniences', [...conveniences, event.target.value])
     } else {
       setConveniences(conveniences.filter(item => item !== event.target.value))
+      changeHandler('conveniences', conveniences.filter(item => item !== event.target.value))
     }
   }
-
-  useEffect(() => {
-    changeHandler('conveniences', conveniences)
-  }, [conveniences])
 
   return (
     <div className={styles.conveniences}>
