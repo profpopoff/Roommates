@@ -51,7 +51,7 @@
                 .name {
                     display: flex;
                     gap: 1rem;
-    
+
                     * {
                         flex: 1;
                     }
@@ -63,6 +63,7 @@
     .headline {
         display: flex;
         flex-direction: column;
+        text-align: center;
         gap: .2rem;
         font-size: 1.5rem;
 
@@ -74,8 +75,10 @@
 
         .contact {
             font-weight: 300;
-            display: flex;
-            gap: .5rem;
+
+            * {
+                margin-inline: .5rem;
+            }
         }
 
     }
