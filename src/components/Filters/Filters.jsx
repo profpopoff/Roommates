@@ -18,22 +18,21 @@ export default function Filters({ apartments }) {
 
     return (
         <div className={styles.container}>
-            <Headline apartments={apartments} />
-            <RoommatesToggle withRoommates={filters.withRoommates} />
+            <Headline apartments={apartments} filters={filters} />
+            <RoommatesToggle withRoommates={filters.withRoommates} dispatch={dispatch} />
             <div className={styles.buttons}>
                 <PriceButton />
                 <TypeButton />
                 <FloorButton />
                 <MoreButton />
             </div>
-            <SortBy />
+            <SortBy sortBy={filters.sortBy} dispatch={dispatch} />
         </div>
     )
 }
 
-const Headline = ({ apartments }) => {
+const Headline = ({ apartments, filters }) => {
 
-    const filters = useSelector((state) => state.filters.filters)
     const [count, setCount] = useState(0)
 
     useEffect(() => {
@@ -53,10 +52,7 @@ const Headline = ({ apartments }) => {
     )
 }
 
-const RoommatesToggle = ({ withRoommates }) => {
-    
-    const dispatch = useDispatch()
-
+const RoommatesToggle = ({ withRoommates, dispatch }) => {
     return (
         <div className={styles.roommatesToggle}>
             <CustomToggle
@@ -137,9 +133,10 @@ const MoreButton = () => {
     )
 }
 
-const SortBy = () => {
+const SortBy = ({ dispatch }) => {
 
     const [sortByActive, setSortByActive] = useState(false)
+    const [value, setValue] = useState({ text: 'Новизне' })
 
     return (
         <div className={styles.sortBy}>
@@ -147,22 +144,37 @@ const SortBy = () => {
                 active={sortByActive}
                 setActive={setSortByActive}
                 button={
-                    <>Сортировать по: <span>Новизне</span></>
+                    <>Сортировать по: <span>{value.text} {value.icon && value.icon}</span></>
                 }
             >
-                <SortByList />
+                <ul className={styles.list}>
+                    <li className={styles.item}
+                        onClick={(e) => {
+                            dispatch(setFilters({ sortBy: ['price.value', 'asc'] }))
+                            setValue({ text: 'Цене', icon: <FontAwesomeIcon icon={faArrowDownShortWide} /> })
+                        }}>Цене <FontAwesomeIcon icon={faArrowDownShortWide} /></li>
+                    <li className={styles.item}
+                        onClick={(e) => {
+                            dispatch(setFilters({ sortBy: ['price.value', 'desc'] }))
+                            setValue({ text: 'Цене', icon: <FontAwesomeIcon icon={faArrowDownWideShort} /> })
+                        }}>Цене <FontAwesomeIcon icon={faArrowDownWideShort} /></li>
+                    <li className={styles.item}
+                        onClick={(e) => {
+                            dispatch(setFilters({ sortBy: ['createdAt'] }))
+                            setValue({ text: 'Новизне' })
+                        }}>Новизне</li>
+                    <li className={styles.item}
+                        onClick={(e) => {
+                            dispatch(setFilters({ sortBy: ['averageRating'] }))
+                            setValue({ text: 'Рейтингу' })
+                        }}>Рейтингу</li>
+                    <li className={styles.item}
+                        onClick={(e) => {
+                            dispatch(setFilters({ sortBy: ['stats.area'] }))
+                            setValue({ text: 'Площади' })
+                        }}>Площади</li>
+                </ul>
             </Dropdown>
         </div>
-    )
-}
-
-const SortByList = () => {
-    return (
-        <ul className={styles.list}>
-            <li className={styles.item}>Цене(убыв)</li>
-            <li className={styles.item}>Цене(возр)</li>
-            <li className={styles.item}>Рейтингу</li>
-            <li className={styles.item}>Площади</li>
-        </ul>
     )
 }

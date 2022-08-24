@@ -13,6 +13,7 @@ import Filters from '../components/Filters/Filters'
 import Post from '../components/Post/Post'
 import Map from '../components/Map/Map'
 import { average, jsonParser } from '../utils/functions'
+import { useEffect } from 'react'
 
 export default function Home({ apartments }) {
   return (
@@ -30,14 +31,43 @@ const Posts = ({ apartments }) => {
 
   const filters = useSelector((state) => state.filters.filters)
 
+  const apartmentsArray = apartments.slice()
+
+  apartmentsArray.map(apartment => {
+    const ratings = apartment.reviews.map(review => review.rating)
+    apartment.averageRating = average(ratings)
+ })
+
+  function compareValues(key, order = 'desc') {
+    return function (a, b) {
+
+      if (!a.hasOwnProperty(key.split('.')[0]) || !b.hasOwnProperty(key.split('.')[0])) {
+        return 0;
+      }
+
+      const varA = key.split('.')[1] ? a[key.split('.')[0]][key.split('.')[1]] : a[key]
+      const varB = key.split('.')[1] ? b[key.split('.')[0]][key.split('.')[1]] : b[key]
+
+      let comparison = 0
+      if (varA > varB) {
+        comparison = 1
+      } else if (varA < varB) {
+        comparison = -1
+      }
+
+      return (
+        (order == 'desc') ? (comparison * -1) : comparison
+      )
+    }
+  }
+
   return (
     <div className={styles.posts}>
-      {apartments.map(apartment => {
-        const ratings = apartment.reviews.map(review => review.rating)
+      {apartmentsArray.slice().sort(compareValues(filters.sortBy[0], filters.sortBy[1])).map(apartment => {
         return (
           apartment.isVisible &&
           filters.withRoommates === !!apartment.roommates.length &&
-          <Post key={apartment._id} {...apartment} averageRating={average(ratings)} />
+          <Post key={apartment._id} {...apartment} />
         )
       })}
     </div>
