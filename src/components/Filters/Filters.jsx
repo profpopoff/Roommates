@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './Filters.module.scss'
 
@@ -11,14 +11,14 @@ import CustomToggle from '../CustomToggle/CustomToggle'
 import Modal from '../Modal/Modal'
 import Dropdown from '../Dropdown/Dropdown'
 
-export default function Filters() {
+export default function Filters({ apartments }) {
 
     const filters = useSelector((state) => state.filters.filters)
     const dispatch = useDispatch()
 
     return (
         <div className={styles.container}>
-            <Headline />
+            <Headline apartments={apartments} />
             <RoommatesToggle withRoommates={filters.withRoommates} />
             <div className={styles.buttons}>
                 <PriceButton />
@@ -31,18 +31,32 @@ export default function Filters() {
     )
 }
 
-const Headline = () => {
+const Headline = ({ apartments }) => {
+
+    const filters = useSelector((state) => state.filters.filters)
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+        setCount(0)
+        apartments.map(apartment => {
+            apartment.isVisible &&
+                filters.withRoommates === !!apartment.roommates.length &&
+                setCount(prevCount => prevCount + 1)
+        })
+    }, [filters])
 
     return (
         <div className={styles.headline}>
             <h1 className={styles.title}>Квартиры в России</h1>
-            <p className={styles.resultNum}>122 {enumerate(122, ["результат", "результата", "результатов"])}</p>
+            <p className={styles.resultNum}>{count} {enumerate(count, ["результат", "результата", "результатов"])}</p>
         </div>
     )
 }
 
 const RoommatesToggle = ({ withRoommates }) => {
+    
     const dispatch = useDispatch()
+
     return (
         <div className={styles.roommatesToggle}>
             <CustomToggle

@@ -18,7 +18,7 @@ export default function Home({ apartments }) {
   return (
     <Layout>
       <div className={styles.container}>
-        <Filters />
+        <Filters apartments={apartments} />
         <Posts apartments={apartments} />
         {/* <Map /> */}
       </div>
@@ -36,8 +36,8 @@ const Posts = ({ apartments }) => {
         const ratings = apartment.reviews.map(review => review.rating)
         return (
           apartment.isVisible &&
-          filters.withRoommates === !!apartment.roommates.length  &&
-           <Post key={apartment._id} {...apartment} averageRating={average(ratings)} />
+          filters.withRoommates === !!apartment.roommates.length &&
+          <Post key={apartment._id} {...apartment} averageRating={average(ratings)} />
         )
       })}
     </div>
