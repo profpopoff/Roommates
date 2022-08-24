@@ -133,10 +133,23 @@ const MoreButton = () => {
     )
 }
 
-const SortBy = ({ dispatch }) => {
+const SortBy = ({ sortBy, dispatch }) => {
 
     const [sortByActive, setSortByActive] = useState(false)
-    const [value, setValue] = useState({ text: 'Новизне' })
+    // const [value, setValue] = useState({ text: 'Новизне' })
+
+    const value = (sortBy) => {
+        switch (sortBy) {
+            case 'price.value':
+                return <span>Цене</span>
+            case 'createdAt':
+                return <span>Новизне</span>
+            case 'averageRating':
+                return <span>Рейтингу</span>
+            case 'stats.area':
+                return <span>Площади</span>
+        }
+    }
 
     return (
         <div className={styles.sortBy}>
@@ -144,34 +157,31 @@ const SortBy = ({ dispatch }) => {
                 active={sortByActive}
                 setActive={setSortByActive}
                 button={
-                    <>Сортировать по: <span>{value.text} {value.icon && value.icon}</span></>
+                    <>Сортировать по: <span>{value(sortBy[0])} {
+                        sortBy[1] && <FontAwesomeIcon icon={sortBy[1] == 'desc' ? faArrowDownWideShort : faArrowDownShortWide} />
+                    }</span></>
                 }
             >
                 <ul className={styles.list}>
                     <li className={styles.item}
                         onClick={(e) => {
                             dispatch(setFilters({ sortBy: ['price.value', 'asc'] }))
-                            setValue({ text: 'Цене', icon: <FontAwesomeIcon icon={faArrowDownShortWide} /> })
                         }}>Цене <FontAwesomeIcon icon={faArrowDownShortWide} /></li>
                     <li className={styles.item}
                         onClick={(e) => {
                             dispatch(setFilters({ sortBy: ['price.value', 'desc'] }))
-                            setValue({ text: 'Цене', icon: <FontAwesomeIcon icon={faArrowDownWideShort} /> })
                         }}>Цене <FontAwesomeIcon icon={faArrowDownWideShort} /></li>
                     <li className={styles.item}
                         onClick={(e) => {
                             dispatch(setFilters({ sortBy: ['createdAt'] }))
-                            setValue({ text: 'Новизне' })
                         }}>Новизне</li>
                     <li className={styles.item}
                         onClick={(e) => {
                             dispatch(setFilters({ sortBy: ['averageRating'] }))
-                            setValue({ text: 'Рейтингу' })
                         }}>Рейтингу</li>
                     <li className={styles.item}
                         onClick={(e) => {
                             dispatch(setFilters({ sortBy: ['stats.area'] }))
-                            setValue({ text: 'Площади' })
                         }}>Площади</li>
                 </ul>
             </Dropdown>
