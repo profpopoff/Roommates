@@ -4,31 +4,35 @@ const filtersSlice = createSlice({
    name: "filters",
    initialState: {
       filters: {
-         price: { min: 1, max: 1000000 },
+         price: { min: 1, max: 1000000000 },
          type: ["bed", "room", "flat", "house", "townhouse"],
          floor: { min: 1, max: 100 },
          rooms: null,
          area: null,
-         conviniences: null
+         conviniences: null,
+         sortBy: ['createdAt'],
+         withRoommates: true
       }
    },
    reducers: {
-      setFilers: (state, action) => {
+      setFilters: (state, action) => {
          state.filters = { ...state.filters, ...action.payload }
       },
       resetFilters: (state) => {
          state.filters = {
-            price: { min: 1, max: 1000000 },
+            price: { min: 1, max: 1000000000 },
             type: ["bed", "room", "flat", "house", "townhouse"],
             floor: { min: 1, max: 100 },
             rooms: null,
             area: null,
-            conviniences: null
+            conviniences: null,
+            sortBy: ['createdAt'],
+            withRoommates: true
          }
       }
    }
 })
 
-export const { setFiler, resetFilters } = filtersSlice.actions
+export const { setFilters, resetFilters } = filtersSlice.actions
 
 export default filtersSlice.reducer

@@ -1,3 +1,4 @@
+import { useSelector, useDispatch } from 'react-redux'
 import styles from '../styles/pages/Home.module.scss'
 
 import * as cookie from 'cookie'
@@ -18,17 +19,28 @@ export default function Home({ apartments }) {
     <Layout>
       <div className={styles.container}>
         <Filters />
-        <div className={styles.posts}>
-          {apartments?.map(apartment => {
-            const ratings = apartment.reviews?.map(review => review.rating)
-            return apartment.isVisible && (
-              <Post key={apartment._id} {...apartment} averageRating={average(ratings)} />
-            )
-          })}
-        </div>
+        <Posts apartments={apartments} />
         {/* <Map /> */}
       </div>
     </Layout>
+  )
+}
+
+const Posts = ({ apartments }) => {
+
+  const filters = useSelector((state) => state.filters.filters)
+
+  return (
+    <div className={styles.posts}>
+      {apartments.map(apartment => {
+        const ratings = apartment.reviews.map(review => review.rating)
+        return (
+          apartment.isVisible &&
+          filters.withRoommates === !!apartment.roommates.length  &&
+           <Post key={apartment._id} {...apartment} averageRating={average(ratings)} />
+        )
+      })}
+    </div>
   )
 }
 

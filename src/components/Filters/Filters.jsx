@@ -1,8 +1,11 @@
 import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import styles from './Filters.module.scss'
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faBuilding, faStairs, faSliders, faArrowDownShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
 
+import { setFilters } from '../../redux/slices/filters'
 import { enumerate } from '../../utils/functions'
 import CustomToggle from '../CustomToggle/CustomToggle'
 import Modal from '../Modal/Modal'
@@ -10,10 +13,13 @@ import Dropdown from '../Dropdown/Dropdown'
 
 export default function Filters() {
 
+    const filters = useSelector((state) => state.filters.filters)
+    const dispatch = useDispatch()
+
     return (
         <div className={styles.container}>
             <Headline />
-            <RoommatesToggle />
+            <RoommatesToggle withRoommates={filters.withRoommates} />
             <div className={styles.buttons}>
                 <PriceButton />
                 <TypeButton />
@@ -35,15 +41,15 @@ const Headline = () => {
     )
 }
 
-const RoommatesToggle = () => {
-
+const RoommatesToggle = ({ withRoommates }) => {
+    const dispatch = useDispatch()
     return (
         <div className={styles.roommatesToggle}>
             <CustomToggle
                 name="roommates"
                 label="С соседями"
-                checked={true}
-            // onChange={() => { props.setRoommates(!props.roommates); props.setFilters(!props.new); rmTypes() }}
+                checked={withRoommates}
+                onChange={(e) => { dispatch(setFilters({ withRoommates: e.target.checked })) }}
             />
         </div>
     )
