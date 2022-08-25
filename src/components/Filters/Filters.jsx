@@ -10,6 +10,7 @@ import { enumerate } from '../../utils/functions'
 import CustomToggle from '../CustomToggle/CustomToggle'
 import Modal from '../Modal/Modal'
 import Dropdown from '../Dropdown/Dropdown'
+import MultiRangeSlider from '../MultiRangeSlider/MultiRangeSlider'
 
 export default function Filters({ apartments }) {
 
@@ -21,7 +22,7 @@ export default function Filters({ apartments }) {
             <Headline apartments={apartments} filters={filters} />
             <RoommatesToggle withRoommates={filters.withRoommates} dispatch={dispatch} />
             <div className={styles.buttons}>
-                <PriceButton />
+                <PriceButton {...filters.price} dispatch={dispatch} />
                 <TypeButton />
                 <FloorButton />
                 <MoreButton />
@@ -40,6 +41,7 @@ const Headline = ({ apartments, filters }) => {
         apartments.map(apartment => {
             apartment.isVisible &&
                 filters.withRoommates === !!apartment.roommates.length &&
+                (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
                 setCount(prevCount => prevCount + 1)
         })
     }, [filters])
@@ -65,9 +67,16 @@ const RoommatesToggle = ({ withRoommates, dispatch }) => {
     )
 }
 
-const PriceButton = () => {
+const PriceButton = ({ min, max, dispatch }) => {
 
     const [priceActive, setPriceActive] = useState(false)
+
+    const [priceValue, setPriceValue] = useState({ min, max })
+    
+    const setPriceFilter = (e) => {
+        e.preventDefault()
+        dispatch(setFilters({ price: priceValue }))
+    }
 
     return (
         <>
@@ -76,7 +85,14 @@ const PriceButton = () => {
             </button>
             <Modal active={priceActive} setActive={setPriceActive}>
                 <h2 className={styles.title}><FontAwesomeIcon icon={faTag} /> Цена</h2>
-                {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
+                <form className={styles.filterForm} onSubmit={setPriceFilter}>
+                    <MultiRangeSlider
+                        min={0}
+                        max={100000}
+                        onChange={({ min, max }) => setPriceValue({ min, max })}
+                    />
+                    <input className="submit-btn" type="submit" />
+                </form>
             </Modal>
         </>
     )
@@ -93,6 +109,7 @@ const TypeButton = () => {
             </button>
             <Modal active={typeActive} setActive={setTypeActive}>
                 <h2 className={styles.title}><FontAwesomeIcon icon={faBuilding} /> Тип</h2>
+
                 {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
             </Modal>
         </>
@@ -136,7 +153,6 @@ const MoreButton = () => {
 const SortBy = ({ sortBy, dispatch }) => {
 
     const [sortByActive, setSortByActive] = useState(false)
-    // const [value, setValue] = useState({ text: 'Новизне' })
 
     const value = (sortBy) => {
         switch (sortBy) {

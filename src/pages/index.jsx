@@ -67,6 +67,7 @@ const Posts = ({ apartments }) => {
         return (
           apartment.isVisible &&
           filters.withRoommates === !!apartment.roommates.length &&
+          (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
           <Post key={apartment._id} {...apartment} />
         )
       })}
