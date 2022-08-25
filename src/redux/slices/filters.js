@@ -4,7 +4,7 @@ const filtersSlice = createSlice({
    name: "filters",
    initialState: {
       filters: {
-         price: { min: 1, max: 1000000000 },
+         price: { min: 1, max: 100000 },
          type: ["bed", "room", "flat", "house", "townhouse"],
          floor: { min: 1, max: 100 },
          rooms: null,
