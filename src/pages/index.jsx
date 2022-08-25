@@ -36,7 +36,7 @@ const Posts = ({ apartments }) => {
   apartmentsArray.map(apartment => {
     const ratings = apartment.reviews.map(review => review.rating)
     apartment.averageRating = average(ratings)
- })
+  })
 
   function compareValues(key, order = 'desc') {
     return function (a, b) {

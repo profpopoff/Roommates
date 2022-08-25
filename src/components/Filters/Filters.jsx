@@ -72,7 +72,7 @@ const PriceButton = ({ min, max, dispatch }) => {
     const [priceActive, setPriceActive] = useState(false)
 
     const [priceValue, setPriceValue] = useState({ min, max })
-    
+
     const setPriceFilter = (e) => {
         e.preventDefault()
         dispatch(setFilters({ price: priceValue }))
