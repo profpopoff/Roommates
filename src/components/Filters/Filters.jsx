@@ -23,7 +23,7 @@ export default function Filters({ apartments }) {
             <RoommatesToggle withRoommates={filters.withRoommates} dispatch={dispatch} />
             <div className={styles.buttons}>
                 <PriceButton {...filters.price} dispatch={dispatch} />
-                <TypeButton />
+                <TypeButton type={filters.type} withRoommates={filters.withRoommates} dispatch={dispatch} />
                 <FloorButton />
                 <MoreButton />
             </div>
@@ -40,8 +40,9 @@ const Headline = ({ apartments, filters }) => {
         setCount(0)
         apartments.map(apartment => {
             apartment.isVisible &&
-                filters.withRoommates === !!apartment.roommates.length &&
+                ((filters.withRoommates && ['bed', 'room'].includes(apartment.type)) || (!filters.withRoommates && ['flat', 'house', 'townhouse'].includes(apartment.type))) &&
                 (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
+                filters.type.includes(apartment.type) &&
                 setCount(prevCount => prevCount + 1)
         })
     }, [filters])
@@ -61,12 +62,15 @@ const RoommatesToggle = ({ withRoommates, dispatch }) => {
                 name="roommates"
                 label="С соседями"
                 checked={withRoommates}
-                onChange={(e) => { dispatch(setFilters({ withRoommates: e.target.checked })) }}
+                onClick={(e) => dispatch(setFilters({ withRoommates: e.target.checked }))}
             />
         </div>
     )
 }
 
+//! баг: если перейти на другую страницу, 
+//! а затем вернуться, фильтры все еще будут применены, 
+//! но на слайдере это не отображается (не знаю, как задать начальные значения (мб useMemo или что-то еще поможет))
 const PriceButton = ({ min, max, dispatch }) => {
 
     const [priceActive, setPriceActive] = useState(false)
@@ -91,16 +95,32 @@ const PriceButton = ({ min, max, dispatch }) => {
                         max={100000}
                         onChange={({ min, max }) => setPriceValue({ min, max })}
                     />
-                    <input className="submit-btn" type="submit" />
+                    <input className="submit-btn" type="submit" value="Применить" />
                 </form>
             </Modal>
         </>
     )
 }
 
-const TypeButton = () => {
+const TypeButton = ({ type, dispatch, withRoommates }) => {
 
     const [typeActive, setTypeActive] = useState(false)
+
+    const [types, setTypes] = useState(type)
+
+    const setTypeFilter = (e) => {
+        e.preventDefault()
+        dispatch(setFilters({ type: types }))
+    }
+
+    const handleTypes = (e) => {
+        if (e.target.checked) {
+            setTypes([...types, e.target.value])
+        } else {
+            setTypes(prevTypes => prevTypes.filter(item => item !== e.target.value))
+        }
+    }
+
 
     return (
         <>
@@ -109,8 +129,21 @@ const TypeButton = () => {
             </button>
             <Modal active={typeActive} setActive={setTypeActive}>
                 <h2 className={styles.title}><FontAwesomeIcon icon={faBuilding} /> Тип</h2>
-
-                {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
+                <form className={styles.filterForm} onSubmit={setTypeFilter}>
+                    <div className={styles.types}>
+                        <CustomToggle label="Кровать" name="bed"
+                            checked={types.includes('bed')} disabled={!withRoommates} onClick={handleTypes} />
+                        <CustomToggle label="Комната" name="room"
+                            checked={types.includes('room')} disabled={!withRoommates} onClick={handleTypes} />
+                        <CustomToggle label="Квартира" name="flat"
+                            checked={types.includes('flat')} disabled={withRoommates} onClick={handleTypes} />
+                        <CustomToggle label="Дом" name="house"
+                            checked={types.includes('house')} disabled={withRoommates} onClick={handleTypes} />
+                        <CustomToggle label="Таунхаус" name="townhouse"
+                            checked={types.includes('townhouse')} disabled={withRoommates} onClick={handleTypes} />
+                    </div>
+                    <input className="submit-btn" type="submit" value="Применить" />
+                </form>
             </Modal>
         </>
     )

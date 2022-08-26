@@ -30,6 +30,18 @@
         display: flex;
         gap: 1rem;
 
+        .filterForm {
+            .types {
+                display: flex;
+                flex-direction: column;
+
+                * {
+                    margin-inline: auto;
+                    margin-top: .3rem;
+                }
+            }
+        }
+
         .button {
             display: flex;
             gap: .3rem;
@@ -69,7 +81,7 @@
             gap: .5rem;
             padding: 1rem 1.25rem;
             list-style: none;
-            
+
 
             .item {
                 cursor: pointer;

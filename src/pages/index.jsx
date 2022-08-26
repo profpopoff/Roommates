@@ -38,7 +38,7 @@ const Posts = ({ apartments }) => {
     apartment.averageRating = average(ratings)
   })
 
-  function compareValues(key, order = 'desc') {
+  function sortByFunction(key, order = 'desc') {
     return function (a, b) {
 
       if (!a.hasOwnProperty(key.split('.')[0]) || !b.hasOwnProperty(key.split('.')[0])) {
@@ -63,11 +63,12 @@ const Posts = ({ apartments }) => {
 
   return (
     <div className={styles.posts}>
-      {apartmentsArray.slice().sort(compareValues(filters.sortBy[0], filters.sortBy[1])).map(apartment => {
+      {apartmentsArray.slice().sort(sortByFunction(filters.sortBy[0], filters.sortBy[1])).map(apartment => {
         return (
           apartment.isVisible &&
-          filters.withRoommates === !!apartment.roommates.length &&
+          ((filters.withRoommates && ['bed', 'room'].includes(apartment.type)) || (!filters.withRoommates && ['flat', 'house', 'townhouse'].includes(apartment.type))) &&
           (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
+          filters.type.includes(apartment.type) &&
           <Post key={apartment._id} {...apartment} />
         )
       })}
