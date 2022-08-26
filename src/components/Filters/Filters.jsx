@@ -172,7 +172,7 @@ const FloorButton = ({ min, max, dispatch }) => {
                 <form className={styles.filterForm} onSubmit={setFloorFilter}>
                     <MultiRangeSlider
                         min={0}
-                        max={100}
+                        max={50}
                         onChange={({ min, max }) => setFloorValue({ min, max })}
                     />
                     <input className="submit-btn" type="submit" value="Применить" />

@@ -305,8 +305,8 @@ const List = () => {
 
     const [settingsActive, setSettingsActive] = useState(false)
 
-    const logout = async () => {
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    const logout = () => {
+        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
         dispatch(exit())
         if (['/profile', '/chat', '/favourites', '/property', '/property/create'].includes(router.pathname)) {
             router.push('/')
