@@ -24,7 +24,7 @@ export default function Filters({ apartments }) {
             <div className={styles.buttons}>
                 <PriceButton {...filters.price} dispatch={dispatch} />
                 <TypeButton type={filters.type} withRoommates={filters.withRoommates} dispatch={dispatch} />
-                <FloorButton />
+                <FloorButton {...filters.floor} dispatch={dispatch} />
                 <MoreButton />
             </div>
             <SortBy sortBy={filters.sortBy} dispatch={dispatch} />
@@ -43,6 +43,7 @@ const Headline = ({ apartments, filters }) => {
                 ((filters.withRoommates && ['bed', 'room'].includes(apartment.type)) || (!filters.withRoommates && ['flat', 'house', 'townhouse'].includes(apartment.type))) &&
                 (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
                 filters.type.includes(apartment.type) &&
+                (apartment.stats.floor <= filters.floor.max && apartment.stats.floor >= filters.floor.min) &&
                 setCount(prevCount => prevCount + 1)
         })
     }, [filters])
@@ -149,9 +150,17 @@ const TypeButton = ({ type, dispatch, withRoommates }) => {
     )
 }
 
-const FloorButton = () => {
+const FloorButton = ({ min, max, dispatch }) => {
 
     const [floorActive, setFloorActive] = useState(false)
+
+    const [floorValue, setFloorValue] = useState({ min, max })
+
+    const setFloorFilter = (e) => {
+        e.preventDefault()
+        dispatch(setFilters({ floor: floorValue }))
+    }
+
 
     return (
         <>
@@ -160,7 +169,14 @@ const FloorButton = () => {
             </button>
             <Modal active={floorActive} setActive={setFloorActive}>
                 <h2 className={styles.title}><FontAwesomeIcon icon={faStairs} /> Этаж</h2>
-                {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
+                <form className={styles.filterForm} onSubmit={setFloorFilter}>
+                    <MultiRangeSlider
+                        min={0}
+                        max={100}
+                        onChange={({ min, max }) => setFloorValue({ min, max })}
+                    />
+                    <input className="submit-btn" type="submit" value="Применить" />
+                </form>
             </Modal>
         </>
     )

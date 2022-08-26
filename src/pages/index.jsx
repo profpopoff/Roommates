@@ -69,6 +69,7 @@ const Posts = ({ apartments }) => {
           ((filters.withRoommates && ['bed', 'room'].includes(apartment.type)) || (!filters.withRoommates && ['flat', 'house', 'townhouse'].includes(apartment.type))) &&
           (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
           filters.type.includes(apartment.type) &&
+          (apartment.stats.floor <= filters.floor.max && apartment.stats.floor >= filters.floor.min) &&
           <Post key={apartment._id} {...apartment} />
         )
       })}
