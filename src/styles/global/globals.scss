@@ -111,3 +111,13 @@ input::file-selector-button {
     }
   }
 }
+
+.mapboxgl-popup-content {
+  color: white;
+  background-color: var(--accent-color) !important;
+  border-radius: .7rem !important;
+}
+
+.mapboxgl-popup-tip {
+  border-top-color: var(--accent-color) !important;
+}

@@ -1,50 +1,84 @@
-import { useEffect, useState, useRef } from 'react'
+import Link from 'next/link'
+import { useEffect, useState, useMemo } from 'react'
+import { useSelector } from 'react-redux'
 import styles from './Map.module.scss'
 
-import mapboxgl from 'mapbox-gl'
+import ReactMapGL, { Marker, Popup } from "react-map-gl"
 import 'mapbox-gl/dist/mapbox-gl.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
-export default function Map() {
+export default function Map({ apartments }) {
 
-    const [map, setMap] = useState()
+    const filters = useSelector((state) => state.filters.filters)
 
-    const mapNode = useRef(null)
-
+    const [viewport, setViewport] = useState({
+        latitude: 55.7522,
+        longitude: 37.6156,
+        zoom: 10
+    })
 
     useEffect(() => {
-
-        if (typeof window === "undefined" || mapNode.current === null) return
-
-        const mapboxMap = new mapboxgl.Map({
-            accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
-            container: mapNode.current,
-            style: "mapbox://styles/mapbox/streets-v11",
-            center: [16.05, 48],
-            zoom: 4,
+        navigator.geolocation.getCurrentPosition(function (position) {
+            setViewport({ ...viewport, latitude: position.coords.latitude, longitude: position.coords.longitude })
         })
-
-        mapboxMap.on('load', () => {
-            mapboxMap.getStyle().layers.forEach((layer) => {
-                if (layer.id.endsWith('-label')) {
-                    mapboxMap.setLayoutProperty(layer.id, 'text-field', [
-                        'coalesce',
-                        ['get', 'name_ru'],
-                        ['get', 'name'],
-                    ])
-                }
-            })
-        })
-
-        setMap(mapboxMap)
-
-        return () => {
-            mapboxMap.remove()
-        }
     }, [])
+
+    const [selectedMarker, setSelectedMarker] = useState({})
+
+    const markers = useMemo(() => apartments.map((apartment, index) => (
+        apartment.isVisible &&
+        ((filters.withRoommates && ['bed', 'room'].includes(apartment.type)) || (!filters.withRoommates && ['flat', 'house', 'townhouse'].includes(apartment.type))) &&
+        (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
+        filters.type.includes(apartment.type) &&
+        (apartment.stats.floor <= filters.floor.max && apartment.stats.floor >= filters.floor.min) &&
+        <Marker
+            key={`marker-${index}`}
+            longitude={apartment.coordinates.longitude}
+            latitude={apartment.coordinates.latitude}
+            anchor="bottom"
+            onClick={e => {
+                e.originalEvent.stopPropagation()
+                setSelectedMarker(apartment)
+            }}
+        >
+            <FontAwesomeIcon
+                className={styles.marker}
+                icon={faLocationDot}
+            />
+        </Marker>
+    )), [filters])
 
     return (
         <div className={styles.container}>
-            <div ref={mapNode} style={{ width: "100%", height: "100%" }} />
+            <ReactMapGL
+                mapStyle="mapbox://styles/mapbox/streets-v11"
+                mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+                {...viewport}
+                onMove={e => setViewport(e.viewport)}
+            >
+                {markers}
+                {selectedMarker._id &&
+                    <Popup
+                        className={styles.popup}
+                        latitude={selectedMarker.coordinates.latitude}
+                        longitude={selectedMarker.coordinates.longitude}
+                        anchor="bottom"
+                        onClose={() => setSelectedMarker({})}
+                    >
+                        <h3>{selectedMarker.address.street}, д.{selectedMarker.address.house}</h3>
+                        <div className={styles.price}>
+                            <span>{selectedMarker.price.value.toLocaleString('ru', {
+                                style: 'currency',
+                                currency: selectedMarker.price.currency,
+                                minimumFractionDigits: 0
+                            })}</span>/месяц
+                        </div>
+                        <Link href={`/apartment/${selectedMarker._id}`} passHref>
+                            <span className={styles.details}>Подробная информция</span>
+                        </Link>
+                    </Popup>}
+            </ReactMapGL>
         </div>
     )
 }

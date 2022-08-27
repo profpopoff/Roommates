@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from '../styles/pages/Home.module.scss'
 
@@ -13,15 +14,20 @@ import Filters from '../components/Filters/Filters'
 import Post from '../components/Post/Post'
 import Map from '../components/Map/Map'
 import { average, jsonParser } from '../utils/functions'
-import { useEffect } from 'react'
 
 export default function Home({ apartments }) {
+  
+  // const Map = dynamic(() => import("../components/Map/Map"), {
+  //   loading: () => "Loading...",
+  //   ssr: false
+  // })
+  
   return (
     <Layout>
       <div className={styles.container}>
         <Filters apartments={apartments} />
         <Posts apartments={apartments} />
-        {/* <Map /> */}
+        <Map apartments={apartments} />
       </div>
     </Layout>
   )

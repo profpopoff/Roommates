@@ -2,5 +2,18 @@
     grid-area: map;
     border-radius: 1.25rem;
     overflow: hidden;
+    background-color: var(--background-element);
 
+    .marker {
+        font-size: 2rem;
+        color: var(--accent-color);
+        cursor: pointer;
+    }
+
+    .popup {
+        .details {
+            text-decoration: underline;
+            cursor: pointer;
+        }
+    }
 }
