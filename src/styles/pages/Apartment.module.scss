@@ -262,7 +262,12 @@
                 aspect-ratio: 3/2;
                 border-radius: 1.25rem;
                 overflow: hidden;
-                background-color: cyan;
+            }
+
+            .marker {
+                font-size: 2rem;
+                color: var(--accent-color);
+                cursor: pointer;
             }
         }
     }

@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react'
 import styles from '../../styles/pages/Apartment.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,6 +8,7 @@ import { faLocationDot, faPhone, faAngleRight, faAngleLeft } from '@fortawesome/
 import { faComments } from '@fortawesome/free-regular-svg-icons'
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
+import ReactMapGL, { Marker } from "react-map-gl"
 
 import { wrapper } from '../../redux/store'
 import { getUser } from '../api/users/[id]'
@@ -14,28 +16,27 @@ import { setUser } from '../../redux/slices/user'
 import { getApartment } from '../api/apartments/[id]'
 import Layout from '../../components/Layout'
 import FavButton from '../../components/FavButton/FavButton'
-import { useState } from 'react'
 import StarRatings from 'react-star-ratings'
 import { average, jsonParser } from '../../utils/functions'
 
 export default function Apartment({ apartment, landlord, reviewers }) {
   return (
-    <Layout title={apartment?.title}>
+    <Layout title={apartment.title}>
       <div className={styles.container}>
         <div className={styles.info}>
-          <Images images={apartment?.images} />
+          <Images images={apartment.images} />
           <Headline
-            title={apartment?.title}
-            {...apartment?.address}
-            {...apartment?.price}
-            reviews={apartment?.reviews}
-            roommates={apartment?.roommates}
+            title={apartment.title}
+            {...apartment.address}
+            {...apartment.price}
+            reviews={apartment.reviews}
+            roommates={apartment.roommates}
           />
           <Landlord {...landlord} />
           <FavButton />
-          <Conveniences conveniences={apartment?.conveniences} />
-          <Stats {...apartment?.stats} />
-          <Desc desc={apartment?.desc} />
+          <Conveniences conveniences={apartment.conveniences} />
+          <Stats {...apartment.stats} />
+          <Desc desc={apartment.desc} {...apartment.coordinates} />
         </div>
         {!!apartment.reviews.length && <Reviews reviews={apartment.reviews} reviewers={reviewers} />}
       </div>
@@ -181,10 +182,33 @@ const Stats = (props) => {
 }
 
 const Desc = (props) => {
+
+  const [viewport, setViewport] = useState({
+    latitude: props.latitude,
+    longitude: props.longitude,
+    zoom: 14
+  })
+
   return (
     <div className={styles.desc}>
       <div className={styles.map}>
-        map
+        <ReactMapGL
+          mapStyle="mapbox://styles/mapbox/streets-v11"
+          mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+          {...viewport}
+          onMove={e => setViewport(e.viewport)}
+        >
+          <Marker
+            latitude={props.latitude}
+            longitude={props.longitude}
+            anchor="bottom"
+          >
+            <FontAwesomeIcon
+              className={styles.marker}
+              icon={faLocationDot}
+            />
+          </Marker>
+        </ReactMapGL>
       </div>
       <p className={styles.text}>{props.desc}</p>
     </div>
