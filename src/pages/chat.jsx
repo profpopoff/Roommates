@@ -6,7 +6,7 @@ import styles from '../styles/pages/Chat.module.scss'
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsis, faTrashCan, faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsis, faTrashCan, faLocationDot, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { format } from 'timeago.js'
 
 import { wrapper } from '../redux/store'
@@ -81,6 +81,16 @@ const Box = () => {
         <Message />
         <Message />
       </div>
+      <div className={styles.newMessage}>
+        <textarea
+          className={styles.textarea}
+          placeholder="Напишите что-нибудь..."
+          // onChange={(e) => setNewMessage(e.target.value)}
+          // value={newMessage}
+        ></textarea>
+        {/* <button className="chat-box-btn" onClick={handleSubmit}><FontAwesomeIcon icon={faPaperPlane} /></button> */}
+        <button className={styles.btn}><FontAwesomeIcon icon={faPaperPlane} /></button>
+      </div>
     </div>
   )
 }
@@ -93,9 +103,9 @@ const Message = () => {
           <Image className={styles.src} src={'/img/cover.jpeg'} alt="user profile picture" layout='fill' />
         </div>
         <div className={styles.text}>
-          Hello! How are youy? 
+          Hello! How are youy?
           {/* <div className={styles.time}>{format(props.message.createdAt)}</div>  */}
-          <div className={styles.time}>{format('2022-07-22T12:27:43.388Z')}</div> 
+          <div className={styles.time}>{format('2022-07-22T12:27:43.388Z')}</div>
         </div>
       </div>
     </div>
