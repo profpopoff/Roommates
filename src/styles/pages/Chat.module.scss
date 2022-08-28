@@ -1,0 +1,167 @@
+.container {
+   width: clamp(30rem, 97vw, 60rem);
+   height: calc(100vh - var(--header-height));
+   margin-inline: auto;
+   padding-block: 1rem;
+   display: flex;
+   justify-content: center;
+
+   .conversations {
+      width: 40%;
+      max-height: 97%;
+      margin-right: 1rem;
+      overflow: auto;
+      padding: 2rem 1.7rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      border-radius: 1.5rem;
+      background-color: var(--background-element);
+
+      &::-webkit-scrollbar {
+         display: none;
+      }
+
+      .conversation {
+         display: flex;
+         justify-content: space-between;
+
+         .user {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            cursor: pointer;
+
+            .image {
+               position: relative;
+               width: 2.5rem;
+               aspect-ratio: 1;
+
+               .src {
+                  border-radius: 50%;
+                  object-fit: cover;
+               }
+
+               .notification {
+                  position: absolute;
+                  right: -.3rem;
+                  height: 1rem;
+                  aspect-ratio: 1;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  border-radius: 50%;
+                  outline: 2px solid var(--background-element);
+                  background-color: var(--accent-color);
+                  color: #fff;
+                  font-size: .7rem;
+               }
+            }
+
+            .name {
+               font-size: 1.2rem;
+               font-weight: 400;
+               transition: color .15s ease-in-out;
+            }
+
+            &:hover .name {
+               color: var(--accent-color);
+            }
+         }
+
+         .conversationMenuBtn {
+            width: 3rem;
+            aspect-ratio: 1;
+            border: none;
+            background-color: transparent;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color .15s ease-in-out;
+
+            &:hover {
+               color: var(--accent-color);
+            }
+         }
+      }
+   }
+
+   .box {
+      height: 97%;
+      width: 70%;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      border-radius: 1.5rem;
+      background-color: var(--background-element);
+
+      .name {
+         margin-bottom: 1rem;
+      }
+
+      .messages {
+         height: 88%;
+         margin-bottom: 1rem;
+         padding-right: 1rem;
+         overflow-y: auto;
+
+         &::-webkit-scrollbar {
+            display: none;
+         }
+
+         .message {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-direction: column;
+
+            .body {
+               display: flex;
+               align-items: flex-start;
+               gap: .5rem;
+
+               .image {
+                  width: 2rem;
+                  aspect-ratio: 1;
+                  position: relative;
+
+                  .src {
+                     border-radius: 50%;
+                     object-fit: cover;
+                  }
+               }
+
+               .text {
+                  max-width: 30rem;
+                  padding: .5rem .7rem;
+                  display: flex;
+                  flex-direction: column;
+                  border-radius: .2rem 1rem 1rem 1rem;
+                  background-color: var(--background-main);
+
+                  .time {
+                     color: var(--text-grey);
+                     font-size: .7rem;
+                     font-weight: 300;
+                  }
+               }
+            }
+
+            &.own {
+               align-items: flex-end;
+
+               .body {
+                  flex-direction: row-reverse;
+
+                  .text {
+                     border-radius: 1rem .2rem 1rem 1rem;
+
+                     .time {
+                        align-self: flex-end;
+                     }
+                  }
+               }
+            }
+         }
+      }
+   }
+}
