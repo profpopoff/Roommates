@@ -8,7 +8,11 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
+import Loading from '../Loading/Loading'
+
 export default function Map({ apartments }) {
+
+    const [loading, setLoading] = useState(true)
 
     const filters = useSelector((state) => state.filters.filters)
 
@@ -51,11 +55,13 @@ export default function Map({ apartments }) {
 
     return (
         <div className={styles.container}>
+            {loading && <Loading />}
             <ReactMapGL
                 mapStyle="mapbox://styles/mapbox/streets-v11"
                 mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
                 {...viewport}
                 onMove={e => setViewport(e.viewport)}
+                onLoad={() => setLoading(false)}
             >
                 {markers}
                 {selectedMarker._id &&
