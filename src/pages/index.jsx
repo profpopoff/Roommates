@@ -12,15 +12,15 @@ import { getApartments } from './api/apartments/index'
 import Layout from '../components/Layout'
 import Filters from '../components/Filters/Filters'
 import Post from '../components/Post/Post'
-import Map from '../components/Map/Map'
+// import Map from '../components/Map/Map'
 import { average, jsonParser } from '../utils/functions'
 
 export default function Home({ apartments }) {
   
-  // const Map = dynamic(() => import("../components/Map/Map"), {
-  //   loading: () => "Loading...",
-  //   ssr: false
-  // })
+  const Map = dynamic(() => import("../components/Map/Map"), {
+    loading: () => "Loading...",
+    ssr: false
+  })
   
   return (
     <Layout>
