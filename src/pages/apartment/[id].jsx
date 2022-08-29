@@ -16,6 +16,7 @@ import { setUser } from '../../redux/slices/user'
 import { getApartment } from '../api/apartments/[id]'
 import Layout from '../../components/Layout'
 import FavButton from '../../components/FavButton/FavButton'
+import Loading from '../../components/Loading/Loading'
 import StarRatings from 'react-star-ratings'
 import { average, jsonParser } from '../../utils/functions'
 
@@ -183,6 +184,8 @@ const Stats = (props) => {
 
 const Desc = (props) => {
 
+  const [loading, setLoading] = useState(true)
+
   const [viewport, setViewport] = useState({
     latitude: props.latitude,
     longitude: props.longitude,
@@ -192,11 +195,13 @@ const Desc = (props) => {
   return (
     <div className={styles.desc}>
       <div className={styles.map}>
+        {loading && <Loading />}
         <ReactMapGL
           mapStyle="mapbox://styles/mapbox/streets-v11"
           mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
           {...viewport}
           onMove={e => setViewport(e.viewport)}
+          onLoad={() => setLoading(false)}
         >
           <Marker
             latitude={props.latitude}

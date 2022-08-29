@@ -256,10 +256,11 @@
             white-space: pre-wrap;
 
             .map {
-                float: right;
-                margin: 0 0 1rem 1rem;
+                position: relative;
                 width: 40%;
                 aspect-ratio: 3/2;
+                margin: 0 0 1rem 1rem;
+                float: right;
                 border-radius: 1.25rem;
                 overflow: hidden;
             }
