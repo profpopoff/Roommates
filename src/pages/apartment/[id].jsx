@@ -34,7 +34,7 @@ export default function Apartment({ apartment, landlord, reviewers }) {
             roommates={apartment.roommates}
           />
           <Landlord {...landlord} />
-          <FavButton />
+          <FavButton id={apartment._id} />
           <Conveniences conveniences={apartment.conveniences} />
           <Stats {...apartment.stats} />
           <Desc desc={apartment.desc} {...apartment.coordinates} />

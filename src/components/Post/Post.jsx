@@ -13,7 +13,7 @@ export default function Post(props) {
         <div className={styles.post}>
             <PostImage id={props._id} src={props.images[0]} />
             <Headline id={props._id} title={props.title} {...props.address} />
-            <FavButton />
+            <FavButton id={props._id} />
             <Conveniences conveniences={props.conveniences} />
             <Rating averageRating={props.averageRating} />
             <Price {...props.price} />
