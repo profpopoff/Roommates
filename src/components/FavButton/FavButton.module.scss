@@ -1,17 +1,33 @@
-.favButton {
+.container {
     grid-area: favButton;
-    place-self: start end;
+    // place-self: start end;
+    position: relative;
     width: 2.75rem;
     aspect-ratio: 1;
-    border: none;
-    border-radius: 30rem;
-    background-color: var(--background-main);
-    color: var(--text-grey);
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: .15s;
 
-    &:hover {
-        color: var(--accent-color);
+    .label {
+        position: absolute;
+        inset: 0;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 30rem;
+        background-color: var(--background-main);
+        color: var(--text-grey);
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: .15s;
+
+        &:hover {
+            color: var(--accent-color);
+        }
+    }
+
+    .toggle {
+        position: absolute;
+        opacity: 0;
+        // width: 0;
+        // height: 0;
     }
 }
