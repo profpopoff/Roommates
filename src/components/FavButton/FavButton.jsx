@@ -13,7 +13,7 @@ export default function FavButton({ id }) {
     const favourites = useSelector((state) => state.favourites.posts)
     const dispatch = useDispatch()
 
-    const [isFavourite, setIsFavourite] = useState(false)
+    const [isFavourite, setIsFavourite] = useState(favourites.includes(id))
 
     const handleToggle = async (e) => {
         if (e.target.checked) {
@@ -37,7 +37,6 @@ export default function FavButton({ id }) {
                 className={styles.toggle}
                 type="checkbox"
                 id={id}
-                // defaultChecked={props.checked}
                 value={id}
                 onClick={handleToggle}
             />
