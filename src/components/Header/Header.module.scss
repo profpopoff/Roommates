@@ -140,6 +140,7 @@
         }
 
         .link {
+            position: relative;
             display: flex;
             align-items: center;
             gap: .5rem;
@@ -160,6 +161,21 @@
                 &:hover,
                 &.active {
                     transform: scale(1.1);
+                }
+
+                .notification {
+                    position: absolute;
+                    top: .5rem;
+                    right: 0rem;
+                    height: 1.1rem;
+                    aspect-ratio: 1;
+                    display: flex;
+                    justify-content: center;
+                    border-radius: 50%;
+                    outline: 2px solid var(--background-element);
+                    background-color: var(--accent-color);
+                    color: #fff;
+                    font-size: .8rem;
                 }
             }
 

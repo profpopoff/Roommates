@@ -259,6 +259,8 @@ const Links = () => {
 
     const router = useRouter()
 
+    const favourites = useSelector((state) => state.favourites.posts)
+
     return (
         <>
             <Link href="/property">
@@ -271,12 +273,14 @@ const Links = () => {
                 <a className={`${styles.link} ${styles.main} ${router.pathname == "/chat" && styles.active}`}>
                     <FontAwesomeIcon icon={faComments} />
                     <span className="sr-only">Чаты</span>
+                    <span className={styles.notification}>1</span>
                 </a>
             </Link>
             <Link href="/favourites">
                 <a className={`${styles.link} ${styles.main} ${router.pathname == "/favourites" && styles.active}`}>
                     <FontAwesomeIcon icon={faHeart} />
                     <span className="sr-only">Избранное</span>
+                    {!!favourites.length && <span className={styles.notification}>{favourites.length}</span>}
                 </a>
             </Link>
         </>
