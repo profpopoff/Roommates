@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-// import styles from '../styles/Favourites.module.css'
+import styles from '../styles/pages/Favourites.module.scss'
 
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
@@ -14,8 +14,8 @@ import { jsonParser } from '../utils/functions'
 export default function Favourites() {
   return (
     <Layout title="Favourites">
-      <div>
-        Favourites
+      <div className={styles.container}>
+        <div className={styles.post}>Favourites</div>
       </div>
     </Layout>
   )
