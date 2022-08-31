@@ -1,0 +1,16 @@
+.container {
+   max-width: 1440px;
+   margin: 1.75rem auto;
+   padding-inline: 1.75rem;
+   padding-bottom: 3rem;
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+   gap: 1rem;
+
+   .post {
+      width: 40rem;
+      height: 10rem;
+      background-color: var(--background-element);
+   }
+}
