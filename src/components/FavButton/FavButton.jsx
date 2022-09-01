@@ -6,22 +6,35 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
-import { addFavourite, deleteFavourite } from '../../redux/slices/favourites'
+import { useHttp } from '../../hooks/http.hook'
+import { setUser } from '../../redux/slices/user'
 
 export default function FavButton({ id }) {
 
-    const favourites = useSelector((state) => state.favourites.posts)
+    const { request, success, loading, error } = useHttp()
+
+    const user = useSelector((state) => state.user.info)
     const dispatch = useDispatch()
 
-    const [isFavourite, setIsFavourite] = useState(favourites.includes(id))
+    const [isFavourite, setIsFavourite] = useState(user.favourites.includes(id))
 
     const handleToggle = async (e) => {
         if (e.target.checked) {
             setIsFavourite(true)
-            dispatch(addFavourite(e.target.value))
+            try {
+                const newUser = await request(`/api/users/${user._id}`, 'PUT',
+                    JSON.stringify({ favourites: [...user.favourites, e.target.value] }),
+                    { 'Content-Type': 'application/json;charset=utf-8' })
+                dispatch(setUser({ favourites: [...user.favourites, e.target.value] }))
+            } catch (error) { }
         } else {
             setIsFavourite(false)
-            dispatch(deleteFavourite(favourites.filter(item => item !== e.target.value)))
+            try {
+                const newUser = await request(`/api/users/${user._id}`, 'PUT',
+                    JSON.stringify({ favourites: user.favourites.filter(item => item !== e.target.value) }),
+                    { 'Content-Type': 'application/json;charset=utf-8' })
+                dispatch(setUser({ favourites: user.favourites.filter(item => item !== e.target.value) }))
+            } catch (error) { }
         }
     }
 
@@ -36,6 +49,7 @@ export default function FavButton({ id }) {
             <input
                 className={styles.toggle}
                 type="checkbox"
+                defaultChecked={isFavourite}
                 id={id}
                 value={id}
                 onClick={handleToggle}

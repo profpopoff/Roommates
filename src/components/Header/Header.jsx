@@ -259,7 +259,7 @@ const Links = () => {
 
     const router = useRouter()
 
-    const favourites = useSelector((state) => state.favourites.posts)
+    const user = useSelector((state) => state.user.info)
 
     return (
         <>
@@ -280,7 +280,7 @@ const Links = () => {
                 <a className={`${styles.link} ${styles.main} ${router.pathname == "/favourites" && styles.active}`}>
                     <FontAwesomeIcon icon={faHeart} />
                     <span className="sr-only">Избранное</span>
-                    {!!favourites.length && <span className={styles.notification}>{favourites.length}</span>}
+                    {!!user.favourites.length && <span className={styles.notification}>{user.favourites.length}</span>}
                 </a>
             </Link>
         </>
