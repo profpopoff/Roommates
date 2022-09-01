@@ -10,7 +10,8 @@ const UserSchema = new mongoose.Schema(
         phone: { type: String, required: true, unique: true },
         image: { type: String },
         homeId: { type: String },
-        property: [{ type: String }]
+        property: [{ type: String }],
+        favourites: [{ type: String }]
     },
     { timestamps: true }
 )
