@@ -2,7 +2,7 @@
     height: calc(100vh - var(--header-height));
     padding-top: clamp(1em, 3vw, 2.75em);
     display: grid;
-    gap: clamp(1em, 3vw, 3.75em);
+    gap: clamp(.7em, 2.5vw, 2em) clamp(1em, 3vw, 3.75em);
     grid-template-columns: minmax(0, 1fr) minmax(20rem, 45rem) minmax(20rem, 65rem) minmax(0, 1fr);
     grid-template-rows: min-content 1fr clamp(1em, 3vw, 2.75em);
     grid-template-areas:
@@ -14,6 +14,9 @@
         grid-area: posts;
         border-radius: 1.25rem 1.25rem 0 0;
         overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1.75rem;
 
         &::-webkit-scrollbar {
             display: none;

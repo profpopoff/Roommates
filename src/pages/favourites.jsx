@@ -11,16 +11,32 @@ import { getUser } from './api/users/[id]'
 import { setUser } from '../redux/slices/user'
 import Layout from '../components/Layout'
 import { jsonParser } from '../utils/functions'
+import Post from '../components/Post/Post'
 
 export default function Favourites({ favourites }) {
   return (
     <Layout title="Favourites">
       <div className={styles.container}>
         {favourites ? favourites.map(favourite => (
-          <div className={styles.post}>{favourite.title}</div>
-        )) : <h2>Ваш список избранного пуст...</h2>}
+          // <div className={styles.favourite}>
+            <Post {...favourite} />
+          // {/* </div> */}
+          // <Favourite {...favourite} />
+        )) :
+          <h2>Ваш список избранного пуст...</h2>}
       </div>
     </Layout>
+  )
+}
+
+const Favourite = ({ ...favourite }) => {
+  return (
+    <div className={styles.favourite}>
+      <div className={styles.image}>
+        <Image className={styles.src} src={favourite.images[0]} alt="" layout="fill" />
+      </div>
+      {favourite.title}
+    </div>
   )
 }
 
