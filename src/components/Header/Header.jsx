@@ -116,7 +116,7 @@ const Settings = (props) => {
     )
 }
 
-const Login = (props) => {
+export const Login = (props) => {
 
     const { request, success, loading, error } = useHttp()
 
@@ -139,7 +139,7 @@ const Login = (props) => {
     return (
         <Modal active={props.loginActive} setActive={props.setLoginActive}>
             <h2 className={styles.title}>Вход</h2>
-            <form className={styles.authForm} onSubmit={loginHandler}>
+            <form className="auth-form" onSubmit={loginHandler}>
                 <CustomInput
                     name={props.loginActive ? 'email' : 'loginEmail'}
                     label='Почта'
@@ -202,7 +202,7 @@ const Register = (props) => {
     return (
         <Modal active={props.registerActive} setActive={props.setRegisterActive}>
             <h2 className={styles.title}>Регистрация</h2>
-            <form className={styles.authForm} onSubmit={registerHandler}>
+            <form className="auth-form" onSubmit={registerHandler}>
                 <CustomInput
                     name={props.registerActive ? 'email' : 'registerEmail'}
                     label='Почта'
@@ -221,7 +221,7 @@ const Register = (props) => {
                     type='password'
                     handleChange={(e) => setPasswordCheck(e.target.value)}
                 />
-                <div className={styles.name}>
+                <div className="name">
                     <CustomInput
                         name={props.registerActive ? 'name' : 'registerName'}
                         label='Имя'

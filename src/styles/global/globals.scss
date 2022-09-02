@@ -121,3 +121,17 @@ input::file-selector-button {
 .mapboxgl-popup-tip {
   border-top-color: var(--accent-color) !important;
 }
+
+.auth-form {
+  width: 70%;
+  margin-inline: auto;
+
+  .name {
+      display: flex;
+      gap: 1rem;
+
+      * {
+          flex: 1;
+      }
+  }
+}

@@ -8,6 +8,8 @@ import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 import { useHttp } from '../../hooks/http.hook'
 import { setUser } from '../../redux/slices/user'
+import { Login } from '../Header/Header'
+import { useEffect } from 'react'
 
 export default function FavButton({ id }) {
 
@@ -16,13 +18,19 @@ export default function FavButton({ id }) {
     const user = useSelector((state) => state.user.info)
     const dispatch = useDispatch()
 
-    const [isFavourite, setIsFavourite] = useState(user.favourites.includes(id))
+    const [isFavourite, setIsFavourite] = useState()
+
+    useEffect(() => {
+        setIsFavourite(user ? user.favourites.includes(id) : false)
+    }, [user])
+
+    const [loginActive, setLoginActive] = useState(false)
 
     const handleToggle = async (e) => {
         if (e.target.checked) {
             setIsFavourite(true)
             try {
-                const newUser = await request(`/api/users/${user._id}`, 'PUT',
+                await request(`/api/users/${user._id}`, 'PUT',
                     JSON.stringify({ favourites: [...user.favourites, e.target.value] }),
                     { 'Content-Type': 'application/json;charset=utf-8' })
                 dispatch(setUser({ favourites: [...user.favourites, e.target.value] }))
@@ -30,7 +38,7 @@ export default function FavButton({ id }) {
         } else {
             setIsFavourite(false)
             try {
-                const newUser = await request(`/api/users/${user._id}`, 'PUT',
+                await request(`/api/users/${user._id}`, 'PUT',
                     JSON.stringify({ favourites: user.favourites.filter(item => item !== e.target.value) }),
                     { 'Content-Type': 'application/json;charset=utf-8' })
                 dispatch(setUser({ favourites: user.favourites.filter(item => item !== e.target.value) }))
@@ -39,11 +47,8 @@ export default function FavButton({ id }) {
     }
 
     return (
-
         <div className={styles.container}>
-            <label className={styles.label}
-                htmlFor={id}
-            >
+            <label className={styles.label} htmlFor={id}>
                 {isFavourite ? <FontAwesomeIcon icon={faHeartSolid} /> : <FontAwesomeIcon icon={faHeartRegular} />}
             </label>
             <input
@@ -52,8 +57,9 @@ export default function FavButton({ id }) {
                 defaultChecked={isFavourite}
                 id={id}
                 value={id}
-                onClick={handleToggle}
+                onClick={!user ? (() => setLoginActive(true)) : handleToggle}
             />
+            {!user && <Login loginActive={loginActive} setLoginActive={setLoginActive} />}
         </div>
     )
 }
