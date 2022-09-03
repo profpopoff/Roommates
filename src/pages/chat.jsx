@@ -9,45 +9,45 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEllipsis, faTrashCan, faLocationDot, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { format } from 'timeago.js'
 
-import { wrapper } from '../../redux/store'
-import { getUser } from '../api/users/[id]'
-import { setUser } from '../../redux/slices/user'
-import Layout from '../../components/Layout'
-import CustomInput from '../../components/CustomInput/CustomInput'
-import CustomTextarea from '../../components/CustomTextArea/CustomTextArea'
-import CustomToggle from '../../components/CustomToggle/CustomToggle'
-import { jsonParser } from '../../utils/functions'
-import Modal from '../../components/Modal/Modal'
+import { wrapper } from '../redux/store'
+import { getUser } from './api/users/[id]'
+import { setUser } from '../redux/slices/user'
+import Layout from '../components/Layout'
+import { jsonParser } from '../utils/functions'
+import Modal from '../components/Modal/Modal'
+import { getUserChats } from './api/chats/[id]'
 
-export default function Chat() {
+export default function Chat({ userChats, companions }) {
+
+  const [currentChat, setCurrentChat] = useState(null)
+
   return (
     <Layout title="Chat">
       <div className={styles.container}>
         <div className={styles.conversations}>
           <h2>Доступные собеседники</h2>
-          <Conversation />
-          <Conversation />
-          <Conversation />
-          <Conversation />
+          {userChats.map((chat, index) => (
+            <Conversation key={chat._id} companion={companions[index]} chat={chat} setCurrentChat={setCurrentChat} />
+          ))}
         </div>
-        <Box />
+        {currentChat && <Box {...currentChat} />}
       </div>
     </Layout>
   )
 }
 
-const Conversation = () => {
+const Conversation = ({ companion, chat, setCurrentChat }) => {
 
   const [conversationMenuActive, setConversationMenuActive] = useState(false)
 
   return (
     <div className={styles.conversation}>
-      <div className={styles.user}>
+      <div className={styles.user} onClick={() => setCurrentChat({ chat, companion })} >
         <div className={styles.image}>
-          <Image className={styles.src} src={'/img/cover.jpeg'} alt="user profile picture" layout='fill' />
+          <Image className={styles.src} src={companion.image ? companion.image : '/img/default-user.png'} alt="user profile picture" layout='fill' />
           <span className={styles.notification}>1</span>
         </div>
-        <div className={styles.name}>Алексей Иванов</div>
+        <div className={styles.name}>{companion.name} {companion.surname}</div>
       </div>
       <button className={styles.conversationMenuBtn} onClick={() => setConversationMenuActive(true)}>
         <FontAwesomeIcon icon={faEllipsis} />
@@ -65,28 +65,21 @@ const ConversationMenu = (props) => {
   )
 }
 
-const Box = () => {
+const Box = ({ companion, chat }) => {
   return (
     <div className={styles.box}>
-      <h2 className={styles.name}>Алексей Иванов</h2>
+      <h2 className={styles.name}>{companion.name} {companion.surname}</h2>
       <div className={styles.messages}>
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
-        <Message />
+        {chat.messages.map(message => (
+          <Message />
+        ))}
       </div>
       <div className={styles.newMessage}>
         <textarea
           className={styles.textarea}
           placeholder="Напишите что-нибудь..."
-          // onChange={(e) => setNewMessage(e.target.value)}
-          // value={newMessage}
+        // onChange={(e) => setNewMessage(e.target.value)}
+        // value={newMessage}
         ></textarea>
         {/* <button className="chat-box-btn" onClick={handleSubmit}><FontAwesomeIcon icon={faPaperPlane} /></button> */}
         <button className={styles.btn}><FontAwesomeIcon icon={faPaperPlane} /></button>
@@ -122,4 +115,17 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ r
     const user = await getUser(decodedToken.id)
     store.dispatch(setUser(jsonParser(user)))
   }
+
+  const userId = store.getState().user.info._id
+  const userChats = await getUserChats(userId)
+  if (!!userChats.length) {
+    const companions = await Promise.all(
+      userChats.map(chat => (
+        getUser(chat.members.filter(item => item !== userId)[0])
+      ))
+    )
+
+    return { props: { userChats: jsonParser(userChats), companions: jsonParser(companions) } }
+  }
+
 })
