@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import styles from '../styles/pages/Chat.module.scss'
 
 import * as cookie from 'cookie'
@@ -66,41 +67,49 @@ const ConversationMenu = (props) => {
 }
 
 const Box = ({ companion, chat }) => {
+
+  const user = useSelector((state) => state.user.info)
+
   return (
     <div className={styles.box}>
       <h2 className={styles.name}>{companion.name} {companion.surname}</h2>
       <div className={styles.messages}>
-        {chat.messages.map(message => (
-          <Message />
+        {chat.messages.map((message, index) => (
+          <Message key={index} {...message} userId={user._id} image={user._id === message.sender ? user.image : companion.image} />
         ))}
       </div>
-      <div className={styles.newMessage}>
-        <textarea
-          className={styles.textarea}
-          placeholder="Напишите что-нибудь..."
-        // onChange={(e) => setNewMessage(e.target.value)}
-        // value={newMessage}
-        ></textarea>
-        {/* <button className="chat-box-btn" onClick={handleSubmit}><FontAwesomeIcon icon={faPaperPlane} /></button> */}
-        <button className={styles.btn}><FontAwesomeIcon icon={faPaperPlane} /></button>
+      <MessageInput />
+    </div>
+  )
+}
+
+const Message = ({ text, sender, createdAt, userId, image }) => {
+  return (
+    <div className={`${styles.message} ${userId === sender && styles.own}`}>
+      <div className={styles.body}>
+        <div className={styles.image}>
+          <Image className={styles.src} src={image ? image : '/img/default-user.png'} alt="user profile picture" layout='fill' />
+        </div>
+        <div className={styles.text}>
+          {text}
+          <div className={styles.time}>{format(createdAt)}</div>
+        </div>
       </div>
     </div>
   )
 }
 
-const Message = () => {
+const MessageInput = () => {
   return (
-    <div className={`${styles.message} ${styles.own}`}>
-      <div className={styles.body}>
-        <div className={styles.image}>
-          <Image className={styles.src} src={'/img/cover.jpeg'} alt="user profile picture" layout='fill' />
-        </div>
-        <div className={styles.text}>
-          Hello! How are youy?
-          {/* <div className={styles.time}>{format(props.message.createdAt)}</div>  */}
-          <div className={styles.time}>{format('2022-07-22T12:27:43.388Z')}</div>
-        </div>
-      </div>
+    <div className={styles.newMessage}>
+      <textarea
+        className={styles.textarea}
+        placeholder="Напишите что-нибудь..."
+      // onChange={(e) => setNewMessage(e.target.value)}
+      // value={newMessage}
+      ></textarea>
+      {/* <button className="chat-box-btn" onClick={handleSubmit}><FontAwesomeIcon icon={faPaperPlane} /></button> */}
+      <button className={styles.btn}><FontAwesomeIcon icon={faPaperPlane} /></button>
     </div>
   )
 }

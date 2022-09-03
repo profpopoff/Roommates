@@ -32,12 +32,12 @@ export default async function handler(req, res) {
 
    dbConnect()
 
+   // get user chats
    if (method === 'GET') {
       try {
-         // const chats = await Chat.find({
-         //    members: { $in: [id] }
-         // })
-           const chat = await Chat.findById(id)
+         const chats = await Chat.find({
+            members: { $in: [id] }
+         })
          res.status(200).json(chats)
       } catch (error) {
          res.status(500).json(error)
@@ -51,5 +51,14 @@ export default async function handler(req, res) {
       } catch (error) {
          res.status(500).json(error)
       }
+   }
+
+   if (method === 'PUT') {
+      try {
+         const chat = await Chat.findByIdAndUpdate(id, req.body, { new: true, })
+         res.status(200).json(chat)
+     } catch (error) {
+         res.status(500).json(error)
+     }
    }
 }
