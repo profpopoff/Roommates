@@ -14,13 +14,13 @@ import Filters from '../components/Filters/Filters'
 import Post from '../components/Post/Post'
 // import Map from '../components/Map/Map'
 import { average, jsonParser } from '../utils/functions'
+const Map = dynamic(() => import("../components/Map/Map"), {
+  loading: () => "Loading...",
+  ssr: false
+})
 
 export default function Home({ apartments }) {
   
-  const Map = dynamic(() => import("../components/Map/Map"), {
-    loading: () => "Loading...",
-    ssr: false
-  })
   
   return (
     <Layout>
