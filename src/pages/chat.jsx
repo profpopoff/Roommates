@@ -17,6 +17,7 @@ import Layout from '../components/Layout'
 import { jsonParser } from '../utils/functions'
 import Modal from '../components/Modal/Modal'
 import { getUserChats } from './api/chats/[id]'
+import { useHttp } from '../hooks/http.hook'
 
 export default function Chat({ userChats, companions }) {
 
@@ -78,7 +79,7 @@ const Box = ({ companion, chat }) => {
           <Message key={index} {...message} userId={user._id} image={user._id === message.sender ? user.image : companion.image} />
         ))}
       </div>
-      <MessageInput />
+      <MessageInput user={user} chat={chat} />
     </div>
   )
 }
@@ -99,17 +100,30 @@ const Message = ({ text, sender, createdAt, userId, image }) => {
   )
 }
 
-const MessageInput = () => {
+const MessageInput = ({ user, chat }) => {
+
+  const { request, success, loading, error } = useHttp()
+
+  const [newMessage, setNewMessage] = useState()
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    
+    try {
+      await request(`/api/chats/${chat._id}`, 'PUT',
+        JSON.stringify({messages: [...chat.messages, { sender: user._id, text: newMessage }]}),
+        { 'Content-Type': 'application/json;charset=utf-8' })
+    } catch (error) { }
+  }
+
   return (
     <div className={styles.newMessage}>
       <textarea
         className={styles.textarea}
         placeholder="Напишите что-нибудь..."
-      // onChange={(e) => setNewMessage(e.target.value)}
-      // value={newMessage}
+        onChange={(e) => setNewMessage(e.target.value)}
       ></textarea>
-      {/* <button className="chat-box-btn" onClick={handleSubmit}><FontAwesomeIcon icon={faPaperPlane} /></button> */}
-      <button className={styles.btn}><FontAwesomeIcon icon={faPaperPlane} /></button>
+      <button className={styles.btn} onClick={handleSubmit}><FontAwesomeIcon icon={faPaperPlane} /></button>
     </div>
   )
 }
