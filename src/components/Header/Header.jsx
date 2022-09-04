@@ -255,6 +255,7 @@ const Register = (props) => {
     )
 }
 
+// todo: add notifications
 const Links = () => {
 
     const router = useRouter()
@@ -273,7 +274,7 @@ const Links = () => {
                 <a className={`${styles.link} ${styles.main} ${router.pathname == "/chat" && styles.active}`}>
                     <FontAwesomeIcon icon={faComments} />
                     <span className="sr-only">Чаты</span>
-                    <span className={styles.notification}>1</span>
+                    {/* <span className={styles.notification}>1</span> */}
                 </a>
             </Link>
             <Link href="/favourites">

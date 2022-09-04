@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styles from '../styles/pages/Chat.module.scss'
 
-import io from "socket.io-client"
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -20,121 +19,7 @@ import Modal from '../components/Modal/Modal'
 import { getUserChats } from './api/chats/[id]'
 import { useHttp } from '../hooks/http.hook'
 
-let socket 
-
 export default function Chat({ userChats, companions }) {
-  
-  
-  // const [username, setUsername] = useState("")
-  //   const [chosenUsername, setChosenUsername] = useState("")
-  //   const [message, setMessage] = useState("")
-  //   const [messages, setMessages] = useState([])
-
-  const user = useSelector((state) => state.user.info)
-
-    useEffect(() => {
-        socketInitializer()
-    }, [])
-
-    const socketInitializer = async () => {
-        // We just call it because we don't need anything else out of it
-        await fetch("/api/chats/socket")
-        socket = io()
-        socket.emit('setup', user._id)
-        // socket.on("newIncomingMessage", (msg) => {
-        //     setMessages((currentMsg) => [
-        //         ...currentMsg,
-        //         { author: msg.author, message: msg.message },
-        //     ])
-        //     console.log(messages)
-        // })
-    }
-
-  //   const sendMessage = async () => {
-  //       socket.emit("createdMessage", { author: chosenUsername, message })
-  //       setMessages((currentMsg) => [
-  //           ...currentMsg,
-  //           { author: chosenUsername, message },
-  //       ])
-  //       setMessage("")
-  //   }
-  //   const handleKeypress = (e) => {
-  //       //it triggers by pressing the enter key
-  //       if (e.keyCode === 13) {
-  //           if (message) {
-  //               sendMessage()
-  //           }
-  //       }
-  //   }
-  //   return (
-  //     <div className="flex items-center p-4 mx-auto min-h-screen justify-center bg-purple-500">
-  //       <main className="gap-4 flex flex-col items-center justify-center w-full h-full">
-  //         {!chosenUsername ? (
-  //           <>
-  //             <h3 className="font-bold text-white text-xl">
-  //               How people should call you?
-  //             </h3>
-  //             <input
-  //               type="text"
-  //               placeholder="Identity..."
-  //               value={username}
-  //               className="p-3 rounded-md outline-none"
-  //               onChange={(e) => setUsername(e.target.value)}
-  //             />
-  //             <button
-  //               onClick={() => {
-  //                 setChosenUsername(username);
-  //               }}
-  //               className="bg-white rounded-md px-4 py-2 text-xl"
-  //             >
-  //               Go!
-  //             </button>
-  //           </>
-  //         ) : (
-  //           <>
-  //             <p className="font-bold text-white text-xl">
-  //               Your username: {username}
-  //             </p>
-  //             <div className="flex flex-col justify-end bg-white h-[20rem] min-w-[33%] rounded-md shadow-md ">
-  //               <div className="h-full last:border-b-0 overflow-y-scroll">
-  //                 {messages.map((msg, i) => {
-  //                   return (
-  //                     <div
-  //                       className="w-full py-1 px-2 border-b border-gray-200"
-  //                       key={i}
-  //                     >
-  //                       {msg.author} : {msg.message}
-  //                     </div>
-  //                   );
-  //                 })}
-  //               </div>
-  //               <div className="border-t border-gray-300 w-full flex rounded-bl-md">
-  //                 <input
-  //                   type="text"
-  //                   placeholder="New message..."
-  //                   value={message}
-  //                   className="outline-none py-2 px-2 rounded-bl-md flex-1"
-  //                   onChange={(e) => setMessage(e.target.value)}
-  //                   onKeyUp={handleKeypress}
-  //                 />
-  //                 <div className="border-l border-gray-300 flex justify-center items-center  rounded-br-md group hover:bg-purple-500 transition-all">
-  //                   <button
-  //                     className="group-hover:text-white px-3 h-full"
-  //                     onClick={() => {
-  //                       sendMessage();
-  //                     }}
-  //                   >
-  //                     Send
-  //                   </button>
-  //                 </div>
-  //               </div>
-  //             </div>
-  //           </>
-  //         )}
-  //       </main>
-  //     </div>
-  //   );
-  // }
 
   const [currentChat, setCurrentChat] = useState(null)
 
@@ -143,7 +28,7 @@ export default function Chat({ userChats, companions }) {
       <div className={styles.container}>
         <div className={styles.conversations}>
           <h2>Доступные собеседники</h2>
-          {userChats.map((chat, index) => (
+          {userChats && userChats.map((chat, index) => (
             <Conversation key={chat._id} companion={companions[index]} chat={chat} setCurrentChat={setCurrentChat} />
           ))}
         </div>
@@ -153,6 +38,7 @@ export default function Chat({ userChats, companions }) {
   )
 }
 
+// todo: add notifications
 const Conversation = ({ companion, chat, setCurrentChat }) => {
 
   const [conversationMenuActive, setConversationMenuActive] = useState(false)
@@ -162,7 +48,7 @@ const Conversation = ({ companion, chat, setCurrentChat }) => {
       <div className={styles.user} onClick={() => setCurrentChat({ chat, companion })} >
         <div className={styles.image}>
           <Image className={styles.src} src={companion.image ? companion.image : '/img/default-user.png'} alt="user profile picture" layout='fill' />
-          <span className={styles.notification}>1</span>
+          {/* <span className={styles.notification}>1</span> */}
         </div>
         <div className={styles.name}>{companion.name} {companion.surname}</div>
       </div>
@@ -186,15 +72,21 @@ const Box = ({ companion, chat }) => {
 
   const user = useSelector((state) => state.user.info)
 
+  const [messages, setMessages] = useState([])
+
+  useEffect(() => {
+    setMessages(chat.messages)
+  }, [chat])
+
   return (
     <div className={styles.box}>
       <h2 className={styles.name}>{companion.name} {companion.surname}</h2>
       <div className={styles.messages} >
-        {chat.messages.map((message, index) => (
-          <Message key={index} {...message} userId={user._id} image={user._id === message.sender ? user.image : companion.image} />
+        {messages.map((message, index) => (
+          <Message key={index} {...message} userId={user?._id} image={user?._id === message.sender ? user.image : companion.image} />
         ))}
       </div>
-      <MessageInput user={user} chat={chat} />
+      <MessageInput user={user} chat={chat} setMessages={setMessages} />
     </div>
   )
 }
@@ -222,7 +114,7 @@ const Message = ({ text, sender, createdAt, userId, image }) => {
   )
 }
 
-const MessageInput = ({ user, chat }) => {
+const MessageInput = ({ user, chat, setMessages }) => {
 
   const { request } = useHttp()
 
@@ -233,8 +125,9 @@ const MessageInput = ({ user, chat }) => {
     if (newMessage) {
       try {
         await request(`/api/chats/${chat._id}`, 'PUT',
-          JSON.stringify({ messages: [...chat.messages, { sender: user._id, text: newMessage }] }),
+          JSON.stringify({ messages: [...chat.messages, { sender: user?._id, text: newMessage }] }),
           { 'Content-Type': 'application/json;charset=utf-8' })
+        setMessages(prevMessages => [...prevMessages, { sender: user?._id, text: newMessage, createdAt: new Date() }])
         setNewMessage('')
       } catch (error) { }
     }
