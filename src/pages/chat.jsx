@@ -155,18 +155,16 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ r
     const decodedToken = jwt.decode(token)
     const user = await getUser(decodedToken.id)
     store.dispatch(setUser(jsonParser(user)))
+    const userId = store.getState().user.info._id
+    const userChats = await getUserChats(userId)
+    if (!!userChats.length) {
+      const companions = await Promise.all(
+        userChats.map(chat => (
+          getUser(chat.members.filter(item => item !== userId)[0])
+        ))
+      )
+
+      return { props: { userChats: jsonParser(userChats), companions: jsonParser(companions) } }
+    }
   }
-
-  const userId = store.getState().user.info._id
-  const userChats = await getUserChats(userId)
-  if (!!userChats.length) {
-    const companions = await Promise.all(
-      userChats.map(chat => (
-        getUser(chat.members.filter(item => item !== userId)[0])
-      ))
-    )
-
-    return { props: { userChats: jsonParser(userChats), companions: jsonParser(companions) } }
-  }
-
 })

@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import styles from '../../styles/pages/Apartment.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -12,6 +14,7 @@ import ReactMapGL, { Marker } from "react-map-gl"
 
 import { wrapper } from '../../redux/store'
 import { getUser } from '../api/users/[id]'
+import { getUserChats } from '../api/chats/[id]'
 import { setUser } from '../../redux/slices/user'
 import { getApartment } from '../api/apartments/[id]'
 import Layout from '../../components/Layout'
@@ -19,8 +22,10 @@ import FavButton from '../../components/FavButton/FavButton'
 import Loading from '../../components/Loading/Loading'
 import StarRatings from 'react-star-ratings'
 import { average, jsonParser } from '../../utils/functions'
+import { Login } from '../../components/Header/Header'
+import { useHttp } from '../../hooks/http.hook'
 
-export default function Apartment({ apartment, landlord, reviewers }) {
+export default function Apartment({ apartment, landlord, reviewers, userChats }) {
   return (
     <Layout title={apartment.title}>
       <div className={styles.container}>
@@ -33,7 +38,7 @@ export default function Apartment({ apartment, landlord, reviewers }) {
             reviews={apartment.reviews}
             roommates={apartment.roommates}
           />
-          <Landlord {...landlord} />
+          <Landlord {...landlord} userChats={userChats} />
           <FavButton id={apartment._id} />
           <Conveniences conveniences={apartment.conveniences} />
           <Stats {...apartment.stats} />
@@ -140,16 +145,47 @@ const Landlord = (props) => {
           alt=""
           layout="fill"
         />
-        <button
-          className={styles.chatBtn}
-        // onClick={createConverstion}
-        >
-          <FontAwesomeIcon icon={faComments} />
-          <span className="sr-only">Начать чат с арендатором</span>
-        </button>
+        <ChatBtn landlordId={props._id} userChats={props.userChats} />
       </div>
 
     </div>
+  )
+}
+
+const ChatBtn = ({ landlordId, userChats }) => {
+
+  const user = useSelector((state) => state.user.info)
+
+  const { request } = useHttp()
+
+  const [loginActive, setLoginActive] = useState(false)
+
+  const router = useRouter()
+
+  const handleClick = async () => {
+    if (userChats.some(element => element.members.includes(landlordId))) {
+      router.push('/chat')
+    } else {
+      try {
+        await request('/api/chats', 'POST',
+          JSON.stringify({ senderId: user._id, receiverId: landlordId }),
+          { 'Content-Type': 'application/json;charset=utf-8' })
+        router.push('/chat')
+      } catch (error) { }
+    }
+  }
+
+  return (
+    <>
+      <button
+        className={styles.chatBtn}
+        onClick={!user ? (() => setLoginActive(true)) : handleClick}
+      >
+        <FontAwesomeIcon icon={faComments} />
+        <span className="sr-only">Начать чат с арендатором</span>
+      </button>
+      {!user && <Login loginActive={loginActive} setLoginActive={setLoginActive} id={landlordId} />}
+    </>
   )
 }
 
@@ -257,13 +293,6 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ p
 
   const cookies = req.headers.cookie
 
-  if (cookies) {
-    const { token } = cookie.parse(cookies)
-    const decodedToken = jwt.decode(token)
-    const user = await getUser(decodedToken.id)
-    store.dispatch(setUser(jsonParser(user)))
-  }
-
   const apartment = await getApartment(params.id)
   const landlord = await getUser(apartment.landlordId)
   if (apartment.reviews.length) {
@@ -273,6 +302,19 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ p
       ))
     )
     return { props: { apartment: jsonParser(apartment), landlord: jsonParser(landlord), reviewers: jsonParser(reviewers) } }
+  }
+
+  if (cookies) {
+    const { token } = cookie.parse(cookies)
+    const decodedToken = jwt.decode(token)
+    const user = await getUser(decodedToken.id)
+    store.dispatch(setUser(jsonParser(user)))
+
+    const userId = store.getState().user.info._id
+    const userChats = await getUserChats(userId)
+    if (!!userChats.length) {
+      return { props: { apartment: jsonParser(apartment), landlord: jsonParser(landlord), userChats: jsonParser(userChats) } }
+    }
   }
 
   return { props: { apartment: jsonParser(apartment), landlord: jsonParser(landlord) } }
