@@ -306,9 +306,25 @@ const List = () => {
 
     const router = useRouter()
 
-    const dispatch = useDispatch()
-
     const [settingsActive, setSettingsActive] = useState(false)
+
+    return (
+        <div className={styles.list}>
+            <Link href="/profile">
+                <a className={`${styles.link} ${router.pathname == "/profile" && styles.active}`}><FontAwesomeIcon icon={faUser} />Профиль</a>
+            </Link>
+            <button className={styles.link} onClick={() => { setSettingsActive(true) }}><FontAwesomeIcon icon={faGear} />Настройки</button>
+            <Settings settingsActive={settingsActive} setSettingsActive={setSettingsActive} />
+            <LogoutBtn />
+        </div>
+    )
+}
+
+const LogoutBtn = () => {
+
+    const router = useRouter()
+
+    const dispatch = useDispatch()
 
     const logout = () => {
         document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
@@ -319,14 +335,6 @@ const List = () => {
     }
 
     return (
-        <div className={styles.list}>
-            <Link href="/profile">
-                <a className={`${styles.link} ${router.pathname == "/profile" && styles.active}`}><FontAwesomeIcon icon={faUser} />Профиль</a>
-            </Link>
-            <button className={styles.link} onClick={() => { setSettingsActive(true) }}><FontAwesomeIcon icon={faGear} />Настройки</button>
-            <Settings settingsActive={settingsActive} setSettingsActive={setSettingsActive} />
-            <button className={styles.link}><FontAwesomeIcon icon={faCircleInfo} />Помощь</button>
-            <button className={styles.link} onClick={logout}><FontAwesomeIcon icon={faArrowRightFromBracket} />Выйти</button>
-        </div>
+        <button className={styles.link} onClick={logout}><FontAwesomeIcon icon={faArrowRightFromBracket} />Выйти</button>
     )
 }
