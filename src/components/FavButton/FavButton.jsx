@@ -59,7 +59,7 @@ export default function FavButton({ id }) {
                 value={id}
                 onClick={!user ? (() => setLoginActive(true)) : handleToggle}
             />
-            {!user && <Login loginActive={loginActive} setLoginActive={setLoginActive} />}
+            {!user && <Login loginActive={loginActive} setLoginActive={setLoginActive} id={id} />}
         </div>
     )
 }

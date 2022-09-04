@@ -141,13 +141,13 @@ export const Login = (props) => {
             <h2 className={styles.title}>Вход</h2>
             <form className="auth-form" onSubmit={loginHandler}>
                 <CustomInput
-                    name={props.loginActive ? 'email' : 'loginEmail'}
+                    name={props.loginActive ? 'email' : `loginEmail_${props.id}`}
                     label='Почта'
                     type='email'
                     handleChange={loginFormHandler}
                 />
                 <CustomInput
-                    name={props.loginActive ? 'password' : 'loginPassword'}
+                    name={props.loginActive ? 'password' : `loginPassword_${props.id}`}
                     label='Пароль'
                     type='password'
                     handleChange={loginFormHandler}
