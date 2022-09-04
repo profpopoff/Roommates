@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styles from '../styles/pages/Chat.module.scss'
 
@@ -74,7 +74,7 @@ const Box = ({ companion, chat }) => {
   return (
     <div className={styles.box}>
       <h2 className={styles.name}>{companion.name} {companion.surname}</h2>
-      <div className={styles.messages}>
+      <div className={styles.messages} >
         {chat.messages.map((message, index) => (
           <Message key={index} {...message} userId={user._id} image={user._id === message.sender ? user.image : companion.image} />
         ))}
@@ -85,8 +85,15 @@ const Box = ({ companion, chat }) => {
 }
 
 const Message = ({ text, sender, createdAt, userId, image }) => {
+
+  const scrollRef = useRef()
+
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView()
+  }, [text])
+
   return (
-    <div className={`${styles.message} ${userId === sender && styles.own}`}>
+    <div className={`${styles.message} ${userId === sender && styles.own}`} ref={scrollRef} >
       <div className={styles.body}>
         <div className={styles.image}>
           <Image className={styles.src} src={image ? image : '/img/default-user.png'} alt="user profile picture" layout='fill' />
@@ -102,18 +109,20 @@ const Message = ({ text, sender, createdAt, userId, image }) => {
 
 const MessageInput = ({ user, chat }) => {
 
-  const { request, success, loading, error } = useHttp()
+  const { request } = useHttp()
 
-  const [newMessage, setNewMessage] = useState()
+  const [newMessage, setNewMessage] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
-    try {
-      await request(`/api/chats/${chat._id}`, 'PUT',
-        JSON.stringify({messages: [...chat.messages, { sender: user._id, text: newMessage }]}),
-        { 'Content-Type': 'application/json;charset=utf-8' })
-    } catch (error) { }
+    if (newMessage) {
+      try {
+        await request(`/api/chats/${chat._id}`, 'PUT',
+          JSON.stringify({ messages: [...chat.messages, { sender: user._id, text: newMessage }] }),
+          { 'Content-Type': 'application/json;charset=utf-8' })
+        setNewMessage('')
+      } catch (error) { }
+    }
   }
 
   return (
@@ -122,6 +131,7 @@ const MessageInput = ({ user, chat }) => {
         className={styles.textarea}
         placeholder="Напишите что-нибудь..."
         onChange={(e) => setNewMessage(e.target.value)}
+        value={newMessage}
       ></textarea>
       <button className={styles.btn} onClick={handleSubmit}><FontAwesomeIcon icon={faPaperPlane} /></button>
     </div>
