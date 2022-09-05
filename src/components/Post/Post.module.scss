@@ -27,6 +27,45 @@
         .src {
             object-fit: cover;
         }
+
+        .roommates {
+            position: absolute;
+            inset: 0;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+
+            .images {
+                display: flex;
+
+                .roommate {
+                    .src {
+                        border-radius: 50%;
+                        object-fit: cover;
+    
+                    }
+                    
+                    &:not(:first-child) {
+                        margin-left: -.5rem;
+                    }
+                }
+            }
+
+            .number {
+                z-index: 1;
+                color: #fff;
+                font-size: 1.15rem;
+                font-weight: 300;
+            }
+
+            &::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(195deg, rgba(0, 0, 0, 0) 40%, rgb(35, 45, 78) 100%);
+            }
+        }
     }
 
     .headline {

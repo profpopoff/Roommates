@@ -7,11 +7,12 @@ import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import StarRatings from 'react-star-ratings'
 
 import FavButton from '../FavButton/FavButton'
+import { enumerate } from '../../utils/functions'
 
 export default function Post(props) {
     return (
         <div className={styles.post}>
-            <PostImage id={props._id} src={props.images[0]} />
+            <PostImage id={props._id} src={props.images[0]} roommates={props.roommates} />
             <Headline id={props._id} title={props.title} {...props.address} />
             <FavButton id={props._id} />
             <Conveniences conveniences={props.conveniences} />
@@ -25,6 +26,18 @@ const PostImage = (props) => {
     return (
         <div className={styles.image}>
             <Image className={styles.src} src={props.src} alt="" layout="fill" />
+            {!!props.roommates.length &&
+                <div className={styles.roommates}>
+                    <div className={styles.images}>
+                        {props.roommates.map(roommate => (
+                            <div className={styles.roommate}>
+                                <Image className={styles.src} src={roommate.image} alt="" width={40} height={40} />
+                            </div>
+                        ))}
+                    </div>
+                    <span className={styles.number}>{props.roommates.length} {enumerate(props.roommates.length, ["сосед", "соседа", "соседей"])}</span>
+                </div>
+            }
         </div>
     )
 }
