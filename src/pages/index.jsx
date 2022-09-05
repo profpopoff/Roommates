@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic'
+import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from '../styles/pages/Home.module.scss'
 
@@ -14,35 +15,43 @@ import Filters from '../components/Filters/Filters'
 import Post from '../components/Post/Post'
 // import Map from '../components/Map/Map'
 import { average, jsonParser } from '../utils/functions'
+
 const Map = dynamic(() => import("../components/Map/Map"), {
   loading: () => "Loading...",
   ssr: false
 })
 
-export default function Home({ apartments }) {
-  
-  
+export default function Home({ apartments, roommates }) {
   return (
     <Layout>
       <div className={styles.container}>
         <Filters apartments={apartments} />
-        <Posts apartments={apartments} />
+        <Posts apartments={apartments} roommates={roommates} />
         <Map apartments={apartments} />
       </div>
     </Layout>
   )
 }
 
-const Posts = ({ apartments }) => {
+const Posts = ({ apartments, roommates }) => {
 
   const filters = useSelector((state) => state.filters.filters)
 
   const apartmentsArray = apartments.slice()
 
-  apartmentsArray.map(apartment => {
-    const ratings = apartment.reviews.map(review => review.rating)
-    apartment.averageRating = average(ratings)
-  })
+    apartmentsArray.map(apartment => {
+
+      const ratings = apartment.reviews.map(review => review.rating)
+      apartment.averageRating = average(ratings)
+
+      if (!!apartment.roommates.length) {
+        roommates.map(roommatesSet => {
+          if (roommatesSet[0]._id === apartment.roommates[0]) {
+            apartment.roommates = roommatesSet
+          }
+        })
+      }
+    })
 
   function sortByFunction(key, order = 'desc') {
     return function (a, b) {
@@ -95,6 +104,18 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ r
   }
 
   const apartments = await getApartments()
+  const roommatesArray = []
 
-  return { props: { apartments: jsonParser(apartments) } }
+  for (let apartment of apartments) {
+    if (!!apartment.roommates.length) {
+      const roommates = await Promise.all(
+        apartment.roommates.map(roommate => (
+          getUser(roommate)
+        ))
+      )
+      roommatesArray.push(roommates)
+    }
+  }
+
+  return { props: { apartments: jsonParser(apartments), roommates: jsonParser(roommatesArray) } }
 })
