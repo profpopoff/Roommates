@@ -43,9 +43,8 @@
                     .src {
                         border-radius: 50%;
                         object-fit: cover;
-    
                     }
-                    
+
                     &:not(:first-child) {
                         margin-left: -.5rem;
                     }
