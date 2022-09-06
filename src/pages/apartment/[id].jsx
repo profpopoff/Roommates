@@ -21,11 +21,11 @@ import Layout from '../../components/Layout'
 import FavButton from '../../components/FavButton/FavButton'
 import Loading from '../../components/Loading/Loading'
 import StarRatings from 'react-star-ratings'
-import { average, jsonParser } from '../../utils/functions'
+import { average, jsonParser, enumerate } from '../../utils/functions'
 import { Login } from '../../components/Header/Header'
 import { useHttp } from '../../hooks/http.hook'
 
-export default function Apartment({ apartment, landlord, reviewers, userChats }) {
+export default function Apartment({ apartment, landlord, reviewers, userChats, roommates }) {
   return (
     <Layout title={apartment.title}>
       <div className={styles.container}>
@@ -36,7 +36,8 @@ export default function Apartment({ apartment, landlord, reviewers, userChats })
             {...apartment.address}
             {...apartment.price}
             reviews={apartment.reviews}
-            roommates={apartment.roommates}
+            roommates={roommates}
+            userChats={userChats}
           />
           <Landlord {...landlord} userChats={userChats} />
           <FavButton id={apartment._id} />
@@ -97,7 +98,26 @@ const Images = (props) => {
 
 const Headline = (props) => {
 
+  const user = useSelector((state) => state.user.info)
+
   const ratings = props.reviews?.map(review => review.rating)
+
+  const { request } = useHttp()
+
+  const router = useRouter()
+
+  const handleClick = async (roommateId) => {
+    if (!!props.userChats && props.userChats.some(element => element.members.includes(roommateId))) {
+      router.push('/chat')
+    } else {
+      try {
+        await request('/api/chats', 'POST',
+          JSON.stringify({ senderId: user._id, receiverId: roommateId }),
+          { 'Content-Type': 'application/json;charset=utf-8' })
+        router.push('/chat')
+      } catch (error) { }
+    }
+  }
 
   return (
     <div className={styles.headline}>
@@ -125,6 +145,24 @@ const Headline = (props) => {
             starSpacing="2"
             name="rating"
           />
+        </div>
+      }
+
+      {
+        !!props.roommates.length &&
+        <div className={styles.roommates}>
+          <div className={styles.images}>
+            {props.roommates.map(roommate => (
+              <div className={`${styles.roommate} ${user && styles.authorized}`} >
+                <Image className={styles.src} src={roommate.image} alt="" width={50} height={50} />
+                <FontAwesomeIcon icon={faComments} className={styles.icon} onClick={() => user && handleClick(roommate._id)} />
+              </div>
+            ))}
+          </div>
+          <div className={styles.text}>
+            <span className={styles.number}>{props.roommates.length} {enumerate(props.roommates.length, ["сосед", "соседа", "соседей"])}</span>
+            <span className={styles.names}>{props.roommates.map(({ name }) => name).join(', ').replace(/, ([^,]*)$/, ' и $1')}</span>
+          </div>
         </div>
       }
     </div>
@@ -163,7 +201,7 @@ const ChatBtn = ({ landlordId, userChats }) => {
   const router = useRouter()
 
   const handleClick = async () => {
-    if (userChats.some(element => element.members.includes(landlordId))) {
+    if (!!userChats && userChats.some(element => element.members.includes(landlordId))) {
       router.push('/chat')
     } else {
       try {
@@ -293,17 +331,6 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ p
 
   const cookies = req.headers.cookie
 
-  const apartment = await getApartment(params.id)
-  const landlord = await getUser(apartment.landlordId)
-  if (apartment.reviews.length) {
-    const reviewers = await Promise.all(
-      apartment.reviews.map(review => (
-        getUser(review.userId)
-      ))
-    )
-    return { props: { apartment: jsonParser(apartment), landlord: jsonParser(landlord), reviewers: jsonParser(reviewers) } }
-  }
-
   if (cookies) {
     const { token } = cookie.parse(cookies)
     const decodedToken = jwt.decode(token)
@@ -312,10 +339,55 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ p
 
     const userId = store.getState().user.info._id
     const userChats = await getUserChats(userId)
-    if (!!userChats.length) {
-      return { props: { apartment: jsonParser(apartment), landlord: jsonParser(landlord), userChats: jsonParser(userChats) } }
+
+    const apartment = await getApartment(params.id)
+    
+    const roommates = await Promise.all(
+      apartment.roommates.map(roommate => (
+        getUser(roommate)
+      ))
+    )
+
+    const landlord = await getUser(apartment.landlordId)
+
+    const reviewers = await Promise.all(
+      apartment.reviews.map(review => (
+        getUser(review.userId)
+      ))
+    )
+
+    return {
+      props: {
+        apartment: jsonParser(apartment),
+        landlord: jsonParser(landlord),
+        reviewers: jsonParser(reviewers),
+        userChats: jsonParser(userChats),
+        roommates: jsonParser(roommates)
+      }
     }
   }
 
-  return { props: { apartment: jsonParser(apartment), landlord: jsonParser(landlord) } }
+  const apartment = await getApartment(params.id)
+  const landlord = await getUser(apartment.landlordId)
+
+  const roommates = await Promise.all(
+    apartment.roommates.map(roommate => (
+      getUser(roommate)
+    ))
+  )
+
+  const reviewers = await Promise.all(
+    apartment.reviews.map(review => (
+      getUser(review.userId)
+    ))
+  )
+
+  return {
+    props: {
+      apartment: jsonParser(apartment),
+      landlord: jsonParser(landlord),
+      roommates: jsonParser(roommates),
+      reviewers: jsonParser(reviewers)
+    }
+  }
 })

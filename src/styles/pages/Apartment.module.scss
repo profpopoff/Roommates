@@ -129,6 +129,64 @@
                     margin-right: .5rem;
                 }
             }
+
+            .roommates {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+
+                .images {
+                    height: 50px;
+                    display: flex;
+
+                    .roommate {
+                        position: relative;
+
+                        .src {
+                            border-radius: 50%;
+                            object-fit: cover;
+                            transition: .3s ease-in-out;
+                        }
+
+                        .icon {
+                            position: absolute;
+                            inset: 0;
+                            margin: auto;
+                            color: var(--accent-color);
+                            font-size: 1.5rem;
+                            opacity: 0;
+                            transition: .3s ease-in-out;
+                        }
+
+                        &.authorized {
+                            cursor: pointer;
+
+                            &:hover {
+                                .src {
+                                    -webkit-filter: brightness(50%);
+                                }
+
+                                .icon {
+                                    opacity: 1;
+                                }
+                            }
+                        }
+
+                        &:not(:first-child) {
+                            margin-left: -1.5rem;
+                        }
+
+
+                    }
+                }
+
+                .text {
+                    display: flex;
+                    flex-direction: column;
+                    font-size: 1.25rem;
+                    font-weight: 300;
+                }
+            }
         }
 
         .landlord {
