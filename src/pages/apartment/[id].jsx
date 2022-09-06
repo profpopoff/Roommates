@@ -217,7 +217,7 @@ const ChatBtn = ({ landlordId, userChats }) => {
     <>
       <button
         className={styles.chatBtn}
-        onClick={!user ? (() => setLoginActive(true)) : handleClick}
+        onClick={!user ? (() => setLoginActive(true)) : (() => {landlordId !== user._id && handleClick()})}
       >
         <FontAwesomeIcon icon={faComments} />
         <span className="sr-only">Начать чат с арендатором</span>
@@ -341,7 +341,7 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ p
     const userChats = await getUserChats(userId)
 
     const apartment = await getApartment(params.id)
-    
+
     const roommates = await Promise.all(
       apartment.roommates.map(roommate => (
         getUser(roommate)
