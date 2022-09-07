@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useRouter } from 'next/router'
 import { useState, useRef, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styles from '../styles/pages/Chat.module.scss'
@@ -55,15 +56,39 @@ const Conversation = ({ companion, chat, setCurrentChat }) => {
       <button className={styles.conversationMenuBtn} onClick={() => setConversationMenuActive(true)}>
         <FontAwesomeIcon icon={faEllipsis} />
       </button>
-      <ConversationMenu active={conversationMenuActive} setActive={setConversationMenuActive} />
+      <ConversationMenu active={conversationMenuActive} setActive={setConversationMenuActive} companion={companion} chatId={chat._id} />
     </div>
   )
 }
 
-const ConversationMenu = (props) => {
+const ConversationMenu = ({ active, setActive, companion, chatId }) => {
+
+  const router = useRouter()
+  const refreshData = () => {
+    router.replace(router.asPath)
+  }
+
+  const deleteHandler = async (id) => {
+    try {
+      await fetch(`/api/chats/${id}`, { method: 'DELETE' })
+        .then(res => { res.status < 300 && refreshData() })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
-    <Modal active={props.active} setActive={props.setActive}>
-      <h3>text</h3>
+    <Modal active={active} setActive={setActive}>
+      <h3>{companion.name} {companion.surname}</h3>
+      <button
+        className={styles.deleteBtn}
+        onClick={e => {
+          e.preventDefault()
+          deleteHandler(chatId)
+        }}
+      >
+        <FontAwesomeIcon icon={faTrashCan} className="icon" /> удалить собеседника
+      </button>
     </Modal>
   )
 }

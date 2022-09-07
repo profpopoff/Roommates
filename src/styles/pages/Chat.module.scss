@@ -83,6 +83,18 @@
                color: var(--accent-color);
             }
          }
+
+         .deleteBtn {
+            display: block;
+            margin-inline: auto;
+            margin-top: 1rem;
+            border: none;
+            background-color: transparent;
+            color: rgb(255, 38, 0);
+            font-weight: 400;
+            text-transform: uppercase;
+            cursor: pointer;
+         }
       }
    }
 
