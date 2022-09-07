@@ -155,7 +155,7 @@ const Headline = (props) => {
             {props.roommates.map(roommate => (
               <div className={`${styles.roommate} ${user && styles.authorized}`} >
                 <Image className={styles.src} src={roommate.image} alt="" width={50} height={50} />
-                <FontAwesomeIcon icon={faComments} className={styles.icon} onClick={() => user && handleClick(roommate._id)} />
+                <FontAwesomeIcon icon={faComments} className={styles.icon} onClick={() => user && user._id !== roommate._id && handleClick(roommate._id)} />
               </div>
             ))}
           </div>
