@@ -39,19 +39,19 @@ const Posts = ({ apartments, roommates }) => {
 
   const apartmentsArray = apartments.slice()
 
-    apartmentsArray.map(apartment => {
+  apartmentsArray.map(apartment => {
 
-      const ratings = apartment.reviews.map(review => review.rating)
-      apartment.averageRating = average(ratings)
+    const ratings = apartment.reviews.map(review => review.rating)
+    apartment.averageRating = average(ratings)
 
-      if (!!apartment.roommates.length) {
-        roommates.map(roommatesSet => {
-          if (roommatesSet[0]._id === apartment.roommates[0]) {
-            apartment.roommates = roommatesSet
-          }
-        })
-      }
-    })
+    if (!!apartment.roommates.length) {
+      roommates.map(roommatesSet => {
+        if (roommatesSet[0]._id === apartment.roommates[0]) {
+          apartment.roommates = roommatesSet
+        }
+      })
+    }
+  })
 
   function sortByFunction(key, order = 'desc') {
     return function (a, b) {
