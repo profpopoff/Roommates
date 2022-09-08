@@ -12,31 +12,35 @@ import { setUser } from '../redux/slices/user'
 import Layout from '../components/Layout'
 import { jsonParser } from '../utils/functions'
 import Post from '../components/Post/Post'
+import { average } from '../utils/functions'
 
-export default function Favourites({ favourites }) {
+export default function Favourites({ favourites, roommates }) {
+
+  const apartmentsArray = favourites.slice()
+
+  apartmentsArray.map(apartment => {
+
+    const ratings = apartment.reviews.map(review => review.rating)
+    apartment.averageRating = average(ratings)
+
+    if (!!apartment.roommates.length) {
+      roommates.map(roommatesSet => {
+        if (roommatesSet[0]._id === apartment.roommates[0]) {
+          apartment.roommates = roommatesSet
+        }
+      })
+    }
+  })
+
   return (
     <Layout title="Favourites">
       <div className={styles.container}>
-        {favourites ? favourites.map(favourite => (
-          // <div className={styles.favourite}>
-            <Post {...favourite} />
-          // {/* </div> */}
-          // <Favourite {...favourite} />
+        {apartmentsArray ? apartmentsArray.map(favourite => (
+          <Post key={favourite._id} {...favourite} />
         )) :
           <h2>Ваш список избранного пуст...</h2>}
       </div>
     </Layout>
-  )
-}
-
-const Favourite = ({ ...favourite }) => {
-  return (
-    <div className={styles.favourite}>
-      <div className={styles.image}>
-        <Image className={styles.src} src={favourite.images[0]} alt="" layout="fill" />
-      </div>
-      {favourite.title}
-    </div>
   )
 }
 
@@ -56,7 +60,21 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ r
           getApartment(favouritesId)
         ))
       )
-      return { props: { favourites: jsonParser(favourites) } }
+
+      const roommatesArray = []
+
+      for (let apartment of favourites) {
+        if (!!apartment.roommates.length) {
+          const roommates = await Promise.all(
+            apartment.roommates.map(roommate => (
+              getUser(roommate)
+            ))
+          )
+          roommatesArray.push(roommates)
+        }
+      }
+
+      return { props: { favourites: jsonParser(favourites), roommates: jsonParser(roommatesArray) } }
     }
   }
 })
