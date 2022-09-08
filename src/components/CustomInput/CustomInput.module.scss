@@ -48,6 +48,10 @@
             border-width: 3px;
             border-color: var(--accent-color);
         }
+
+        &[initialType='password'] {
+            padding-right: 2.5rem;
+        }
     }
 
     .label {
@@ -63,5 +67,21 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+    }
+
+    .toggleType {
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        padding-inline: .5rem;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        transition: 0.15s ease-in-out;
+
+        &:hover {
+            color: var(--accent-color);
+        }
     }
 }
