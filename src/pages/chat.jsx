@@ -18,9 +18,11 @@ import Layout from '../components/Layout'
 import { jsonParser } from '../utils/functions'
 import Modal from '../components/Modal/Modal'
 import { getUserChats } from './api/chats/[id]'
+import { getApartment } from './api/apartments/[id]'
 import { useHttp } from '../hooks/http.hook'
+import CustomToggle from '../components/CustomToggle/CustomToggle'
 
-export default function Chat({ userChats, companions }) {
+export default function Chat({ userChats, companions, properties }) {
 
   const [currentChat, setCurrentChat] = useState(null)
 
@@ -30,7 +32,12 @@ export default function Chat({ userChats, companions }) {
         <div className={styles.conversations}>
           <h2>Доступные собеседники</h2>
           {userChats && userChats.map((chat, index) => (
-            <Conversation key={chat._id} companion={companions[index]} chat={chat} setCurrentChat={setCurrentChat} />
+            <Conversation
+              key={chat._id}
+              companion={companions[index]}
+              chat={chat}
+              setCurrentChat={setCurrentChat}
+              properties={properties} />
           ))}
         </div>
         {currentChat && <Box {...currentChat} />}
@@ -40,7 +47,7 @@ export default function Chat({ userChats, companions }) {
 }
 
 // todo: add notifications
-const Conversation = ({ companion, chat, setCurrentChat }) => {
+const Conversation = ({ companion, chat, setCurrentChat, properties }) => {
 
   const [conversationMenuActive, setConversationMenuActive] = useState(false)
 
@@ -56,12 +63,21 @@ const Conversation = ({ companion, chat, setCurrentChat }) => {
       <button className={styles.conversationMenuBtn} onClick={() => setConversationMenuActive(true)}>
         <FontAwesomeIcon icon={faEllipsis} />
       </button>
-      <ConversationMenu active={conversationMenuActive} setActive={setConversationMenuActive} companion={companion} chatId={chat._id} />
+      <ConversationMenu
+        active={conversationMenuActive}
+        setActive={setConversationMenuActive}
+        companion={companion}
+        chatId={chat._id}
+        properties={properties} />
     </div>
   )
 }
 
-const ConversationMenu = ({ active, setActive, companion, chatId }) => {
+const ConversationMenu = ({ active, setActive, companion, chatId, properties }) => {
+
+  const [companionPlace, setCompanionPlace] = useState(companion.homeId)
+
+  const { request, success, loading, error } = useHttp()
 
   const router = useRouter()
   const refreshData = () => {
@@ -77,9 +93,60 @@ const ConversationMenu = ({ active, setActive, companion, chatId }) => {
     }
   }
 
+  const roommateHandler = async (e, property) => {
+    if (e.target.checked) {
+
+      setCompanionPlace(e.target.value)
+
+      try {
+        await request(`/api/apartments/${e.target.value}`, 'PUT',
+          JSON.stringify({ roommates: [...property.roommates, companion._id] }),
+          { 'Content-Type': 'application/json;charset=utf-8' })
+      } catch (error) { }
+
+      try {
+        await request(`/api/users/${companion._id}`, 'PUT',
+          JSON.stringify({ homeId: e.target.value }),
+          { 'Content-Type': 'application/json;charset=utf-8' })
+      } catch (error) { }
+
+    } else {
+
+      setCompanionPlace(null)
+
+      try {
+        await request(`/api/apartments/${e.target.value}`, 'PUT',
+          JSON.stringify({ roommates: property.roommates.filter(item => item !== companion._id) }),
+          { 'Content-Type': 'application/json;charset=utf-8' })
+      } catch (error) { }
+
+      try {
+        await request(`/api/users/${companion._id}`, 'PUT',
+          JSON.stringify({ homeId: null }),
+          { 'Content-Type': 'application/json;charset=utf-8' })
+      } catch (error) { }
+    }
+  }
+
   return (
     <Modal active={active} setActive={setActive}>
-      <h3>{companion.name} {companion.surname}</h3>
+      <h2>{companion.name} {companion.surname}</h2>
+      {!!properties.length &&
+        <div className={styles.rent}>
+          <h3>Арендует:</h3>
+          {properties.map(property => (
+            <div key={property._id} className={styles.property}>
+              <CustomToggle
+                name={property._id}
+                label={property.title}
+                checked={property.roommates.includes(companion._id)}
+                disabled={companionPlace && companionPlace !== property._id}
+                onChange={e => roommateHandler(e, property)}
+              />
+            </div>
+          ))}
+        </div>
+      }
       <button
         className={styles.deleteBtn}
         onClick={e => {
@@ -87,9 +154,9 @@ const ConversationMenu = ({ active, setActive, companion, chatId }) => {
           deleteHandler(chatId)
         }}
       >
-        <FontAwesomeIcon icon={faTrashCan} className="icon" /> удалить собеседника
+        <FontAwesomeIcon icon={faTrashCan} /> удалить собеседника
       </button>
-    </Modal>
+    </Modal >
   )
 }
 
@@ -182,14 +249,20 @@ export const getServerSideProps = wrapper.getServerSideProps(store => async ({ r
     store.dispatch(setUser(jsonParser(user)))
     const userId = store.getState().user.info._id
     const userChats = await getUserChats(userId)
-    if (!!userChats.length) {
-      const companions = await Promise.all(
-        userChats.map(chat => (
-          getUser(chat.members.filter(item => item !== userId)[0])
-        ))
-      )
 
-      return { props: { userChats: jsonParser(userChats), companions: jsonParser(companions) } }
-    }
+    const companions = await Promise.all(
+      userChats.map(chat => (
+        getUser(chat.members.filter(item => item !== userId)[0])
+      ))
+    )
+
+    const propertyIds = store.getState().user.info.property
+    const properties = await Promise.all(
+      propertyIds.map(propertyId => (
+        getApartment(propertyId)
+      ))
+    )
+
+    return { props: { userChats: jsonParser(userChats), companions: jsonParser(companions), properties: jsonParser(properties) } }
   }
 })

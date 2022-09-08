@@ -84,6 +84,14 @@
             }
          }
 
+         .rent {
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: .5rem;
+         }
+
          .deleteBtn {
             display: block;
             margin-inline: auto;
