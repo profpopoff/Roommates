@@ -153,7 +153,7 @@ const Headline = (props) => {
         <div className={styles.roommates}>
           <div className={styles.images}>
             {props.roommates.map(roommate => (
-              <div className={`${styles.roommate} ${user && styles.authorized}`} >
+              <div key={roommate} className={`${styles.roommate} ${user && styles.authorized}`} >
                 <Image className={styles.src} src={roommate.image} alt="" width={50} height={50} />
                 <FontAwesomeIcon icon={faComments} className={styles.icon} onClick={() => user && user._id !== roommate._id && handleClick(roommate._id)} />
               </div>
