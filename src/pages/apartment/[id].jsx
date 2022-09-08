@@ -217,7 +217,7 @@ const ChatBtn = ({ landlordId, userChats }) => {
     <>
       <button
         className={styles.chatBtn}
-        onClick={!user ? (() => setLoginActive(true)) : (() => {landlordId !== user._id && handleClick()})}
+        onClick={!user ? (() => setLoginActive(true)) : (() => { landlordId !== user._id && handleClick() })}
       >
         <FontAwesomeIcon icon={faComments} />
         <span className="sr-only">Начать чат с арендатором</span>
