@@ -16,7 +16,7 @@ export default function Post(props) {
             <Headline id={props._id} title={props.title} {...props.address} />
             <FavButton id={props._id} />
             <Conveniences conveniences={props.conveniences} />
-            {!!props.averageRating && <Rating averageRating={props.averageRating} />}
+            {!!props.averageRating && <Rating averageRating={props.averageRating} reviews={props.reviews} />}
             <Price {...props.price} />
         </div>
     )
@@ -77,6 +77,7 @@ const Rating = (props) => {
                 // starHoverColor="blue"
                 name="rating"
             />
+            <span className={styles.number}>({props.reviews.length} {enumerate(props.reviews.length, ["отзыв", "отзыва", "отзывов"])})</span>
         </div>
     )
 }

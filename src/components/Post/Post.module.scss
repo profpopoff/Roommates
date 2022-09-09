@@ -2,7 +2,7 @@
     max-width: 50rem;
     display: grid;
     gap: 1.5rem;
-    grid-template-columns: min-content auto auto min-content;
+    grid-template-columns: min-content 2fr 1fr min-content;
     grid-template-rows: min-content 1fr min-content;
     grid-template-areas:
         'image headline headline favButton'
@@ -112,10 +112,16 @@
         grid-area: rating;
         display: flex;
         text-align: center;
+        align-items: center;
         gap: .5rem;
 
         span {
             font-size: 1.25rem;
+        }
+
+        .number {
+            align-self: flex-end;
+            font-size: .8rem;
         }
     }
 
