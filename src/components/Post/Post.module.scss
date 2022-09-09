@@ -73,6 +73,11 @@
         .title {
             font-weight: 500;
             cursor: pointer;
+            transition: color .15s ease-in-out;
+
+            &:hover {
+                color: var(--accent-color);
+            }
         }
 
         .address {

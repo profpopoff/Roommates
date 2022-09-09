@@ -145,7 +145,7 @@
                         .src {
                             border-radius: 50%;
                             object-fit: cover;
-                            transition: .3s ease-in-out;
+                            transition: .2s ease-in-out;
                         }
 
                         .icon {
@@ -155,7 +155,7 @@
                             color: var(--accent-color);
                             font-size: 1.5rem;
                             opacity: 0;
-                            transition: .3s ease-in-out;
+                            transition: .2s ease-in-out;
                         }
 
                         &.authorized {

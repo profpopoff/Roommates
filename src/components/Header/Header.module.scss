@@ -125,20 +125,6 @@
             }
         }
 
-        // .authForm {
-        //     width: 70%;
-        //     margin-inline: auto;
-
-        //     .name {
-        //         display: flex;
-        //         gap: 1rem;
-
-        //         * {
-        //             flex: 1;
-        //         }
-        //     }
-        // }
-
         .link {
             position: relative;
             display: flex;
@@ -193,11 +179,16 @@
             cursor: pointer;
             border-left: 1px solid var(--text-grey);
 
+            &:hover .name {
+                color: var(--accent-color);
+            }
+
             .name {
                 text-align: end;
                 max-width: 15rem;
                 max-height: 3rem;
                 overflow: hidden;
+                transition: color .2s ease-in-out;
             }
 
             .image {

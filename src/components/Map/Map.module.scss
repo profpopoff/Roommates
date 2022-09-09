@@ -15,6 +15,12 @@
         .details {
             text-decoration: underline;
             cursor: pointer;
+            transition: color .15s ease-in-out;
+
+            &:hover {
+                color: var(--accent-color);
+            }
+
         }
     }
 }
