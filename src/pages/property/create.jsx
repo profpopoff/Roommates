@@ -21,11 +21,11 @@ import { jsonParser } from '../../utils/functions'
 export default function CreateProperty() {
   return (
     <Layout title="Create Property">
-      <div className={styles.container}>
+      <main className={styles.container}>
         <div className={styles.wrapper}>
           <Form />
         </div>
-      </div>
+      </main>
     </Layout>
   )
 }

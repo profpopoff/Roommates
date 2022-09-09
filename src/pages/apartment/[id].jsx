@@ -28,8 +28,8 @@ import { useHttp } from '../../hooks/http.hook'
 export default function Apartment({ apartment, landlord, reviewers, userChats, roommates }) {
   return (
     <Layout title={apartment.title}>
-      <div className={styles.container}>
-        <div className={styles.info}>
+      <main className={styles.container}>
+        <section className={styles.info}>
           <Images images={apartment.images} />
           <Headline
             title={apartment.title}
@@ -44,9 +44,9 @@ export default function Apartment({ apartment, landlord, reviewers, userChats, r
           <Conveniences conveniences={apartment.conveniences} />
           <Stats {...apartment.stats} />
           <Desc desc={apartment.desc} {...apartment.coordinates} />
-        </div>
+        </section>
         {!!apartment.reviews.length && <Reviews reviews={apartment.reviews} reviewers={reviewers} />}
-      </div>
+      </main>
     </Layout>
   )
 }
@@ -296,7 +296,7 @@ const Desc = (props) => {
 
 const Reviews = (props) => {
   return (
-    <div className={styles.reviews}>
+    <section className={styles.reviews}>
       {props.reviews.map((review, index) => (
         <div className={styles.review} key={review._id}>
           <div className={styles.reviewer}>
@@ -323,7 +323,7 @@ const Reviews = (props) => {
           <p className={styles.text}>{review.review}</p>
         </div>
       ))}
-    </div>
+    </section>
   )
 }
 

@@ -18,7 +18,7 @@ export default function Filters({ apartments }) {
     const dispatch = useDispatch()
 
     return (
-        <div className={styles.container}>
+        <section className={styles.container}>
             <Headline apartments={apartments} filters={filters} />
             <RoommatesToggle withRoommates={filters.withRoommates} dispatch={dispatch} />
             <div className={styles.buttons}>
@@ -28,7 +28,7 @@ export default function Filters({ apartments }) {
                 <MoreButton />
             </div>
             <SortBy sortBy={filters.sortBy} dispatch={dispatch} />
-        </div>
+        </section>
     )
 }
 

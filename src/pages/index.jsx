@@ -16,19 +16,16 @@ import Post from '../components/Post/Post'
 // import Map from '../components/Map/Map'
 import { average, jsonParser } from '../utils/functions'
 
-const Map = dynamic(() => import("../components/Map/Map"), {
-  loading: () => "Loading...",
-  ssr: false
-})
+const Map = dynamic(() => import("../components/Map/Map"), {ssr: false})
 
 export default function Home({ apartments, roommates }) {
   return (
     <Layout>
-      <div className={styles.container}>
+      <main className={styles.container}>
         <Filters apartments={apartments} />
         <Posts apartments={apartments} roommates={roommates} />
         <Map apartments={apartments} />
-      </div>
+      </main>
     </Layout>
   )
 }
@@ -77,7 +74,7 @@ const Posts = ({ apartments, roommates }) => {
   }
 
   return (
-    <div className={styles.posts}>
+    <section className={styles.posts}>
       {apartmentsArray.slice().sort(sortByFunction(filters.sortBy[0], filters.sortBy[1])).map(apartment => {
         return (
           apartment.isVisible &&
@@ -88,7 +85,7 @@ const Posts = ({ apartments, roommates }) => {
           <Post key={apartment._id} {...apartment} />
         )
       })}
-    </div>
+    </section>
   )
 }
 

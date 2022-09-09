@@ -54,7 +54,7 @@ export default function Map({ apartments }) {
     )), [filters])
 
     return (
-        <div className={styles.container}>
+        <section className={styles.container}>
             {loading && <Loading />}
             <ReactMapGL
                 mapStyle="mapbox://styles/mapbox/streets-v11"
@@ -85,6 +85,6 @@ export default function Map({ apartments }) {
                         </Link>
                     </Popup>}
             </ReactMapGL>
-        </div>
+        </section>
     )
 }

@@ -14,7 +14,7 @@ import { jsonParser } from '../utils/functions'
 import Post from '../components/Post/Post'
 import { average } from '../utils/functions'
 
-export default function Favourites({ favourites, roommates }) {
+export default function Favourites({ favourites = [], roommates }) {
 
   const apartmentsArray = favourites.slice()
 
@@ -34,12 +34,12 @@ export default function Favourites({ favourites, roommates }) {
 
   return (
     <Layout title="Favourites">
-      <div className={styles.container}>
-        {apartmentsArray ? apartmentsArray.map(favourite => (
+      <main className={styles.container}>
+        {!!apartmentsArray.length ? apartmentsArray.map(favourite => (
           <Post key={favourite._id} {...favourite} />
         )) :
           <h2>Ваш список избранного пуст...</h2>}
-      </div>
+      </main>
     </Layout>
   )
 }

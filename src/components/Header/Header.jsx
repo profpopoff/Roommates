@@ -19,11 +19,11 @@ import { exit, setUser } from '../../redux/slices/user'
 
 export default function Header() {
     return (
-        <div className={styles.container}>
+        <header className={styles.container}>
             <Logo />
             <Search />
             <Navigation />
-        </div>
+        </header>
     )
 }
 
