@@ -34,6 +34,23 @@ export default function Filters({ apartments }) {
 
 const Headline = ({ apartments, filters }) => {
 
+    const currentTypes = filters.type.filter(x => (filters.withRoommates ? ['bed', 'room'] : ['flat', 'house', 'townhouse']).includes(x))
+
+    const value = (sortBy) => {
+        switch (sortBy) {
+            case 'bed':
+                return 'Спальные места'
+            case 'room':
+                return 'Комнаты'
+            case 'flat':
+                return 'Квартиры'
+            case 'house':
+                return 'Дома'
+            case 'townhouse':
+                return 'Таунхаусы'
+        }
+    }
+
     const [count, setCount] = useState(0)
 
     useEffect(() => {
@@ -50,7 +67,9 @@ const Headline = ({ apartments, filters }) => {
 
     return (
         <div className={styles.headline}>
-            <h1 className={styles.title}>Квартиры в России</h1>
+            <h1 className={styles.title}>
+                {currentTypes.length == 1 ? value(currentTypes[0]) : 'Жилье'} в России
+            </h1>
             <p className={styles.resultNum}>{count} {enumerate(count, ["результат", "результата", "результатов"])}</p>
         </div>
     )
