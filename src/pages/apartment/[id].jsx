@@ -7,7 +7,7 @@ import styles from '../../styles/pages/Apartment.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot, faPhone, faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons'
-import { faComments } from '@fortawesome/free-regular-svg-icons'
+import { faComments, faTrashCan } from '@fortawesome/free-regular-svg-icons'
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 import ReactMapGL, { Marker } from "react-map-gl"
@@ -18,6 +18,8 @@ import { getUserChats } from '../api/chats/[id]'
 import { setUser } from '../../redux/slices/user'
 import { getApartment } from '../api/apartments/[id]'
 import Layout from '../../components/Layout'
+import Modal from '../../components/Modal/Modal'
+import CustomTextarea from '../../components/CustomTextArea/CustomTextArea'
 import FavButton from '../../components/FavButton/FavButton'
 import Loading from '../../components/Loading/Loading'
 import StarRatings from 'react-star-ratings'
@@ -45,7 +47,8 @@ export default function Apartment({ apartment, landlord, reviewers, userChats, r
           <Stats {...apartment.stats} />
           <Desc desc={apartment.desc} {...apartment.coordinates} />
         </section>
-        {!!apartment.reviews.length && <Reviews reviews={apartment.reviews} reviewers={reviewers} />}
+        <Reviews apartment={apartment} reviewers={reviewers} />
+
       </div>
     </Layout>
   )
@@ -153,7 +156,7 @@ const Headline = (props) => {
         <div className={styles.roommates}>
           <div className={styles.images}>
             {props.roommates.map(roommate => (
-              <div key={roommate} className={`${styles.roommate} ${user && styles.authorized}`} >
+              <div key={roommate._id} className={`${styles.roommate} ${user && styles.authorized}`} >
                 <Image className={styles.src} src={roommate.image} alt="" width={50} height={50} />
                 <FontAwesomeIcon icon={faComments} className={styles.icon} onClick={() => user && user._id !== roommate._id && handleClick(roommate._id)} />
               </div>
@@ -294,36 +297,131 @@ const Desc = (props) => {
   )
 }
 
-const Reviews = (props) => {
+const Reviews = ({ apartment, reviewers }) => {
+
+  const user = useSelector((state) => state.user.info)
+
+  const router = useRouter()
+  const refreshData = () => {
+    router.replace(router.asPath)
+  }
+
+  const [reviewActive, setReviewActive] = useState(false)
+
+  const [review, setReview] = useState(user && reviewers.map(({ _id }) => _id).includes(user._id) ? apartment.reviews.find(item => item.userId === user._id) : {})
+
+  const reviewHandler = async (e) => {
+    e.preventDefault()
+
+    if (review.rating && review.review) {
+
+      const reviews = !!apartment.reviews.find(item => item.userId !== user._id) ?
+        [...[apartment.reviews.find(item => item.userId !== user._id)], { ...review, userId: user._id }] :
+        [{ ...review, userId: user._id }]
+
+      try {
+        await fetch(`/api/apartments/${apartment._id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json;charset=utf-8'
+          },
+          body: JSON.stringify({ reviews: reviews }),
+        }).then(res => { res.status < 300 && refreshData(); setReviewActive(false) })
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+  const deleteHandler = async () => {
+    try {
+      await fetch(`/api/apartments/${apartment._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8'
+        },
+        body: JSON.stringify({ reviews: apartment.reviews.length === 1 ? [] : apartment.reviews.find(item => item.userId !== user._id) }),
+      }).then(res => { res.status < 300 && refreshData(); setReviewActive(false) })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <section className={styles.reviews}>
-      {props.reviews.map((review, index) => (
-        <div className={styles.review} key={review._id}>
-          <div className={styles.reviewer}>
-            <div className={styles.image}>
-              <Image
-                className={styles.src}
-                src={props.reviewers[index].image ? props.reviewers[index].image : '/img/default-user.png'}
-                alt=""
-                layout="fill"
-              />
-            </div>
-            <h2 className={styles.name}>{props.reviewers[index].name}</h2>
-          </div>
-          <div className={styles.rating}>
-            <h3 className={styles.number}>{review.rating}</h3>
-            <StarRatings
-              rating={review.rating}
-              starRatedColor="#2B67F6"
-              starDimension="20"
-              starSpacing="5"
-              name='rating'
-            />
-          </div>
-          <p className={styles.text}>{review.review}</p>
+      {user?.homeId === apartment._id &&
+        <div className={styles.newReview}>
+          <button className={styles.reviewBtn} onClick={() => setReviewActive(true)}>{reviewers.map(({ _id }) => _id).includes(user._id) ? 'Редактировать отзыв' : 'Оставить отзыв'}</button>
+          <Modal active={reviewActive} setActive={setReviewActive}>
+            <h2>Ваш отзыв</h2>
+            <form className={styles.reviewForm} onSubmit={reviewHandler}>
+              <div className={styles.rating}>
+                <h3>Оценка</h3>
+                <StarRatings
+                  rating={review.rating}
+                  changeRating={(newRating) => { setReview({ ...review, rating: newRating }) }}
+                  starRatedColor="blue"
+                  starDimension="20"
+                  starSpacing="5"
+                  starHoverColor="#2B67F6"
+                  name='rating'
+                />
+                <CustomTextarea
+                  label="Комментарий"
+                  name="review"
+                  value={review.review}
+                  handleChange={e => setReview({ ...review, [e.target.name]: e.target.value })}
+                />
+              </div>
+              <input className="submit-btn" type="submit" value={'Отправить'} />
+              {!!apartment.reviews.find(item => item.userId == user._id) &&
+                <button
+                  className={styles.deleteBtn}
+                  onClick={e => {
+                    e.preventDefault()
+                    deleteHandler()
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrashCan} className="icon" /> удалить отзыв
+                </button>
+              }
+            </form>
+          </Modal>
         </div>
+      }
+      {!!apartment.reviews.length && apartment.reviews.map((review, index) => (
+        <Review key={index} review={review} reviewers={reviewers} index={index} />
       ))}
     </section>
+  )
+}
+
+const Review = ({ review, reviewers, index }) => {
+  return (
+    <div className={styles.review} key={review._id}>
+      <div className={styles.reviewer}>
+        <div className={styles.image}>
+          <Image
+            className={styles.src}
+            src={reviewers[index].image ? reviewers[index].image : '/img/default-user.png'}
+            alt=""
+            layout="fill"
+          />
+        </div>
+        <h2 className={styles.name}>{reviewers[index].name}</h2>
+      </div>
+      <div className={styles.rating}>
+        <h3 className={styles.number}>{review.rating}</h3>
+        <StarRatings
+          rating={review.rating}
+          starRatedColor="#2B67F6"
+          starDimension="20"
+          starSpacing="5"
+          name='rating'
+        />
+      </div>
+      <p className={styles.text}>{review.review}</p>
+    </div>
   )
 }
 

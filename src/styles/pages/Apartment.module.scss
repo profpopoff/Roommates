@@ -338,6 +338,44 @@
         justify-content: center;
         gap: 2rem;
 
+        .reviewBtn {
+            width: min-content;
+            height: min-content;
+            padding: 2rem;
+            border: none;
+            border-radius: .7rem;
+            background-color: var(--background-element);
+            color: var(--text-main);
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: .2s color ease-in-out;
+
+            &:hover {
+                color: var(--accent-color);
+            }
+        }
+
+        .reviewForm {
+            width: 70%;
+            margin-inline: auto;
+
+            .rating {
+                padding-top: 1rem;
+            }
+
+            .deleteBtn {
+                display: block;
+                margin-inline: auto;
+                margin-top: 1rem;
+                border: none;
+                background-color: transparent;
+                color: rgb(255, 38, 0);
+                font-weight: 400;
+                text-transform: uppercase;
+                cursor: pointer;
+            }
+        }
+
         .review {
             max-width: 35rem;
             height: min-content;
