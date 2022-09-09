@@ -7,7 +7,7 @@ import NextNProgress from 'nextjs-progressbar'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <ThemeProvider>
+    <ThemeProvider defaultTheme = 'dark'>
       <NextNProgress color="#2B67F6" />
       <Component {...pageProps} />
     </ThemeProvider>
