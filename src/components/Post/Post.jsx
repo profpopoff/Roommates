@@ -16,7 +16,7 @@ export default function Post(props) {
             <Headline id={props._id} title={props.title} {...props.address} />
             <FavButton id={props._id} />
             <Conveniences conveniences={props.conveniences} />
-            <Rating averageRating={props.averageRating} />
+            {!!props.averageRating && <Rating averageRating={props.averageRating} />}
             <Price {...props.price} />
         </div>
     )
