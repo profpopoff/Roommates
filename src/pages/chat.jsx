@@ -28,7 +28,7 @@ export default function Chat({ userChats, companions, properties }) {
 
   return (
     <Layout title="Chat">
-      <main className={styles.container}>
+      <div className={styles.container}>
         <div className={styles.conversations}>
           <h2>Доступные собеседники</h2>
           {userChats && userChats.map((chat, index) => (
@@ -41,7 +41,7 @@ export default function Chat({ userChats, companions, properties }) {
           ))}
         </div>
         {currentChat && <Box {...currentChat} />}
-      </main>
+      </div>
     </Layout>
   )
 }

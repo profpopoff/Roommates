@@ -25,13 +25,13 @@ export default function Profile() {
 
   return (
     <Layout title={`${user?.name} ${user?.surname}`}>
-      <main className={styles.container}>
+      <div className={styles.container}>
         <div className={styles.wrapper}>
           <Picture image={user?.image} />
           <Headline name={user?.name} surname={user?.surname} phone={user?.phone} email={user?.email} />
           <Navigation homeId={user?.homeId} />
         </div>
-      </main>
+      </div>
     </Layout >
   )
 }

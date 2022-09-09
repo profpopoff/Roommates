@@ -28,7 +28,7 @@ import { useHttp } from '../../hooks/http.hook'
 export default function Apartment({ apartment, landlord, reviewers, userChats, roommates }) {
   return (
     <Layout title={apartment.title}>
-      <main className={styles.container}>
+      <div className={styles.container}>
         <section className={styles.info}>
           <Images images={apartment.images} />
           <Headline
@@ -46,7 +46,7 @@ export default function Apartment({ apartment, landlord, reviewers, userChats, r
           <Desc desc={apartment.desc} {...apartment.coordinates} />
         </section>
         {!!apartment.reviews.length && <Reviews reviews={apartment.reviews} reviewers={reviewers} />}
-      </main>
+      </div>
     </Layout>
   )
 }

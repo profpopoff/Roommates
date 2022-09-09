@@ -26,7 +26,7 @@ import CustomTextArea from '../../components/CustomTextArea/CustomTextArea'
 export default function Property({ properties }) {
   return (
     <Layout title="My Property">
-      <main className={styles.container}>
+      <div className={styles.container}>
         {properties && properties.map(property => (
           <div className={styles.property} key={property._id}>
             <Headline id={property._id} title={property.title} {...property.address} {...property.price} />
@@ -36,7 +36,7 @@ export default function Property({ properties }) {
         <Link href={'/property/create'} passHref>
           <button className={styles.addBtn}><FontAwesomeIcon icon={faCirclePlus} className="icon" /> Добавить</button>
         </Link>
-      </main>
+      </div>
     </Layout>
   )
 }

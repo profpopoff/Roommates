@@ -21,11 +21,11 @@ const Map = dynamic(() => import("../components/Map/Map"), {ssr: false})
 export default function Home({ apartments, roommates }) {
   return (
     <Layout>
-      <main className={styles.container}>
+      <div className={styles.container}>
         <Filters apartments={apartments} />
         <Posts apartments={apartments} roommates={roommates} />
         <Map apartments={apartments} />
-      </main>
+      </div>
     </Layout>
   )
 }

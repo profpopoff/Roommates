@@ -34,12 +34,12 @@ export default function Favourites({ favourites = [], roommates }) {
 
   return (
     <Layout title="Favourites">
-      <main className={styles.container}>
+      <div className={styles.container}>
         {!!apartmentsArray.length ? apartmentsArray.map(favourite => (
           <Post key={favourite._id} {...favourite} />
         )) :
           <h2>Ваш список избранного пуст...</h2>}
-      </main>
+      </div>
     </Layout>
   )
 }
