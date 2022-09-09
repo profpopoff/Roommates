@@ -35,8 +35,8 @@ export default function Chat({ userChats, companions, properties }) {
             <Conversation
               key={chat._id}
               companion={companions[index]}
-              chat={chat}
               setCurrentChat={setCurrentChat}
+              chat={chat}
               properties={properties} />
           ))}
         </div>
@@ -66,6 +66,7 @@ const Conversation = ({ companion, chat, setCurrentChat, properties }) => {
       <ConversationMenu
         active={conversationMenuActive}
         setActive={setConversationMenuActive}
+        setCurrentChat={setCurrentChat}
         companion={companion}
         chatId={chat._id}
         properties={properties} />
@@ -73,7 +74,7 @@ const Conversation = ({ companion, chat, setCurrentChat, properties }) => {
   )
 }
 
-const ConversationMenu = ({ active, setActive, companion, chatId, properties }) => {
+const ConversationMenu = ({ active, setActive, companion, chatId, properties, setCurrentChat }) => {
 
   const [companionPlace, setCompanionPlace] = useState(companion.homeId)
 
@@ -88,6 +89,7 @@ const ConversationMenu = ({ active, setActive, companion, chatId, properties }) 
     try {
       await fetch(`/api/chats/${id}`, { method: 'DELETE' })
         .then(res => { res.status < 300 && refreshData() })
+        setCurrentChat(null)
     } catch (error) {
       console.log(error)
     }
@@ -162,12 +164,15 @@ const ConversationMenu = ({ active, setActive, companion, chatId, properties }) 
 
 const Box = ({ companion, chat }) => {
 
+  const router = useRouter()
+
   const user = useSelector((state) => state.user.info)
 
   const [messages, setMessages] = useState([])
 
   useEffect(() => {
     setMessages(chat.messages)
+    router.replace(router.asPath)
   }, [chat])
 
   return (
