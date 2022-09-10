@@ -31,15 +31,20 @@
         gap: 1rem;
 
         .filterForm {
+            margin-top: 1rem;
             width: 70%;
             margin-inline: auto;
+
             .types {
                 display: flex;
                 flex-direction: column;
 
                 * {
                     margin-inline: auto;
-                    margin-top: .3rem;
+
+                    &:not(:first-child) {
+                        margin-top: .5rem;
+                    }
                 }
             }
         }
