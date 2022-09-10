@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './Header.module.scss'
 
@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faUser, faGear, faCircleInfo, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { faComments, faHeart, faBuilding } from '@fortawesome/free-regular-svg-icons'
 
+import { setFilters } from '../../redux/slices/filters'
 import Dropdown from '../Dropdown/Dropdown'
 import Modal from '../Modal/Modal'
 import CustomToggle from '../CustomToggle/CustomToggle'
@@ -47,9 +48,15 @@ const Search = () => {
 
     const { request } = useHttp()
 
+    const dispatch = useDispatch()
+    
+    const ref = useRef(null)
+    
     const [search, setSearch] = useState('')
 
     const [results, setResults] = useState()
+
+    const [resultsMenuActive, setResultsMenu] = useState(false)
 
     const handleSearch = async (e) => {
         e.preventDefault()
@@ -59,22 +66,34 @@ const Search = () => {
         } catch (error) { }
     }
 
+    useEffect(() => {
+        const checkIfClickedOutside = e => {
+            if (resultsMenuActive && ref.current && !ref.current.contains(e.target)) {
+                setResultsMenu(prevActive => !prevActive)
+            }
+        }
+        document.addEventListener("mousedown", checkIfClickedOutside)
+        return () => {
+            document.removeEventListener("mousedown", checkIfClickedOutside)
+        }
+    }, [resultsMenuActive])
+
     return (
-        <div className={styles.search}>
+        <div className={styles.search} ref={ref}>
             <form onSubmit={handleSearch}>
-                <input type="text" placeholder="Поиск" className={styles.searchInput} onChange={e => setSearch(e.target.value)} />
+                <input type="text" placeholder="Поиск" className={styles.searchInput} onChange={e => setSearch(e.target.value)} onClick={() => setResultsMenu(prevActive => !prevActive)} />
                 <button className={styles.searchButton} type="submit">
                     <FontAwesomeIcon icon={faSearch} /><span className="sr-only">Поиск</span>
                 </button>
             </form>
-            {!!results &&
-                <div className={styles.resultsMenu}>
+            {!!results && resultsMenuActive && 
+                <div className={styles.resultsMenu} >
                     <div className={styles.resultsContainer}>
                         {!!results.cities.length &&
                             <div className={styles.results}>
                                 <h3 className={styles.title}>Города</h3>
                                 {results.cities.map(city => (
-                                    <button key={city} className={styles.result} onClick={() => console.log(city)}>{city}</button>
+                                    <button key={city} className={styles.result} onClick={() => dispatch(setFilters({ city }))}>{city}</button>
                                 ))}
                             </div>
                         }
@@ -87,6 +106,9 @@ const Search = () => {
                                     </Link>
                                 ))}
                             </div>
+                        }
+                        {!results.posts?.length && !results.cities.length &&
+                            <h3 className={styles.title}>По вашему запросу ничего не найдено...</h3>
                         }
                     </div>
                 </div>

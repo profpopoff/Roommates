@@ -101,6 +101,11 @@
                     background-color: #666;
                 }
 
+                .title {
+                    text-align: center;
+                    color: var(--accent-color);
+                    font-weight: 300;
+                }
 
                 .results {
                     width: 100%;
@@ -108,11 +113,6 @@
                     flex-direction: column;
                     gap: .3rem;
 
-                    .title {
-                        text-align: center;
-                        color: var(--accent-color);
-                        font-weight: 300;
-                    }
 
                     .result {
                         text-align: start;
