@@ -18,10 +18,13 @@ import { useHttp } from '../../hooks/http.hook'
 import { exit, setUser } from '../../redux/slices/user'
 
 export default function Header() {
+
+    const router = useRouter()
+
     return (
         <header className={styles.container}>
             <Logo />
-            <Search />
+            {router.pathname == "/" && <Search />}
             <Navigation />
         </header>
     )
@@ -41,12 +44,53 @@ const Logo = () => {
 }
 
 const Search = () => {
+
+    const { request } = useHttp()
+
+    const [search, setSearch] = useState('')
+
+    const [results, setResults] = useState()
+
+    const handleSearch = async (e) => {
+        e.preventDefault()
+        try {
+            await request('/api/search', 'POST', JSON.stringify(search), { 'Content-Type': 'application/json;charset=utf-8' })
+                .then(res => setResults(res))
+        } catch (error) { }
+    }
+
     return (
         <div className={styles.search}>
-            <input type="text" placeholder="Поиск" className={styles.searchInput} />
-            <button className={styles.searchButton}>
-                <FontAwesomeIcon icon={faSearch} /><span className="sr-only">Поиск</span>
-            </button>
+            <form onSubmit={handleSearch}>
+                <input type="text" placeholder="Поиск" className={styles.searchInput} onChange={e => setSearch(e.target.value)} />
+                <button className={styles.searchButton} type="submit">
+                    <FontAwesomeIcon icon={faSearch} /><span className="sr-only">Поиск</span>
+                </button>
+            </form>
+            {!!results &&
+                <div className={styles.resultsMenu}>
+                    <div className={styles.resultsContainer}>
+                        {!!results.cities.length &&
+                            <div className={styles.results}>
+                                <h3 className={styles.title}>Города</h3>
+                                {results.cities.map(city => (
+                                    <button key={city} className={styles.result} onClick={() => console.log(city)}>{city}</button>
+                                ))}
+                            </div>
+                        }
+                        {!!results.posts?.length &&
+                            <div className={styles.results}>
+                                <h3 className={styles.title}>Результаты</h3>
+                                {results.posts.map(post => (
+                                    <Link key={post._id} href={`/apartment/${post._id}`} passHref>
+                                        <a className={styles.result}>{post.title}</a>
+                                    </Link>
+                                ))}
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
         </div>
     )
 }

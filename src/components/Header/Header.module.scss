@@ -63,6 +63,72 @@
             font-size: 1.2rem;
             color: var(--background-element);
         }
+
+        .resultsMenu {
+            position: absolute;
+            top: 120%;
+            width: 100%;
+            max-height: 20rem;
+            // overflow: hidden;
+            z-index: 11;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background-color: var(--background-element);
+            -webkit-box-shadow: 0 0 3px 0px var(--accent-color) inset;
+            -moz-box-shadow: 0 0 3px 0px var(--accent-color) inset;
+            box-shadow: 0 0 3px 0px var(--accent-color) inset;
+
+
+
+            .resultsContainer {
+                max-height: 18rem;
+                overflow: auto;
+                padding-inline: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+                align-items: flex-start;
+
+                &::-webkit-scrollbar {
+                    width: .3rem;
+                    height: .5rem;
+                }
+
+                &::-webkit-scrollbar-thumb:vertical {
+                    height: 10px;
+                    border: none;
+                    -webkit-border-radius: 1rem;
+                    background-color: #666;
+                }
+
+
+                .results {
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: .3rem;
+
+                    .title {
+                        text-align: center;
+                        color: var(--accent-color);
+                        font-weight: 300;
+                    }
+
+                    .result {
+                        text-align: start;
+                        padding: 0;
+                        border: none;
+                        background-color: transparent;
+                        cursor: pointer;
+                        transition: .15s color ease-in-out;
+
+                        &:hover {
+                            color: var(--accent-color);
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .navigation {
