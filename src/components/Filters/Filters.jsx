@@ -3,10 +3,10 @@ import { useSelector, useDispatch } from 'react-redux'
 import styles from './Filters.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTag, faBuilding, faStairs, faSliders, faArrowDownShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
-import { cityIn, cityFrom, cityTo } from 'lvovich'
+import { faTag, faBuilding, faStairs, faSliders, faArrowDownShortWide, faArrowDownWideShort, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons'
+import { cityIn } from 'lvovich'
 
-import { setFilters } from '../../redux/slices/filters'
+import { setFilters, resetFilters } from '../../redux/slices/filters'
 import { enumerate } from '../../utils/functions'
 import CustomToggle from '../CustomToggle/CustomToggle'
 import Modal from '../Modal/Modal'
@@ -26,7 +26,9 @@ export default function Filters({ apartments }) {
                 <PriceButton {...filters.price} dispatch={dispatch} />
                 <TypeButton type={filters.type} withRoommates={filters.withRoommates} dispatch={dispatch} />
                 <FloorButton {...filters.floor} dispatch={dispatch} />
-                <MoreButton />
+                <button className={styles.button} onClick={() => { dispatch(resetFilters()) }}>
+                    <FontAwesomeIcon icon={faArrowRotateLeft} /> Сброс
+                </button>
             </div>
             <SortBy sortBy={filters.sortBy} dispatch={dispatch} />
         </section>
@@ -200,23 +202,6 @@ const FloorButton = ({ min, max, dispatch }) => {
                     />
                     <input className="submit-btn" type="submit" value="Применить" />
                 </form>
-            </Modal>
-        </>
-    )
-}
-
-const MoreButton = () => {
-
-    const [moreActive, setMoreActive] = useState(false)
-
-    return (
-        <>
-            <button className={styles.button} onClick={() => { setMoreActive(true) }}>
-                <FontAwesomeIcon icon={faSliders} />Другое
-            </button>
-            <Modal active={moreActive} setActive={setMoreActive}>
-                <h2 className={styles.title}><FontAwesomeIcon icon={faSliders} /> Другое</h2>
-                {/* <button className={styles.submit} onClick={() => { props.setFilters(!props.new); setPriceActive(false) }}>Применить</button> */}
             </Modal>
         </>
     )

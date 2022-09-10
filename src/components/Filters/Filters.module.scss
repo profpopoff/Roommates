@@ -60,6 +60,18 @@
                 color: var(--accent-color);
             }
         }
+
+        .reset {
+            margin-top: 1rem;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            transition: .15s color ease-in-out;
+
+            &:hover {
+                color: var(--accent-color);
+            }
+        }
     }
 
     .sortBy {
