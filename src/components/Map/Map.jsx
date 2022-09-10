@@ -36,7 +36,7 @@ export default function Map({ apartments }) {
         (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
         filters.type.includes(apartment.type) &&
         (apartment.stats.floor <= filters.floor.max && apartment.stats.floor >= filters.floor.min) &&
-        (filters.city && apartment.address.city === filters.city) &&
+        (!filters.city ? true : apartment.address.city === filters.city) &&
         <Marker
             key={`marker-${index}`}
             longitude={apartment.coordinates.longitude}
