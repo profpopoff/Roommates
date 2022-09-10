@@ -15,7 +15,7 @@ export default function CustomInput(props) {
             <input
                 className={styles.input}
                 type={type}
-                initialType={props.type}
+                initialtype={props.type}
                 name={props.name}
                 id={props.name}
                 placeholder={props.label}
