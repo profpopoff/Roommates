@@ -31,6 +31,8 @@
         gap: 1rem;
 
         .filterForm {
+            width: 70%;
+            margin-inline: auto;
             .types {
                 display: flex;
                 flex-direction: column;

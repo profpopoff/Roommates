@@ -5,13 +5,14 @@ import styles from './Filters.module.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faBuilding, faStairs, faSliders, faArrowDownShortWide, faArrowDownWideShort, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons'
 import { cityIn } from 'lvovich'
+import Slider from "rc-slider"
+import "rc-slider/assets/index.css"
 
 import { setFilters, resetFilters } from '../../redux/slices/filters'
 import { enumerate } from '../../utils/functions'
 import CustomToggle from '../CustomToggle/CustomToggle'
 import Modal from '../Modal/Modal'
 import Dropdown from '../Dropdown/Dropdown'
-import MultiRangeSlider from '../MultiRangeSlider/MultiRangeSlider'
 
 export default function Filters({ apartments }) {
 
@@ -23,9 +24,9 @@ export default function Filters({ apartments }) {
             <Headline apartments={apartments} filters={filters} />
             <RoommatesToggle withRoommates={filters.withRoommates} dispatch={dispatch} />
             <div className={styles.buttons}>
-                <PriceButton {...filters.price} dispatch={dispatch} />
+                <PriceButton price={filters.price} dispatch={dispatch} />
                 <TypeButton type={filters.type} withRoommates={filters.withRoommates} dispatch={dispatch} />
-                <FloorButton {...filters.floor} dispatch={dispatch} />
+                <FloorButton floor={filters.floor} dispatch={dispatch} />
                 <button className={styles.button} onClick={() => { dispatch(resetFilters()) }}>
                     <FontAwesomeIcon icon={faArrowRotateLeft} /> Сброс
                 </button>
@@ -61,9 +62,9 @@ const Headline = ({ apartments, filters }) => {
         apartments.map(apartment => {
             apartment.isVisible &&
                 ((filters.withRoommates && ['bed', 'room'].includes(apartment.type)) || (!filters.withRoommates && ['flat', 'house', 'townhouse'].includes(apartment.type))) &&
-                (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
+                (apartment.price.value <= filters.price[1] && apartment.price.value >= filters.price[0]) &&
+                (apartment.stats.floor <= filters.floor[1] && apartment.stats.floor >= filters.floor[0]) &&
                 filters.type.includes(apartment.type) &&
-                (apartment.stats.floor <= filters.floor.max && apartment.stats.floor >= filters.floor.min) &&
                 (!filters.city ? true : apartment.address.city === filters.city) &&
                 setCount(prevCount => prevCount + 1)
         })
@@ -94,14 +95,15 @@ const RoommatesToggle = ({ withRoommates, dispatch }) => {
     )
 }
 
-//! баг: если перейти на другую страницу, 
-//! а затем вернуться, фильтры все еще будут применены, 
-//! но на слайдере это не отображается (не знаю, как задать начальные значения (мб useMemo или что-то еще поможет))
-const PriceButton = ({ min, max, dispatch }) => {
+const PriceButton = ({ price, dispatch }) => {
 
     const [priceActive, setPriceActive] = useState(false)
 
-    const [priceValue, setPriceValue] = useState({ min, max })
+    const [priceValue, setPriceValue] = useState(price)
+
+    useEffect(() => {
+        setPriceValue(price)
+    }, [price])
 
     const setPriceFilter = (e) => {
         e.preventDefault()
@@ -116,10 +118,18 @@ const PriceButton = ({ min, max, dispatch }) => {
             <Modal active={priceActive} setActive={setPriceActive}>
                 <h2 className={styles.title}><FontAwesomeIcon icon={faTag} /> Цена</h2>
                 <form className={styles.filterForm} onSubmit={setPriceFilter}>
-                    <MultiRangeSlider
+                    <Slider
+                        range
+                        marks={{
+                            0: priceValue[0],
+                            100000: priceValue[1]
+                        }}
+                        trackStyle={{ 'background-color': '#2B67F6' }}
                         min={0}
                         max={100000}
-                        onChange={({ min, max }) => setPriceValue({ min, max })}
+                        step={100}
+                        value={priceValue}
+                        onChange={(value) => setPriceValue([value[0], value[1]])}
                     />
                     <input className="submit-btn" type="submit" value="Применить" />
                 </form>
@@ -178,17 +188,20 @@ const TypeButton = ({ type, dispatch, withRoommates }) => {
     )
 }
 
-const FloorButton = ({ min, max, dispatch }) => {
+const FloorButton = ({ floor, dispatch }) => {
 
     const [floorActive, setFloorActive] = useState(false)
 
-    const [floorValue, setFloorValue] = useState({ min, max })
+    const [floorValue, setFloorValue] = useState(floor)
+
+    useEffect(() => {
+        setFloorValue(floor)
+    }, [floor])
 
     const setFloorFilter = (e) => {
         e.preventDefault()
         dispatch(setFilters({ floor: floorValue }))
     }
-
 
     return (
         <>
@@ -198,10 +211,17 @@ const FloorButton = ({ min, max, dispatch }) => {
             <Modal active={floorActive} setActive={setFloorActive}>
                 <h2 className={styles.title}><FontAwesomeIcon icon={faStairs} /> Этаж</h2>
                 <form className={styles.filterForm} onSubmit={setFloorFilter}>
-                    <MultiRangeSlider
-                        min={0}
+                    <Slider
+                        range
+                        marks={{
+                            1: floorValue[0],
+                            50: floorValue[1]
+                        }}
+                        trackStyle={{ 'background-color': '#2B67F6' }}
+                        min={1}
                         max={50}
-                        onChange={({ min, max }) => setFloorValue({ min, max })}
+                        value={floorValue}
+                        onChange={(value) => setFloorValue([value[0], value[1]])}
                     />
                     <input className="submit-btn" type="submit" value="Применить" />
                 </form>
