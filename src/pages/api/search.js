@@ -24,7 +24,7 @@ export default async function handler(req, res) {
             return res.status(200).json({ cities: [...new Set(cities)] })
          }
 
-         res.status(200).json({ results, cities: [...new Set(cities)] })
+         res.status(200).json({ posts: results, cities: [...new Set(cities)] })
       } catch (error) {
          res.status(500).json(error)
       }
