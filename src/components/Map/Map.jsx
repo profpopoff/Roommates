@@ -33,9 +33,9 @@ export default function Map({ apartments }) {
     const markers = useMemo(() => apartments.map((apartment, index) => (
         apartment.isVisible &&
         ((filters.withRoommates && ['bed', 'room'].includes(apartment.type)) || (!filters.withRoommates && ['flat', 'house', 'townhouse'].includes(apartment.type))) &&
-        (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
+        (apartment.price.value <= filters.price[1] && apartment.price.value >= filters.price[0]) &&
+        (apartment.stats.floor <= filters.floor[1] && apartment.stats.floor >= filters.floor[0]) &&
         filters.type.includes(apartment.type) &&
-        (apartment.stats.floor <= filters.floor.max && apartment.stats.floor >= filters.floor.min) &&
         (!filters.city ? true : apartment.address.city === filters.city) &&
         <Marker
             key={`marker-${index}`}
