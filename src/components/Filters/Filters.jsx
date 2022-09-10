@@ -4,6 +4,7 @@ import styles from './Filters.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faBuilding, faStairs, faSliders, faArrowDownShortWide, faArrowDownWideShort } from '@fortawesome/free-solid-svg-icons'
+import { cityIn, cityFrom, cityTo } from 'lvovich'
 
 import { setFilters } from '../../redux/slices/filters'
 import { enumerate } from '../../utils/functions'
@@ -61,16 +62,19 @@ const Headline = ({ apartments, filters }) => {
                 (apartment.price.value <= filters.price.max && apartment.price.value >= filters.price.min) &&
                 filters.type.includes(apartment.type) &&
                 (apartment.stats.floor <= filters.floor.max && apartment.stats.floor >= filters.floor.min) &&
+                (filters.city && apartment.address.city === filters.city) &&
                 setCount(prevCount => prevCount + 1)
         })
     }, [filters])
 
+    const place = filters.city ? cityIn(filters.city) : 'России'
+
     return (
         <div className={styles.headline}>
             <h1 className={styles.title}>
-                {currentTypes.length == 1 ? value(currentTypes[0]) : 'Жилье'} в России
+                {currentTypes.length == 1 ? value(currentTypes[0]) : 'Жилье'} {place.slice(0, 1) === 'В' ? 'во' : 'в'} {place}
             </h1>
-            <p className={styles.resultNum}>{count} {enumerate(count, ["результат", "результата", "результатов"])}</p>
+            <p className={styles.resultNum}>{count}  {enumerate(count, ["результат", "результата", "результатов"])}</p>
         </div>
     )
 }

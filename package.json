@@ -17,6 +17,7 @@
     "cookie": "^0.5.0",
     "crypto-js": "^4.1.1",
     "jsonwebtoken": "^8.5.1",
+    "lvovich": "^2.0.0",
     "mongoose": "^6.4.6",
     "next": "12.2.2",
     "next-redux-wrapper": "^8.0.0-rc.1",
