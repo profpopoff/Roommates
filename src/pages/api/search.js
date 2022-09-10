@@ -11,20 +11,15 @@ export default async function handler(req, res) {
 
          const search = new RegExp(req.body, "i")
 
-         const results = await Apartment.find({
-            $or: [
-               { title: search },
-               { 'address.city': search }
-            ]
-         })
-
-         const cities = results.map(({ address }) => address.city)
+         const results = await Apartment.find({ title: search })
+         
+         const cities = await Apartment.find({ 'address.city': search })
 
          if (!req.body) {
-            return res.status(200).json({ cities: [...new Set(cities)] })
+            return res.status(200).json({ cities: [...new Set(cities.map(({address}) => address.city))] })
          }
 
-         res.status(200).json({ posts: results, cities: [...new Set(cities)] })
+         res.status(200).json({ posts: results, cities: [...new Set(cities.map(({address}) => address.city))] })
       } catch (error) {
          res.status(500).json(error)
       }
