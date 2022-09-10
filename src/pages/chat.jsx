@@ -89,7 +89,7 @@ const ConversationMenu = ({ active, setActive, companion, chatId, properties, se
     try {
       await fetch(`/api/chats/${id}`, { method: 'DELETE' })
         .then(res => { res.status < 300 && refreshData() })
-        setCurrentChat(null)
+      setCurrentChat(null)
     } catch (error) {
       console.log(error)
     }
@@ -141,7 +141,7 @@ const ConversationMenu = ({ active, setActive, companion, chatId, properties, se
               <CustomToggle
                 name={property._id}
                 label={property.title}
-                checked={property.roommates.includes(companion._id)}
+                checked={companionPlace && companionPlace === property._id}
                 disabled={companionPlace && companionPlace !== property._id}
                 onChange={e => roommateHandler(e, property)}
               />

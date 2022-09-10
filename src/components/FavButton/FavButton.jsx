@@ -13,7 +13,7 @@ import { useEffect } from 'react'
 
 export default function FavButton({ id }) {
 
-    const { request, success, loading, error } = useHttp()
+    const { request } = useHttp()
 
     const user = useSelector((state) => state.user.info)
     const dispatch = useDispatch()

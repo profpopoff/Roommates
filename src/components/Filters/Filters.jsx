@@ -88,7 +88,7 @@ const RoommatesToggle = ({ withRoommates, dispatch }) => {
                 name="roommates"
                 label="С соседями"
                 checked={withRoommates}
-                onClick={(e) => dispatch(setFilters({ withRoommates: e.target.checked }))}
+                onChange={(e) => dispatch(setFilters({ withRoommates: e.target.checked }))}
             />
         </div>
     )
@@ -134,6 +134,10 @@ const TypeButton = ({ type, dispatch, withRoommates }) => {
 
     const [types, setTypes] = useState(type)
 
+    useEffect(() => {
+        setTypes(type)
+    }, [type])
+
     const setTypeFilter = (e) => {
         e.preventDefault()
         dispatch(setFilters({ type: types }))
@@ -147,7 +151,6 @@ const TypeButton = ({ type, dispatch, withRoommates }) => {
         }
     }
 
-
     return (
         <>
             <button className={styles.button} onClick={() => { setTypeActive(true) }}>
@@ -158,15 +161,15 @@ const TypeButton = ({ type, dispatch, withRoommates }) => {
                 <form className={styles.filterForm} onSubmit={setTypeFilter}>
                     <div className={styles.types}>
                         <CustomToggle label="Кровать" name="bed"
-                            checked={types.includes('bed')} disabled={!withRoommates} onClick={handleTypes} />
+                            checked={types.includes('bed')} disabled={!withRoommates} onChange={handleTypes} />
                         <CustomToggle label="Комната" name="room"
-                            checked={types.includes('room')} disabled={!withRoommates} onClick={handleTypes} />
+                            checked={types.includes('room')} disabled={!withRoommates} onChange={handleTypes} />
                         <CustomToggle label="Квартира" name="flat"
-                            checked={types.includes('flat')} disabled={withRoommates} onClick={handleTypes} />
+                            checked={types.includes('flat')} disabled={withRoommates} onChange={handleTypes} />
                         <CustomToggle label="Дом" name="house"
-                            checked={types.includes('house')} disabled={withRoommates} onClick={handleTypes} />
+                            checked={types.includes('house')} disabled={withRoommates} onChange={handleTypes} />
                         <CustomToggle label="Таунхаус" name="townhouse"
-                            checked={types.includes('townhouse')} disabled={withRoommates} onClick={handleTypes} />
+                            checked={types.includes('townhouse')} disabled={withRoommates} onChange={handleTypes} />
                     </div>
                     <input className="submit-btn" type="submit" value="Применить" />
                 </form>

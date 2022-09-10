@@ -159,7 +159,7 @@ const Edit = (props) => {
 
 const VisibilityToggle = (props) => {
 
-  const VisibilityHandler = async (e) => {
+  const visibilityHandler = async (e) => {
     try {
       await fetch(`/api/apartments/${e.target.value.split('_')[1]}`, {
         method: 'PUT',
@@ -168,17 +168,20 @@ const VisibilityToggle = (props) => {
         },
         body: JSON.stringify({ [e.target.value.split('_')[0]]: e.target.checked }),
       })
+      setIsVisible(prevState => !prevState)
     } catch (error) {
       console.log(error)
     }
   }
 
+  const [isVisible, setIsVisible] = useState(props.isVisible)
+
   return (
     <CustomToggle
       name={"isVisible_" + props._id}
       label="Отображать"
-      checked={props.isVisible}
-      onClick={VisibilityHandler}
+      checked={isVisible}
+      onChange={visibilityHandler}
     />
   )
 }

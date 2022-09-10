@@ -175,7 +175,7 @@ const Settings = (props) => {
                     name="theme"
                     label="Темная тема"
                     checked={theme === 'dark'}
-                    onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                    onChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                 />
             </div>
         </Modal>

@@ -59,7 +59,7 @@ const Form = () => {
         newImages.push(data.secure_url)
       }
     }
-    
+
     try {
       const data = await request('/api/apartments', 'POST',
         JSON.stringify({ ...createForm, landlordId: user._id, images: newImages }),
@@ -203,20 +203,20 @@ const Conveniences = ({ changeHandler }) => {
 
   return (
     <div className={styles.conveniences}>
-      <CustomToggle name='кухня' label="Кухня" checked={false} onChange={addConvenience} />
-      <CustomToggle name='wifi' label="Wifi" checked={false} onChange={addConvenience} />
-      <CustomToggle name='кондиционер' label="Кондиционер" checked={false} onChange={addConvenience} />
-      <CustomToggle name='балкон' label="Балкон" checked={false} onChange={addConvenience} />
-      <CustomToggle name='стиральная  машина' label="Стиральная машина" checked={false} onChange={addConvenience} />
-      <CustomToggle name='паркинг' label="Паркинг" checked={false} onChange={addConvenience} />
-      <CustomToggle name='теплый пол' label="Теплый пол" checked={false} onChange={addConvenience} />
-      <CustomToggle name='духовка' label="Духовка" checked={false} onChange={addConvenience} />
-      <CustomToggle name='микроволновка' label="Микроволновка" checked={false} onChange={addConvenience} />
-      <CustomToggle name='холодильник' label="Холодильник" checked={false} onChange={addConvenience} />
-      <CustomToggle name='пылесос' label="Пылесос" checked={false} onChange={addConvenience} />
-      <CustomToggle name='телевизор' label="Телевизор" checked={false} onChange={addConvenience} />
-      <CustomToggle name='можно с животными' label="Можно с животными" checked={false} onChange={addConvenience} />
-      <CustomToggle name='можно с детьми' label="Можно с детьми" checked={false} onChange={addConvenience} />
+      <CustomToggle name='кухня' label="Кухня" checked={conveniences.includes('кухня')} onChange={addConvenience} />
+      <CustomToggle name='wifi' label="Wifi" checked={conveniences.includes('wifi')} onChange={addConvenience} />
+      <CustomToggle name='кондиционер' label="Кондиционер" checked={conveniences.includes('кондиционер')} onChange={addConvenience} />
+      <CustomToggle name='балкон' label="Балкон" checked={conveniences.includes('балкон')} onChange={addConvenience} />
+      <CustomToggle name='стиральная машина' label="Стиральная машина" checked={conveniences.includes('стиральная машина')} onChange={addConvenience} />
+      <CustomToggle name='паркинг' label="Паркинг" checked={conveniences.includes('паркинг')} onChange={addConvenience} />
+      <CustomToggle name='теплый пол' label="Теплый пол" checked={conveniences.includes('теплый пол')} onChange={addConvenience} />
+      <CustomToggle name='духовка' label="Духовка" checked={conveniences.includes('духовка')} onChange={addConvenience} />
+      <CustomToggle name='микроволновка' label="Микроволновка" checked={conveniences.includes('микроволновка')} onChange={addConvenience} />
+      <CustomToggle name='холодильник' label="Холодильник" checked={conveniences.includes('холодильник')} onChange={addConvenience} />
+      <CustomToggle name='пылесос' label="Пылесос" checked={conveniences.includes('пылесос')} onChange={addConvenience} />
+      <CustomToggle name='телевизор' label="Телевизор" checked={conveniences.includes('телевизор')} onChange={addConvenience} />
+      <CustomToggle name='можно с животными' label="Можно с животными" checked={conveniences.includes('можно с животными')} onChange={addConvenience} />
+      <CustomToggle name='можно с детьми' label="Можно с детьми" checked={conveniences.includes('можно с детьми')} onChange={addConvenience} />
     </div>
   )
 }
