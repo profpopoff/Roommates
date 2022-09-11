@@ -80,13 +80,21 @@ const Search = () => {
 
     return (
         <div className={styles.search} ref={ref}>
-            <form onSubmit={handleSearch}>
+
+            <div class={styles.box}>
+                <button class={styles.btn}>
+                    <FontAwesomeIcon icon={faSearch} /><span className="sr-only">Поиск</span>
+                </button>
+                <input class={styles.input} type="text" placeholder="Поиск" />
+            </div>
+
+            <form onSubmit={handleSearch} className={styles.searchForm}>
                 <input type="text" placeholder="Поиск" className={styles.searchInput} onChange={e => setSearch(e.target.value)} onClick={() => setResultsMenu(prevActive => !prevActive)} />
                 <button className={styles.searchButton} type="submit">
                     <FontAwesomeIcon icon={faSearch} /><span className="sr-only">Поиск</span>
                 </button>
+                {!!results && resultsMenuActive && <ResultsMenu results={results} />}
             </form>
-            {!!results && resultsMenuActive && <ResultsMenu results={results} />}
         </div>
     )
 }
