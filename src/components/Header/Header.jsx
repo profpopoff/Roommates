@@ -369,7 +369,7 @@ const User = () => {
 
     return (
         <div className={styles.user}>
-            <h3 className={styles.name}>{user.name} {user.surname}</h3>
+            <h3 className={styles.name}>{user.name} <span>{user.surname}</span></h3>
             <div className={styles.image}>
                 <Image src={user.image ? user.image : '/img/default-user.png'} alt="user profile picture" layout='fill' />
             </div>
