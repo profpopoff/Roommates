@@ -19,14 +19,15 @@ import { useHttp } from '../../hooks/http.hook'
 import { exit, setUser } from '../../redux/slices/user'
 
 export default function Header() {
-
-    const router = useRouter()
-
     return (
         <header className={styles.container}>
-            <Logo />
-            {router.pathname == "/" && <Search />}
-            <Navigation />
+            <div className={styles.wrapper}>
+                <Logo />
+                <div className={styles.menu}>
+                    <Search />
+                    <Navigation />
+                </div>
+            </div>
         </header>
     )
 }
@@ -48,10 +49,8 @@ const Search = () => {
 
     const { request } = useHttp()
 
-    const dispatch = useDispatch()
-    
     const ref = useRef(null)
-    
+
     const [search, setSearch] = useState('')
 
     const [results, setResults] = useState()
@@ -63,6 +62,7 @@ const Search = () => {
         try {
             await request('/api/search', 'POST', JSON.stringify(search), { 'Content-Type': 'application/json;charset=utf-8' })
                 .then(res => setResults(res))
+            setResultsMenu(true)
         } catch (error) { }
     }
 
@@ -86,33 +86,42 @@ const Search = () => {
                     <FontAwesomeIcon icon={faSearch} /><span className="sr-only">Поиск</span>
                 </button>
             </form>
-            {!!results && resultsMenuActive && 
-                <div className={styles.resultsMenu} >
-                    <div className={styles.resultsContainer}>
-                        {!!results.cities.length &&
-                            <div className={styles.results}>
-                                <h3 className={styles.title}>Города</h3>
-                                {results.cities.map(city => (
-                                    <button key={city} className={styles.result} onClick={() => dispatch(setFilters({ city }))}>{city}</button>
-                                ))}
-                            </div>
-                        }
-                        {!!results.posts?.length &&
-                            <div className={styles.results}>
-                                <h3 className={styles.title}>Результаты</h3>
-                                {results.posts.map(post => (
-                                    <Link key={post._id} href={`/apartment/${post._id}`} passHref>
-                                        <a className={styles.result}>{post.title}</a>
-                                    </Link>
-                                ))}
-                            </div>
-                        }
-                        {!results.posts?.length && !results.cities.length &&
-                            <h3 className={styles.title}>По вашему запросу ничего не найдено...</h3>
-                        }
+            {!!results && resultsMenuActive && <ResultsMenu results={results} />}
+        </div>
+    )
+}
+
+const ResultsMenu = ({ results }) => {
+
+    const dispatch = useDispatch()
+
+    const router = useRouter()
+
+    return (
+        <div className={styles.resultsMenu} >
+            <div className={styles.resultsContainer}>
+                {router.pathname == "/" && !!results.cities.length &&
+                    <div className={styles.results}>
+                        <h3 className={styles.title}>Города</h3>
+                        {results.cities.map(city => (
+                            <button key={city} className={styles.result} onClick={() => dispatch(setFilters({ city }))}>{city}</button>
+                        ))}
                     </div>
-                </div>
-            }
+                }
+                {!!results.posts?.length &&
+                    <div className={styles.results}>
+                        <h3 className={styles.title}>Результаты</h3>
+                        {results.posts.map(post => (
+                            <Link key={post._id} href={`/apartment/${post._id}`} passHref>
+                                <a className={styles.result}>{post.title}</a>
+                            </Link>
+                        ))}
+                    </div>
+                }
+                {!results.posts?.length && (router.pathname !== "/" && results.cities.length) &&
+                    <h3 className={styles.title}>По вашему запросу ничего не найдено...</h3>
+                }
+            </div>
         </div>
     )
 }
