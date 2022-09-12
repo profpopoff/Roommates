@@ -153,8 +153,9 @@
             }
 
             .navigation {
+                // outline: 1px solid red;
                 flex: 1;
-                max-width: 30rem;
+                max-width: 27rem;
                 display: flex;
                 justify-content: flex-end;
                 align-items: center;
@@ -270,8 +271,8 @@
                     align-items: center;
                     gap: 1rem;
                     padding-left: 1.5rem;
-                    cursor: pointer;
                     border-left: 1px solid var(--text-grey);
+                    cursor: pointer;
 
                     &:hover .name {
                         color: var(--accent-color);
@@ -282,7 +283,7 @@
                         width: min-content;
                         margin-top: .2rem;
                         display: block;
-                        text-align: flex-end;
+                        text-align: end;
                         font-weight: 500;
                         line-height: 1;
                         text-overflow: ellipsis;
@@ -320,42 +321,72 @@
 }
 
 @media screen and (max-width: 64rem) {
-    .navigation {
-        margin-inline: auto 4rem;
-    }
+    .container .wrapper {
+        gap: 2rem;
 
-    .search {
-        position: absolute;
-        right: 0;
-        z-index: 12;
-        max-width: 40rem !important;
+        .menu {
+            .search {
+                position: absolute;
+                right: 0;
+                z-index: 12;
+                max-width: 40rem;
 
-        .box {
+                .box .input {
+                    width: 1rem;
+                    height: 2rem;
+                    padding: 0px;
+                    transform: translateX(-1.2rem);
+                    transition: all .3s ease-in-out;
 
-            .input {
-                width: 1rem !important;
-                height: 2rem !important;
-                padding: 0px !important;
-                transform: translateX(-1.2rem);
-                transition: all .3s ease-in-out;
+                    &:focus {
+                        width: 28rem;
+                        height: 3.75rem;
+                        padding: 1.25rem 4rem 1.25rem 1.875rem;
+                        transform: translateX(0);
+                    }
+                }
 
-                &:focus {
-                    width: 28rem !important;
-                    height: 3.75rem !important;
-                    padding: 1.25rem 4rem 1.25rem 1.875rem !important;
-                    transform: translateX(0);
+                .btn {
+                    z-index: 2;
+
+                    &:focus~.input {
+                        width: 28rem;
+                        height: 3.75rem;
+                        padding: 1.25rem 4rem 1.25rem 1.875rem;
+                        transform: translateX(0);
+                        transition: all 400ms cubic-bezier(0, 0.110, 0.35, 1.5);
+                    }
                 }
             }
 
-            .btn {
-                z-index: 2;
+            .navigation {
+                margin-inline: auto 4rem;
+            }
+        }
+    }
+}
 
-                &:focus~.input {
-                    width: 28rem !important;
-                    height: 3.75rem !important;
-                    padding: 1.25rem 4rem 1.25rem 1.875rem !important;
-                    transform: translateX(0);
-                    transition: all 400ms cubic-bezier(0, 0.110, 0.35, 1.5) !important;
+@media screen and (max-width: 50rem) {
+    .container .wrapper .menu {
+        .search .box {
+            .input:focus {
+                width: 18rem !important;
+                height: 3.75rem !important;
+            }
+
+            .btn:focus~.input {
+                width: 18rem !important;
+                height: 3.75rem !important;
+            }
+        }
+
+        .navigation {
+            .user {
+                border-left: none;
+                padding-left: .5rem;
+
+                .name {
+                    display: none;
                 }
             }
         }
