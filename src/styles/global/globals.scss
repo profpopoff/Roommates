@@ -126,11 +126,17 @@ input::file-selector-button {
   margin-inline: auto;
 
   .name {
-      display: flex;
-      gap: 1rem;
+    display: flex;
+    gap: 1rem;
 
-      * {
-          flex: 1;
-      }
+    * {
+      flex: 1;
+    }
+  }
+
+  .register-link {
+    margin-top: 1rem;
+    display: block;
+    text-decoration: underline;
   }
 }
