@@ -4,8 +4,8 @@ const modalSlice = createSlice({
    name: "modal",
    initialState: {
       modals: {
-         loginActive: false, 
-         regiserActive: false, 
+         loginActive: false,
+         regiserActive: false,
          settingsActive: false
       }
    },
