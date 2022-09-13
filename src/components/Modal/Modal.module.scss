@@ -9,6 +9,7 @@
     justify-content: center;
     opacity: 0;
     background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(.3rem);
     pointer-events: none;
     transition: opacity .3s ease-in-out;
 
