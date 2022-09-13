@@ -12,14 +12,13 @@
         gap: 5.7rem;
 
         .logo {
-            flex: 1;
             display: flex;
             align-items: center;
             gap: .75rem;
 
             .logoIcon {
                 position: relative;
-                width: 2.5rem;
+                width: 2.75rem;
                 aspect-ratio: 1;
 
                 * {
@@ -74,7 +73,7 @@
                         right: 1rem;
                         top: 50%;
                         transform: translateY(-50%);
-                        width: 2.25rem;
+                        width: 2.5rem;
                         aspect-ratio: 1;
                         border-radius: 50%;
                         display: flex;
@@ -154,100 +153,43 @@
 
             .navigation {
                 // outline: 1px solid red;
-                flex: 1;
-                max-width: 27rem;
                 display: flex;
-                justify-content: flex-end;
-                align-items: center;
                 gap: clamp(.5em, 1vw, 1.5em);
 
-                .settingsBtn {
-                    border: none;
-                    background-color: transparent;
-                    color: var(--text-main);
-                    font-size: 1.5rem;
-                    cursor: pointer;
-                    transition: .15s;
-
-                    &:hover {
-                        color: var(--accent-color);
-                        transform: scale(1.1);
-                    }
-                }
-
-                .settings {
-                    padding-block: 1rem;
+                .links {
+                    // outline: 1px solid red;
+                    flex: 1;
+                    max-width: 27rem;
                     display: flex;
-                    justify-content: center;
-                    gap: 1rem;
-                }
-
-                .logInBtn {
-                    padding: .6rem;
-                    border-radius: .5rem;
-                    border: 2px solid var(--text-main);
-                    background-color: transparent;
-                    color: var(--text-main);
-                    font-size: 1.3rem;
-                    font-weight: 400;
-                    cursor: pointer;
-                    transition: all .15s ease-in-out;
-
-                    &:hover {
-                        box-shadow: 0px 0px 0px 2px var(--accent-color);
-                        border-color: transparent;
-                        color: var(--accent-color);
-                    }
-                }
-
-                .signInBtn {
-                    padding: .6rem;
-                    border-radius: .5rem;
-                    border: none;
-                    background-color: var(--text-main);
-                    color: var(--background-element);
-                    font-size: 1.3rem;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: .15s;
-
-                    &:hover {
-                        background-color: var(--accent-color);
-                        box-shadow: 0px 0px 0px 3px var(--accent-color);
-                    }
-                }
-
-                .link {
-                    position: relative;
-                    display: flex;
+                    justify-content: flex-end;
                     align-items: center;
-                    justify-content: center;
-                    gap: .5rem;
-                    padding: 0;
-                    transition: .3s;
-                    border: none;
-                    background-color: transparent;
-                    color: var(--text-main);
-                    cursor: pointer;
+                    gap: clamp(.5em, 1vw, 1.5em);
 
-                    &.main {
+                    .link {
+                        position: relative;
                         width: 3rem;
                         display: flex;
+                        align-items: center;
                         justify-content: center;
-                        aspect-ratio: 1;
+                        gap: 1rem;
+                        padding: 0;
+                        transition: .3s;
+                        border: none;
+                        background-color: transparent;
+                        cursor: pointer;
                         border-radius: 40%;
                         font-size: 1.5rem;
+                        font-weight: 400;
                         color: var(--text-grey);
 
-                        &:hover,
-                        &.active {
-                            transform: scale(1.1);
+                        &.extraLink {
+                            display: none;
                         }
 
                         .notification {
                             position: absolute;
-                            top: .5rem;
-                            right: 0rem;
+                            top: -.2rem;
+                            right: 0;
                             height: 1.1rem;
                             aspect-ratio: 1;
                             display: flex;
@@ -258,11 +200,12 @@
                             color: #fff;
                             font-size: .8rem;
                         }
-                    }
 
-                    &:hover,
-                    &.active {
-                        color: var(--accent-color);
+                        &:hover,
+                        &.active {
+                            color: var(--accent-color);
+                            transform: scale(1.1);
+                        }
                     }
                 }
 
@@ -314,6 +257,78 @@
                     flex-direction: column;
                     gap: 1rem;
                     padding: 1.25rem 2rem;
+
+                    .userLink {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        gap: .5rem;
+                        padding: 0;
+                        transition: .3s;
+                        border: none;
+                        background-color: transparent;
+                        color: var(--text-main);
+                        cursor: pointer;
+
+                        &:hover,
+                        &.active {
+                            color: var(--accent-color);
+                        }
+                    }
+                }
+            }
+
+            .auth {
+                display: flex;
+                gap: 1rem;
+
+                .settingsBtn {
+                    border: none;
+                    background-color: transparent;
+                    color: var(--text-main);
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    transition: .15s;
+
+                    &:hover {
+                        color: var(--accent-color);
+                        transform: scale(1.1);
+                    }
+                }
+
+                .logInBtn {
+                    padding: .6rem;
+                    border-radius: .5rem;
+                    border: 2px solid var(--text-main);
+                    background-color: transparent;
+                    color: var(--text-main);
+                    font-size: 1.3rem;
+                    font-weight: 400;
+                    cursor: pointer;
+                    transition: all .15s ease-in-out;
+
+                    &:hover {
+                        box-shadow: 0px 0px 0px 2px var(--accent-color);
+                        border-color: transparent;
+                        color: var(--accent-color);
+                    }
+                }
+
+                .signInBtn {
+                    padding: .6rem;
+                    border-radius: .5rem;
+                    border: none;
+                    background-color: var(--text-main);
+                    color: var(--background-element);
+                    font-size: 1.3rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: .15s;
+
+                    &:hover {
+                        background-color: var(--accent-color);
+                        box-shadow: 0px 0px 0px 3px var(--accent-color);
+                    }
                 }
             }
         }
@@ -360,7 +375,7 @@
             }
 
             .navigation {
-                margin-inline: auto 4rem;
+                margin-inline: auto 4.5rem;
             }
         }
     }
@@ -370,13 +385,11 @@
     .container .wrapper .menu {
         .search .box {
             .input:focus {
-                width: 18rem !important;
-                height: 3.75rem !important;
+                width: 18rem;
             }
 
             .btn:focus~.input {
-                width: 18rem !important;
-                height: 3.75rem !important;
+                width: 18rem;
             }
         }
 
@@ -387,6 +400,94 @@
 
                 .name {
                     display: none;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 38rem) {
+    .container .wrapper {
+        gap: 1rem;
+
+        .logo {
+            position: relative;
+
+            .logoTitle {
+                position: absolute;
+                left: calc(100% + 1rem);
+            }
+        }
+
+        .menu {
+            .search {
+                position: relative;
+
+                .box {
+                    display: flex;
+                    justify-content: flex-end;
+
+                    .input:focus {
+                        width: 100%;
+                        transition: all .2s ease-in-out;
+                    }
+
+                    .btn:focus~.input {
+                        width: 100%;
+                        transition: all .2s ease-in-out;
+                    }
+                }
+            }
+
+            .navigation {
+                margin-right: 0;
+
+                .user {
+                    padding: 0;
+                }
+
+                .list {
+                    display: none;
+                }
+
+                .links {
+                    position: fixed;
+                    top: 0;
+                    right: 0;
+                    bottom: 0;
+                    width: min(20rem, 100vw);
+                    flex-direction: column;
+                    justify-content: center;
+                    background-color: rgba(43, 103, 246, 0.1);
+                    backdrop-filter: blur(1.6rem);
+                    z-index: 20;
+                    gap: 2rem;
+                    transition: 0.3s all ease-in-out;
+                    transform: translateX(100%);
+
+                    &[data-visible=true] {
+                        transform: translateX(0);
+                    }
+
+                    .link {
+                        width: auto;
+                        color: var(--text-main);
+
+                        .linkTitle {
+                            position: relative;
+                            width: auto;
+                            height: min-content;
+                        }
+
+                        &.extraLink {
+                            display: flex;
+                        }
+
+                        .notification {
+                            left: 1rem;
+                            outline: none;
+                        }
+                    }
                 }
             }
         }

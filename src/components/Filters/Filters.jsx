@@ -124,7 +124,7 @@ const PriceButton = ({ price, dispatch }) => {
                             0: priceValue[0],
                             100000: priceValue[1]
                         }}
-                        trackStyle={{ 'background-color': '#2B67F6' }}
+                        trackStyle={{ 'backgroundColor': '#2B67F6' }}
                         min={0}
                         max={100000}
                         step={100}
@@ -217,7 +217,7 @@ const FloorButton = ({ floor, dispatch }) => {
                             1: floorValue[0],
                             50: floorValue[1]
                         }}
-                        trackStyle={{ 'background-color': '#2B67F6' }}
+                        trackStyle={{ 'backgroundColor': '#2B67F6' }}
                         min={1}
                         max={50}
                         value={floorValue}

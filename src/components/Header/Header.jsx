@@ -5,30 +5,110 @@ import { useState, useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styles from './Header.module.scss'
 
-import { useTheme } from 'next-themes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch, faUser, faGear, faCircleInfo, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
 import { faComments, faHeart, faBuilding } from '@fortawesome/free-regular-svg-icons'
 
 import { setFilters } from '../../redux/slices/filters'
+import { setModal } from '../../redux/slices/modal'
 import Dropdown from '../Dropdown/Dropdown'
 import Modal from '../Modal/Modal'
-import CustomToggle from '../CustomToggle/CustomToggle'
 import CustomInput from '../CustomInput/CustomInput'
 import { useHttp } from '../../hooks/http.hook'
 import { exit, setUser } from '../../redux/slices/user'
+import Settings from '../Settings/Settings'
 
 export default function Header() {
+
+    const user = useSelector((state) => state.user.info)
+
+    const [userMenuActive, setUserMenuActive] = useState(false)
+
+    const [showBurger, setShowBurger] = useState(false)
+
     return (
         <header className={styles.container}>
             <div className={styles.wrapper}>
                 <Logo />
                 <div className={styles.menu}>
                     <Search />
-                    <Navigation />
+                    {/* <span className={styles.burger}>burger</span> */}
+                    {user ?
+                        <div className={styles.navigation}>
+                            <Links showBurger={showBurger} setShowBurger={setShowBurger} />
+                            <Dropdown
+                                active={userMenuActive}
+                                setActive={setUserMenuActive}
+                                button={
+                                    <User setShowBurger={setShowBurger} />
+                                }
+                            >
+                                <List />
+                            </Dropdown>
+                        </div> :
+                        <Auth />
+                    }
                 </div>
             </div>
+            <Settings />
         </header>
+    )
+}
+
+const Links = ({ showBurger, setShowBurger }) => {
+
+    const toggleBugrer = () => setShowBurger(prevShowBurger => !prevShowBurger)
+
+    const navRef = useRef()
+
+    useEffect(() => {
+        const checkIfClickedOutside = e => {
+            if (showBurger && navRef.current && !navRef.current.contains(e.target)) {
+                toggleBugrer()
+            }
+        }
+        document.addEventListener("mousedown", checkIfClickedOutside)
+        return () => {
+            document.removeEventListener("mousedown", checkIfClickedOutside)
+        }
+    }, [showBurger])
+
+    const user = useSelector((state) => state.user.info)
+
+    const router = useRouter()
+
+    const dispatch = useDispatch()
+
+    return (
+        <nav className={styles.links} ref={navRef} data-visible={showBurger}>
+            <Link href="/profile">
+                <a className={`${styles.link} ${styles.extraLink} ${router.pathname == "/profile" && styles.active}`}><FontAwesomeIcon icon={faUser} />Профиль</a>
+            </Link>
+            <button className={`${styles.link} ${styles.extraLink}`}
+                onClick={() => { dispatch(setModal({ settingsActive: true })); toggleBugrer() }}
+            ><FontAwesomeIcon icon={faGear} />Настройки</button>
+            <Link href="/property">
+                <a className={`${styles.link} ${router.pathname == "/property" && styles.active}`}>
+                    <FontAwesomeIcon icon={faBuilding} />
+                    <span className={`sr-only ${styles.linkTitle}`}>Недвижимость</span>
+                </a>
+            </Link>
+            <Link href="/chat">
+                <a className={`${styles.link} ${router.pathname == "/chat" && styles.active}`}>
+                    <FontAwesomeIcon icon={faComments} />
+                    <span className={`sr-only ${styles.linkTitle}`}>Чаты</span>
+                    {/* <span className={styles.notification}>1</span> */}
+                </a>
+            </Link>
+            <Link href="/favourites">
+                <a className={`${styles.link} ${router.pathname == "/favourites" && styles.active}`}>
+                    <FontAwesomeIcon icon={faHeart} />
+                    <span className={`sr-only ${styles.linkTitle}`}>Избранное</span>
+                    {!!user.favourites.length && <span className={styles.notification}>{user.favourites.length}</span>}
+                </a>
+            </Link>
+            <button className={`${styles.link} ${styles.extraLink}`} onClick={() => logout(dispatch, router)}><FontAwesomeIcon icon={faArrowRightFromBracket} />Выйти</button>
+        </nav>
     )
 }
 
@@ -83,7 +163,7 @@ const Search = () => {
                 <button className={styles.btn} type="submit">
                     <FontAwesomeIcon icon={faSearch} /><span className="sr-only">Поиск</span>
                 </button>
-                <input className={styles.input} type="text" placeholder="Поиск" onChange={e => setSearch(e.target.value)} onClick={() => setResultsMenu(true)}/>
+                <input className={styles.input} type="text" placeholder="Поиск" onChange={e => setSearch(e.target.value)} onClick={() => setResultsMenu(true)} />
                 {!!results && resultsMenuActive && <ResultsMenu results={results} setResultsMenu={setResultsMenu} />}
             </form>
         </div>
@@ -125,68 +205,22 @@ const ResultsMenu = ({ results, setResultsMenu }) => {
     )
 }
 
-const Navigation = () => {
-
-    const user = useSelector((state) => state.user.info)
-
-    const [userMenuActive, setUserMenuActive] = useState(false)
-
-    return (
-        <nav className={styles.navigation}>
-            {
-                !user ?
-                    <Auth /> :
-                    <>
-                        <Links />
-                        <Dropdown
-                            active={userMenuActive}
-                            setActive={setUserMenuActive}
-                            button={
-                                <User />
-                            }
-                        >
-                            <List />
-                        </Dropdown>
-                    </>
-            }
-        </nav>
-    )
-}
-
 const Auth = () => {
 
     const [settingsActive, setSettingsActive] = useState(false)
     const [loginActive, setLoginActive] = useState(false)
     const [registerActive, setRegisterActive] = useState(false)
 
+    const dispatch = useDispatch()
+
     return (
-        <>
-            <button className={styles.settingsBtn} onClick={() => { setSettingsActive(true) }}><FontAwesomeIcon icon={faGear} /></button>
-            <Settings settingsActive={settingsActive} setSettingsActive={setSettingsActive} />
+        <div className={styles.auth}>
+            <button className={styles.settingsBtn} onClick={() => dispatch(setModal({ settingsActive: true }))}><FontAwesomeIcon icon={faGear} /></button>
             <button className={styles.logInBtn} onClick={() => { setLoginActive(true) }}>Вход</button>
             <Login loginActive={loginActive} setLoginActive={setLoginActive} />
             <button className={styles.signInBtn} onClick={() => { setRegisterActive(true) }}>Регистрация</button>
             <Register registerActive={registerActive} setRegisterActive={setRegisterActive} />
-        </>
-    )
-}
-
-const Settings = (props) => {
-
-    const { theme, setTheme } = useTheme()
-
-    return (
-        <Modal active={props.settingsActive} setActive={props.setSettingsActive}>
-            <h2 className={styles.title}><FontAwesomeIcon icon={faGear} /> Настройки</h2>
-            <div className={styles.settings}>
-                <CustomToggle
-                    name="theme"
-                    label="Темная тема"
-                    checked={theme === 'dark'}
-                    onChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                />
-            </div>
-        </Modal>
+        </div>
     )
 }
 
@@ -329,45 +363,12 @@ const Register = (props) => {
     )
 }
 
-// todo: add notifications
-const Links = () => {
-
-    const router = useRouter()
+const User = ({ setShowBurger }) => {
 
     const user = useSelector((state) => state.user.info)
 
     return (
-        <>
-            <Link href="/property">
-                <a className={`${styles.link} ${styles.main} ${router.pathname == "/property" && styles.active}`}>
-                    <FontAwesomeIcon icon={faBuilding} />
-                    <span className="sr-only">Моя недвижимость</span>
-                </a>
-            </Link>
-            <Link href="/chat">
-                <a className={`${styles.link} ${styles.main} ${router.pathname == "/chat" && styles.active}`}>
-                    <FontAwesomeIcon icon={faComments} />
-                    <span className="sr-only">Чаты</span>
-                    {/* <span className={styles.notification}>1</span> */}
-                </a>
-            </Link>
-            <Link href="/favourites">
-                <a className={`${styles.link} ${styles.main} ${router.pathname == "/favourites" && styles.active}`}>
-                    <FontAwesomeIcon icon={faHeart} />
-                    <span className="sr-only">Избранное</span>
-                    {!!user.favourites.length && <span className={styles.notification}>{user.favourites.length}</span>}
-                </a>
-            </Link>
-        </>
-    )
-}
-
-const User = () => {
-
-    const user = useSelector((state) => state.user.info)
-
-    return (
-        <div className={styles.user}>
+        <div className={styles.user} onClick={() => setShowBurger(prevShowBurger => !prevShowBurger)}>
             <h3 className={styles.name}>{user.name} <span>{user.surname}</span></h3>
             <div className={styles.image}>
                 <Image src={user.image ? user.image : '/img/default-user.png'} alt="user profile picture" layout='fill' />
@@ -380,35 +381,28 @@ const List = () => {
 
     const router = useRouter()
 
-    const [settingsActive, setSettingsActive] = useState(false)
+    const dispatch = useDispatch()
+
+    const settingsModal = useSelector((state) => state.modal.modals.settingsActive)
 
     return (
         <div className={styles.list}>
             <Link href="/profile">
-                <a className={`${styles.link} ${router.pathname == "/profile" && styles.active}`}><FontAwesomeIcon icon={faUser} />Профиль</a>
+                <a className={`${styles.userLink} ${router.pathname == "/profile" && styles.active}`}><FontAwesomeIcon icon={faUser} />Профиль</a>
             </Link>
-            <button className={styles.link} onClick={() => { setSettingsActive(true) }}><FontAwesomeIcon icon={faGear} />Настройки</button>
-            <Settings settingsActive={settingsActive} setSettingsActive={setSettingsActive} />
-            <LogoutBtn />
+            <button className={styles.userLink}
+                onClick={() => { dispatch(setModal({ settingsActive: true })) }}
+            ><FontAwesomeIcon icon={faGear} />Настройки</button>
+            <button className={styles.userLink} onClick={() => logout(dispatch, router)}><FontAwesomeIcon icon={faArrowRightFromBracket} />Выйти</button>
         </div>
     )
 }
 
-const LogoutBtn = () => {
 
-    const router = useRouter()
-
-    const dispatch = useDispatch()
-
-    const logout = () => {
-        document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
-        dispatch(exit())
-        if (['/profile', '/chat', '/favourites', '/property', '/property/create'].includes(router.pathname)) {
-            router.push('/')
-        }
+const logout = (dispatch, router) => {
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;"
+    dispatch(exit())
+    if (['/profile', '/chat', '/favourites', '/property', '/property/create'].includes(router.pathname)) {
+        router.push('/')
     }
-
-    return (
-        <button className={styles.link} onClick={logout}><FontAwesomeIcon icon={faArrowRightFromBracket} />Выйти</button>
-    )
 }
