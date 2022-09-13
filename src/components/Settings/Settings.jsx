@@ -4,8 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGear } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './Settings.module.scss'
-import Modal from '../Modal/Modal'
 import { setModal } from '../../redux/slices/modal'
+import Modal from '../Modal/Modal'
 import CustomToggle from '../CustomToggle/CustomToggle'
 
 export default function Settings() {

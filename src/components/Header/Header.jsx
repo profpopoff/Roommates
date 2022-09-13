@@ -207,7 +207,6 @@ const ResultsMenu = ({ results, setResultsMenu }) => {
 
 const Auth = () => {
 
-    const [settingsActive, setSettingsActive] = useState(false)
     const [loginActive, setLoginActive] = useState(false)
     const [registerActive, setRegisterActive] = useState(false)
 
@@ -215,7 +214,9 @@ const Auth = () => {
 
     return (
         <div className={styles.auth}>
-            <button className={styles.settingsBtn} onClick={() => dispatch(setModal({ settingsActive: true }))}><FontAwesomeIcon icon={faGear} /></button>
+            <button className={styles.settingsBtn}
+                onClick={() => dispatch(setModal({ settingsActive: true }))}
+            ><FontAwesomeIcon icon={faGear} /></button>
             <button className={styles.logInBtn} onClick={() => { setLoginActive(true) }}>Вход</button>
             <Login loginActive={loginActive} setLoginActive={setLoginActive} />
             <button className={styles.signInBtn} onClick={() => { setRegisterActive(true) }}>Регистрация</button>
@@ -382,8 +383,6 @@ const List = () => {
     const router = useRouter()
 
     const dispatch = useDispatch()
-
-    const settingsModal = useSelector((state) => state.modal.modals.settingsActive)
 
     return (
         <div className={styles.list}>
