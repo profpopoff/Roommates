@@ -152,12 +152,10 @@
             }
 
             .navigation {
-                // outline: 1px solid red;
                 display: flex;
                 gap: clamp(.5em, 1vw, 1.5em);
 
                 .links {
-                    // outline: 1px solid red;
                     flex: 1;
                     max-width: 27rem;
                     display: flex;

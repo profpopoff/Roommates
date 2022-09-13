@@ -32,7 +32,6 @@ export default function Header() {
                 <Logo />
                 <div className={styles.menu}>
                     <Search />
-                    {/* <span className={styles.burger}>burger</span> */}
                     {user ?
                         <div className={styles.navigation}>
                             <Links showBurger={showBurger} setShowBurger={setShowBurger} />
