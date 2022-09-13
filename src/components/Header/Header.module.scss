@@ -95,7 +95,8 @@
                         z-index: 11;
                         padding: 1rem;
                         border-radius: 0.75rem;
-                        background-color: var(--background-element);
+                        background-color: var(--blur-color);
+                        backdrop-filter: var(--blur);
                         -webkit-box-shadow: 0 0 3px 0px var(--accent-color) inset;
                         -moz-box-shadow: 0 0 3px 0px var(--accent-color) inset;
                         box-shadow: 0 0 3px 0px var(--accent-color) inset;
@@ -456,8 +457,8 @@
                     width: min(20rem, 100vw);
                     flex-direction: column;
                     justify-content: center;
-                    background-color: rgba(43, 103, 246, 0.1);
-                    backdrop-filter: blur(1.6rem);
+                    background-color: var(--blur-color);
+                    backdrop-filter: var(--blur);
                     z-index: 20;
                     gap: 2rem;
                     transition: 0.3s all ease-in-out;

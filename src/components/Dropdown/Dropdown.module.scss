@@ -17,10 +17,11 @@
         top: 200%;
         right: 0;
         border-radius: 0.75rem;
-        background-color: var(--background-element);
         -webkit-box-shadow: 0 0 3px 0px var(--accent-color) inset;
         -moz-box-shadow: 0 0 3px 0px var(--accent-color) inset;
         box-shadow: 0 0 3px 0px var(--accent-color) inset;
+        background-color: var(--blur-color);
+        backdrop-filter: var(--blur);
         text-align: center;
         visibility: hidden;
         opacity: 0;

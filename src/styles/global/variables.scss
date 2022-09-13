@@ -4,15 +4,17 @@
   --text-main: #333;
   --text-grey: #A5A7A7;
   --accent-color: #2B67F6;
-  --burger-color: rgba(100, 100, 100, .3);
+  --blur-color: rgba(43, 103, 246, .1);
+  // --blur-color: rgba(32, 37, 49, .6);
+  --blur: blur(1rem);
 
   --header-height: 7.5rem;
 }
 
 [data-theme='dark'] {
+  --blur-color: rgba(32, 37, 49, .6);
   --background-main: #1C1F2A;
   --background-element: #202531;
   --text-main: #FFF;
   --text-grey: #F4F7FF;
-  // --burger-color: rgba(32, 37, 49, .3);
 }
