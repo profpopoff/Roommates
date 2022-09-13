@@ -8,16 +8,19 @@ import { setModal } from '../../redux/slices/modal'
 import Modal from '../Modal/Modal'
 import CustomToggle from '../CustomToggle/CustomToggle'
 
-export default function Settings() {
+export default function Login() {
 
    const { theme, setTheme } = useTheme()
 
-   const settingsModal = useSelector((state) => state.modal.modals.settingsActive)
+   const settingsActive = useSelector((state) => state.modal.modals.settingsActive)
 
    const dispatch = useDispatch()
 
    return (
-      <Modal active={settingsModal} setActive={() => { dispatch(setModal({ settingsActive: false })) }}>
+      <Modal
+         active={settingsActive}
+         setActive={() => { dispatch(setModal({ settingsActive: false })) }}
+      >
          <h2 className={styles.title}><FontAwesomeIcon icon={faGear} /> Настройки</h2>
          <div className={styles.settings}>
             <CustomToggle
