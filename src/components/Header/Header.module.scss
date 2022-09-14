@@ -454,7 +454,7 @@
                     top: 0;
                     right: 0;
                     bottom: 0;
-                    width: min(20rem, 100vw);
+                    width: 20rem;
                     flex-direction: column;
                     justify-content: center;
                     background-color: var(--blur-color);
@@ -480,6 +480,15 @@
 
                         &.extraLink {
                             display: flex;
+
+                            &.close {
+                                position: absolute;
+                                top: 2.5rem;
+                                right: 1.3rem;
+                                width: 2.75rem;
+                                aspect-ratio: 1;
+                                font-size: 2.5rem;
+                            }
                         }
 
                         .notification {
@@ -487,6 +496,48 @@
                             outline: none;
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 26rem) {
+    .container .wrapper {
+        .logo .logoTitle {
+            display: none;
+        }
+
+        .menu {
+            .search .box {
+
+                .input {
+                    &:focus {
+                        padding: .25rem 3.5rem .25rem .875rem;
+                    }
+                }
+
+                .btn {
+                    right: .5rem;
+
+                    &:focus~.input {
+                        padding: 1.25rem 3.5rem 1.25rem .875rem;
+                    }
+                }
+
+                .resultsMenu {
+                    width: 90vw;
+                    left: 50%;
+                    transform: translateX(-50%);
+                }
+            }
+
+
+
+            .navigation {
+                .links {
+                    inset: 0;
+                    width: 100vw;
                 }
             }
         }
