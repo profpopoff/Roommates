@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import styles from './Header.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faUser, faGear, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faUser, faGear, faArrowRightFromBracket, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { faComments, faHeart, faBuilding } from '@fortawesome/free-regular-svg-icons'
 
 import { setFilters } from '../../redux/slices/filters'
@@ -89,8 +89,12 @@ const Links = ({ showBurger, setShowBurger }) => {
 
     return (
         <nav className={styles.links} ref={navRef} data-visible={showBurger}>
+            <button className={`${styles.link} ${styles.extraLink} ${styles.close}`}
+                onClick={() => toggleBugrer()}
+            ><FontAwesomeIcon icon={faXmark} /></button>
             <Link href="/profile">
-                <a className={`${styles.link} ${styles.extraLink} ${router.pathname == "/profile" && styles.active}`}><FontAwesomeIcon icon={faUser} />Профиль</a>
+                <a className={`${styles.link} ${styles.extraLink} ${router.pathname == "/profile" && styles.active}`}
+                ><FontAwesomeIcon icon={faUser} />Профиль</a>
             </Link>
             <button className={`${styles.link} ${styles.extraLink}`}
                 onClick={() => { dispatch(setModal({ settingsActive: true })); toggleBugrer() }}
