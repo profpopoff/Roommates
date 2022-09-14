@@ -7,8 +7,8 @@ import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
 import { useHttp } from '../../hooks/http.hook'
+import { setModal } from '../../redux/slices/modal'
 import { setUser } from '../../redux/slices/user'
-import { Login } from '../Header/Header'
 import { useEffect } from 'react'
 
 export default function FavButton({ id }) {
@@ -23,8 +23,6 @@ export default function FavButton({ id }) {
     useEffect(() => {
         setIsFavourite(user ? user.favourites.includes(id) : false)
     }, [user])
-
-    const [loginActive, setLoginActive] = useState(false)
 
     const handleToggle = async (e) => {
         if (e.target.checked) {
@@ -57,9 +55,8 @@ export default function FavButton({ id }) {
                 defaultChecked={isFavourite}
                 id={id}
                 value={id}
-                onClick={!user ? (() => setLoginActive(true)) : handleToggle}
+                onClick={!user ? () => dispatch(setModal({ loginActive: true })) : handleToggle}
             />
-            {!user && <Login loginActive={loginActive} setLoginActive={setLoginActive} id={id} />}
         </div>
     )
 }

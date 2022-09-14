@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styles from '../../styles/pages/Apartment.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,6 +16,7 @@ import { wrapper } from '../../redux/store'
 import { getUser } from '../api/users/[id]'
 import { getUserChats } from '../api/chats/[id]'
 import { setUser } from '../../redux/slices/user'
+import { setModal } from '../../redux/slices/modal'
 import { getApartment } from '../api/apartments/[id]'
 import Layout from '../../components/Layout'
 import Modal from '../../components/Modal/Modal'
@@ -199,7 +200,7 @@ const ChatBtn = ({ landlordId, userChats }) => {
 
   const { request } = useHttp()
 
-  const [loginActive, setLoginActive] = useState(false)
+  const dispatch = useDispatch()
 
   const router = useRouter()
 
@@ -220,12 +221,11 @@ const ChatBtn = ({ landlordId, userChats }) => {
     <>
       <button
         className={styles.chatBtn}
-        onClick={!user ? (() => setLoginActive(true)) : (() => { landlordId !== user._id && handleClick() })}
+        onClick={!user ? () => dispatch(setModal({ loginActive: true })) : (() => { landlordId !== user._id && handleClick() })}
       >
         <FontAwesomeIcon icon={faComments} />
         <span className="sr-only">Начать чат с арендатором</span>
       </button>
-      {!user && <Login loginActive={loginActive} setLoginActive={setLoginActive} id={landlordId} />}
     </>
   )
 }
