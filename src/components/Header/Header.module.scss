@@ -206,6 +206,55 @@
                             transform: scale(1.1);
                         }
                     }
+
+                    .settingsBtn {
+                        border: none;
+                        background-color: transparent;
+                        color: var(--text-main);
+                        font-size: 1.5rem;
+                        cursor: pointer;
+                        transition: .15s;
+
+                        &:hover {
+                            color: var(--accent-color);
+                            transform: scale(1.1);
+                        }
+                    }
+
+                    .logInBtn {
+                        padding: .6rem;
+                        border-radius: .5rem;
+                        border: 2px solid var(--text-main);
+                        background-color: transparent;
+                        color: var(--text-main);
+                        font-size: 1.3rem;
+                        font-weight: 400;
+                        cursor: pointer;
+                        transition: all .15s ease-in-out;
+
+                        &:hover {
+                            box-shadow: 0px 0px 0px 2px var(--accent-color);
+                            border-color: transparent;
+                            color: var(--accent-color);
+                        }
+                    }
+
+                    .signInBtn {
+                        padding: .6rem;
+                        border-radius: .5rem;
+                        border: none;
+                        background-color: var(--text-main);
+                        color: var(--background-element);
+                        font-size: 1.3rem;
+                        font-weight: 600;
+                        cursor: pointer;
+                        transition: .15s;
+
+                        &:hover {
+                            background-color: var(--accent-color);
+                            box-shadow: 0px 0px 0px 3px var(--accent-color);
+                        }
+                    }
                 }
 
                 .user {
@@ -275,59 +324,12 @@
                         }
                     }
                 }
-            }
 
-            .auth {
-                display: flex;
-                gap: 1rem;
-
-                .settingsBtn {
+                .burgerBtn {
+                    display: none;
                     border: none;
                     background-color: transparent;
-                    color: var(--text-main);
-                    font-size: 1.5rem;
-                    cursor: pointer;
-                    transition: .15s;
-
-                    &:hover {
-                        color: var(--accent-color);
-                        transform: scale(1.1);
-                    }
-                }
-
-                .logInBtn {
-                    padding: .6rem;
-                    border-radius: .5rem;
-                    border: 2px solid var(--text-main);
-                    background-color: transparent;
-                    color: var(--text-main);
-                    font-size: 1.3rem;
-                    font-weight: 400;
-                    cursor: pointer;
-                    transition: all .15s ease-in-out;
-
-                    &:hover {
-                        box-shadow: 0px 0px 0px 2px var(--accent-color);
-                        border-color: transparent;
-                        color: var(--accent-color);
-                    }
-                }
-
-                .signInBtn {
-                    padding: .6rem;
-                    border-radius: .5rem;
-                    border: none;
-                    background-color: var(--text-main);
-                    color: var(--background-element);
-                    font-size: 1.3rem;
-                    font-weight: 600;
-                    cursor: pointer;
-                    transition: .15s;
-
-                    &:hover {
-                        background-color: var(--accent-color);
-                        box-shadow: 0px 0px 0px 3px var(--accent-color);
-                    }
+                    font-size: 2.5rem;
                 }
             }
         }
@@ -393,6 +395,18 @@
         }
 
         .navigation {
+            .links {
+                .signInBtn {
+                    display: none;
+                }
+
+                .logInBtn {
+                    border: none;
+                    font-size: 1.5rem;
+
+                }
+            }
+
             .user {
                 border-left: none;
                 padding-left: .5rem;
@@ -449,6 +463,10 @@
                     display: none;
                 }
 
+                .burgerBtn {
+                    display: block;
+                }
+
                 .links {
                     position: fixed;
                     top: 0;
@@ -496,6 +514,10 @@
                             outline: none;
                         }
                     }
+
+                    .signInBtn {
+                        display: block;
+                    }
                 }
             }
         }
@@ -531,8 +553,6 @@
                     transform: translateX(-50%);
                 }
             }
-
-
 
             .navigation {
                 .links {

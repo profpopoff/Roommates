@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import styles from './Header.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSearch, faUser, faGear, faArrowRightFromBracket, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faSearch, faUser, faGear, faArrowRightFromBracket, faXmark, faBars } from '@fortawesome/free-solid-svg-icons'
 import { faComments, faHeart, faBuilding } from '@fortawesome/free-regular-svg-icons'
 
 import { setFilters } from '../../redux/slices/filters'
@@ -34,9 +34,10 @@ export default function Header() {
                     <Search />
 
                     <div className={styles.navigation}>
+                        <Navigation showBurger={showBurger} setShowBurger={setShowBurger} />
                         {user ?
                             <>
-                                <Links showBurger={showBurger} setShowBurger={setShowBurger} />
+
                                 <Dropdown
                                     active={userMenuActive}
                                     setActive={setUserMenuActive}
@@ -47,7 +48,9 @@ export default function Header() {
                                     <List />
                                 </Dropdown>
                             </> :
-                            <Auth />
+                            <button className={styles.burgerBtn}
+                                onClick={() => setShowBurger(true)}
+                            ><FontAwesomeIcon icon={faBars} /></button>
                         }
                     </div>
                 </div>
@@ -63,7 +66,7 @@ export default function Header() {
     )
 }
 
-const Links = ({ showBurger, setShowBurger }) => {
+const Navigation = ({ showBurger, setShowBurger }) => {
 
     const toggleBugrer = () => setShowBurger(prevShowBurger => !prevShowBurger)
 
@@ -83,15 +86,30 @@ const Links = ({ showBurger, setShowBurger }) => {
 
     const user = useSelector((state) => state.user.info)
 
-    const router = useRouter()
-
-    const dispatch = useDispatch()
 
     return (
         <nav className={styles.links} ref={navRef} data-visible={showBurger}>
             <button className={`${styles.link} ${styles.extraLink} ${styles.close}`}
                 onClick={() => toggleBugrer()}
             ><FontAwesomeIcon icon={faXmark} /></button>
+            {user ?
+                <Links toggleBugrer={toggleBugrer} /> :
+                <Auth toggleBugrer={toggleBugrer} />
+            }
+        </nav>
+    )
+}
+
+const Links = ({ toggleBugrer }) => {
+
+    const user = useSelector((state) => state.user.info)
+
+    const router = useRouter()
+
+    const dispatch = useDispatch()
+
+    return (
+        <>
             <Link href="/profile">
                 <a className={`${styles.link} ${styles.extraLink} ${router.pathname == "/profile" && styles.active}`}
                 ><FontAwesomeIcon icon={faUser} />Профиль</a>
@@ -120,7 +138,7 @@ const Links = ({ showBurger, setShowBurger }) => {
                 </a>
             </Link>
             <button className={`${styles.link} ${styles.extraLink}`} onClick={() => logout(dispatch, router)}><FontAwesomeIcon icon={faArrowRightFromBracket} />Выйти</button>
-        </nav>
+        </>
     )
 }
 
@@ -217,22 +235,22 @@ const ResultsMenu = ({ results, setResultsMenu }) => {
     )
 }
 
-const Auth = () => {
+const Auth = ({ toggleBugrer }) => {
 
     const dispatch = useDispatch()
 
     return (
-        <div className={styles.auth}>
-            <button className={styles.settingsBtn}
-                onClick={() => dispatch(setModal({ settingsActive: true }))}
-            ><FontAwesomeIcon icon={faGear} /></button>
+        <>
+            <button className={styles.link}
+                onClick={() => { dispatch(setModal({ settingsActive: true })); toggleBugrer() }}
+            ><FontAwesomeIcon icon={faGear} /><span className={`sr-only ${styles.linkTitle}`}>Настройки</span></button>
             <button className={styles.logInBtn}
                 onClick={() => dispatch(setModal({ loginActive: true }))}
             >Вход</button>
             <button className={styles.signInBtn}
                 onClick={() => dispatch(setModal({ registerActive: true }))}
             >Регистрация</button>
-        </div>
+        </>
     )
 }
 
