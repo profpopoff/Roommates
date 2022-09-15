@@ -3,9 +3,9 @@
 
     .wrapper {
         max-width: 120rem;
-        height: 7.5rem;
+        height: clamp(5rem, 16vw, 7.5rem);
         margin-inline: auto;
-        padding: clamp(.1rem, 3vw, 1.75rem) clamp(1rem, 3vw, 3.75rem);
+        padding-inline: clamp(1rem, 3vw, 3.75rem);
         display: flex;
         align-items: center;
         justify-content: space-between;
