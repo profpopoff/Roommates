@@ -1,7 +1,7 @@
 .container {
     grid-area: filters;
     display: grid;
-    gap: 1rem;
+    gap: .7rem 1rem;
     grid-template-areas:
         'headline roommatesToggle'
         'buttons sortBy';
@@ -30,16 +30,46 @@
         display: flex;
         gap: 1rem;
 
+        .title {
+            margin-bottom: 1rem;
+        }
+
+        .roommates {
+            width: fit-content;
+            margin-inline: auto;
+            // margin-bottom: .5rem;
+        }
+
         .filterForm {
-            margin-top: 1rem;
             width: 70%;
             margin-inline: auto;
+            display: flex;
+            flex-direction: column;
+            gap: .7rem;
+
+            .subtitle {
+                margin-top: 1rem;
+            }
 
             .types {
                 display: flex;
-                flex-direction: column;
+                flex-wrap: wrap;
+                justify-content: center;
                 align-items: center;
                 gap: .5rem;
+                column-gap: 2rem;
+            }
+        }
+
+        .reset {
+            margin-top: 1rem;
+            border: none;
+            background-color: transparent;
+            cursor: pointer;
+            transition: .15s color ease-in-out;
+
+            &:hover {
+                color: var(--accent-color);
             }
         }
 
@@ -60,17 +90,9 @@
                 border-color: transparent;
                 color: var(--accent-color);
             }
-        }
 
-        .reset {
-            margin-top: 1rem;
-            border: none;
-            background-color: transparent;
-            cursor: pointer;
-            transition: .15s color ease-in-out;
-
-            &:hover {
-                color: var(--accent-color);
+            &.filtersButton {
+                display: none;
             }
         }
     }
@@ -78,9 +100,9 @@
     .sortBy {
         grid-area: sortBy;
         place-self: end;
+        text-align: end;
         font-weight: 400;
         font-size: 1.25rem;
-        color: var(--text-grey);
         cursor: pointer;
 
         span {
@@ -102,6 +124,40 @@
 
                 &:hover {
                     color: var(--accent-color);
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 85.75rem) {
+    .container {
+        grid-template-columns: 1fr 2fr;
+        grid-template-areas:
+            'headline headline'
+            'buttons sortBy';
+
+        .headline {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            column-gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .roommatesToggle {
+            display: none;
+        }
+
+        .buttons {
+            .button {
+                display: none;
+
+                &.filtersButton {
+                    display: block;
+                    border: none;
+                    padding: 0;
+                    font-size: 1.25rem;
                 }
             }
         }

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
+import { useSelector } from 'react-redux'
 import styles from './Post.module.scss'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,7 +15,9 @@ export default function Post(props) {
         <div className={styles.post}>
             <PostImage id={props._id} src={props.images[0]} roommates={props.roommates} />
             <Headline id={props._id} title={props.title} {...props.address} />
-            <FavButton id={props._id} />
+            <div className={styles.favBtn}>
+                <FavButton id={props._id} />
+            </div>
             <Conveniences conveniences={props.conveniences} />
             {!!props.averageRating && <Rating averageRating={props.averageRating} reviews={props.reviews} />}
             <Price {...props.price} />
@@ -43,13 +46,16 @@ const PostImage = (props) => {
 }
 
 const Headline = (props) => {
+
+    const cityFilter = useSelector((state) => state.filters.filters.city)
+
     return (
         <div className={styles.headline}>
             <Link href={`/apartment/${props.id}`} passHref>
                 <h2 className={styles.title}>{props.title}</h2>
             </Link>
             <h3 className={styles.address}>
-                <FontAwesomeIcon icon={faLocationDot} className="icon" /> {`${props.city}, ${props.street}, д.${props.house}, кв.${props.apartment}`}
+                <FontAwesomeIcon icon={faLocationDot} className="icon" /> {`${!cityFilter ? props.city + ',' : ''} ${props.street}, д.${props.house}, кв.${props.apartment}`}
             </h3>
         </div>
     )
@@ -58,7 +64,7 @@ const Headline = (props) => {
 const Conveniences = (props) => {
     return (
         <ul className={styles.conveniences}>
-            {props.conveniences.slice(0, 6).map((convenience, index) => (
+            {props.conveniences.map((convenience, index) => (
                 <li key={index}>{convenience}</li>
             ))}
         </ul>
@@ -68,13 +74,12 @@ const Conveniences = (props) => {
 const Rating = (props) => {
     return (
         <div className={styles.rating}>
-            <span>{props.averageRating?.toString().substring(0, 3)}</span>
+            <span className={styles.averageRating}>{props.averageRating?.toString().substring(0, 3)}</span>
             <StarRatings
                 rating={props.averageRating}
                 starRatedColor="#2B67F6"
                 starDimension="20"
                 starSpacing="2"
-                // starHoverColor="blue"
                 name="rating"
             />
             <span className={styles.number}>({props.reviews.length} {enumerate(props.reviews.length, ["отзыв", "отзыва", "отзывов"])})</span>

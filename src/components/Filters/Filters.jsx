@@ -24,6 +24,7 @@ export default function Filters({ apartments }) {
             <Headline apartments={apartments} filters={filters} />
             <RoommatesToggle withRoommates={filters.withRoommates} dispatch={dispatch} />
             <div className={styles.buttons}>
+                <FiltersButton price={filters.price} type={filters.type} withRoommates={filters.withRoommates} floor={filters.floor} dispatch={dispatch} />
                 <PriceButton price={filters.price} dispatch={dispatch} />
                 <TypeButton type={filters.type} withRoommates={filters.withRoommates} dispatch={dispatch} />
                 <FloorButton floor={filters.floor} dispatch={dispatch} />
@@ -92,6 +93,107 @@ const RoommatesToggle = ({ withRoommates, dispatch }) => {
                 onChange={(e) => dispatch(setFilters({ withRoommates: e.target.checked }))}
             />
         </div>
+    )
+}
+
+const FiltersButton = ({ price, type, withRoommates, floor, dispatch }) => {
+
+    const [filtersActive, setFiltersActive] = useState(false)
+
+    const [priceValue, setPriceValue] = useState(price)
+
+    const [types, setTypes] = useState(type)
+
+    const handleTypes = (e) => {
+        if (e.target.checked) {
+            setTypes([...types, e.target.value])
+        } else {
+            setTypes(prevTypes => prevTypes.filter(item => item !== e.target.value))
+        }
+    }
+
+    const [floorValue, setFloorValue] = useState(floor)
+
+    useEffect(() => {
+        setPriceValue(price)
+    }, [price])
+
+    useEffect(() => {
+        setTypes(type)
+    }, [type])
+
+    useEffect(() => {
+        setFloorValue(floor)
+    }, [floor])
+
+    const submiFilters = (e) => {
+        e.preventDefault()
+        dispatch(setFilters({ price: priceValue, type: types, floor: floorValue }))
+    }
+
+    return (
+        <>
+            <button className={`${styles.button} ${styles.filtersButton}`} onClick={() => { setFiltersActive(true) }}>
+                <FontAwesomeIcon icon={faSliders} /> Фильтры
+            </button>
+            <Modal active={filtersActive} setActive={setFiltersActive}>
+                <h2 className={styles.title}><FontAwesomeIcon icon={faSliders} /> Фильтры</h2>
+                <div className={styles.roommates}>
+                    <CustomToggle
+                        name="roommates"
+                        label="С соседями"
+                        checked={withRoommates}
+                        onChange={(e) => dispatch(setFilters({ withRoommates: e.target.checked }))}
+                    />
+                </div>
+                <form className={styles.filterForm} onSubmit={submiFilters}>
+                    <h3 className={styles.subtitle}>Тип</h3>
+                    <div className={styles.types}>
+                        <CustomToggle label="Кровать" name="bed"
+                            checked={types.includes('bed')} disabled={!withRoommates} onChange={handleTypes} />
+                        <CustomToggle label="Комната" name="room"
+                            checked={types.includes('room')} disabled={!withRoommates} onChange={handleTypes} />
+                        <CustomToggle label="Квартира" name="flat"
+                            checked={types.includes('flat')} disabled={withRoommates} onChange={handleTypes} />
+                        <CustomToggle label="Дом" name="house"
+                            checked={types.includes('house')} disabled={withRoommates} onChange={handleTypes} />
+                        <CustomToggle label="Таунхаус" name="townhouse"
+                            checked={types.includes('townhouse')} disabled={withRoommates} onChange={handleTypes} />
+                    </div>
+                    <h3 className={styles.subtitle}>Цена</h3>
+                    <Slider
+                        range
+                        marks={{
+                            0: priceValue[0],
+                            100000: priceValue[1]
+                        }}
+                        trackStyle={{ 'backgroundColor': '#2B67F6' }}
+                        min={0}
+                        max={100000}
+                        step={100}
+                        value={priceValue}
+                        onChange={(value) => setPriceValue([value[0], value[1]])}
+                    />
+                    <h3 className={styles.subtitle}>Этаж</h3>
+                    <Slider
+                        range
+                        marks={{
+                            1: floorValue[0],
+                            50: floorValue[1]
+                        }}
+                        trackStyle={{ 'backgroundColor': '#2B67F6' }}
+                        min={1}
+                        max={50}
+                        value={floorValue}
+                        onChange={(value) => setFloorValue([value[0], value[1]])}
+                    />
+                    <input className="submit-btn" type="submit" value="Применить" />
+                </form>
+                <button className={styles.reset} onClick={() => { dispatch(resetFilters()) }}>
+                    <FontAwesomeIcon icon={faArrowRotateLeft} /> Сбросить фильтры
+                </button>
+            </Modal>
+        </>
     )
 }
 

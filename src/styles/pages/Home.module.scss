@@ -2,12 +2,11 @@
     height: calc(100vh - var(--header-height));
     max-width: 120rem;
     padding-inline: clamp(1rem, 3vw, 3.75rem);
-    padding-top:  clamp(1rem, 3vw, 2.75rem);
+    padding-top: clamp(1rem, 3vw, 2.75rem);
     display: grid;
     gap: clamp(.7rem, 2.5vw, 2rem) clamp(1rem, 3vw, 3.75rem);
     margin-inline: auto;
-    // grid-template-columns: clamp(41rem, 47vw, 45rem) minmax(37rem, 65rem);
-    grid-template-columns: 45rem minmax(30rem, 65rem);
+    grid-template-columns: clamp(41rem, 47vw, 45rem) minmax(25rem, 65rem);
     grid-template-rows: min-content 1fr clamp(1rem, 3vw, 2.75rem);
     grid-template-areas:
         'filters map'
@@ -28,6 +27,11 @@
     }
 }
 
-@media screen and (max-width: 70rem) {
-    .container {}
+@media screen and (max-width: 85.75rem) {
+    .container {
+        grid-template-areas:
+            'posts filters'
+            'posts map '
+            'posts .';
+    }
 }

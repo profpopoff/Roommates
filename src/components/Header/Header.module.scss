@@ -44,7 +44,7 @@
             gap: clamp(.5em, 1vw, 1.5em);
 
             .search {
-                max-width: 26rem;
+                max-width: clamp(22rem, 26.5vw, 26rem);
                 flex: 1;
 
                 .box {

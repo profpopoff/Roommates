@@ -1,9 +1,8 @@
 .container {
-    grid-area: favButton;
-    // place-self: start end;
     position: relative;
-    width: 2.75rem;
-    aspect-ratio: 1;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
 
     .label {
         position: absolute;
@@ -12,10 +11,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 30rem;
-        background-color: var(--background-main);
+        border-radius: inherit;
+        background-color: transparent;
         color: var(--text-grey);
-        font-size: 1.5rem;
         cursor: pointer;
         transition: .15s;
 

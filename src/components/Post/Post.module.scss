@@ -1,12 +1,14 @@
 .post {
+    position: relative;
     max-width: 50rem;
     display: grid;
-    gap: 1.5rem;
-    grid-template-columns: min-content 2fr 1fr min-content;
-    grid-template-rows: min-content 1fr min-content;
+    column-gap: 1.5rem;
+    row-gap: 1rem;
+    grid-template-columns: min-content max-content 1fr min-content;
+    grid-template-rows: repeat(3, min-content);
     grid-template-areas:
         'image headline headline favButton'
-        'image conveniences conveniences .'
+        'image conveniences conveniences conveniences'
         'image rating price price';
     padding: 1.8rem 2rem;
     border-radius: 1.25rem;
@@ -69,6 +71,7 @@
 
     .headline {
         grid-area: headline;
+        align-self: center;
 
         .title {
             font-weight: 500;
@@ -86,15 +89,25 @@
         }
     }
 
+    .favBtn {
+        grid-area: favButton;
+        width: 2.75rem;
+        aspect-ratio: 1;
+        border-radius: 30rem;
+        background-color: var(--background-main);
+        font-size: 1.5rem;
+    }
+
     .conveniences {
         grid-area: conveniences;
+        max-height: 3rem;
+        overflow: hidden;
+        padding: 0;
         display: flex;
         flex-wrap: wrap;
         list-style: none;
-        padding: 0;
         color: var(--text-grey);
         font-weight: 400;
-        overflow: hidden;
 
         li:not(:first-child) {
             margin-left: 1rem;
@@ -115,7 +128,7 @@
         align-items: center;
         gap: .5rem;
 
-        span {
+        .averageRating {
             font-size: 1.25rem;
         }
 
@@ -134,5 +147,11 @@
             font-weight: 700;
             font-size: 24px;
         }
+    }
+}
+
+@media screen and (max-width: 95.75rem) {
+    .post .rating .number {
+        display: none;
     }
 }
