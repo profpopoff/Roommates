@@ -43,7 +43,9 @@ export default function Apartment({ apartment, landlord, reviewers, userChats, r
             userChats={userChats}
           />
           <Landlord {...landlord} userChats={userChats} />
-          <FavButton id={apartment._id} />
+          <div className={styles.favBtn}>
+            <FavButton id={apartment._id} />
+          </div>
           <Conveniences conveniences={apartment.conveniences} />
           <Stats {...apartment.stats} />
           <Desc desc={apartment.desc} {...apartment.coordinates} />

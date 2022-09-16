@@ -189,6 +189,15 @@
             }
         }
 
+        .favBtn {
+            grid-area: favButton;
+            width: 3rem;
+            aspect-ratio: 1;
+            border-radius: 30rem;
+            background-color: var(--background-main);
+            font-size: 1.5rem;
+        }
+
         .landlord {
             grid-area: landlord;
             display: flex;
