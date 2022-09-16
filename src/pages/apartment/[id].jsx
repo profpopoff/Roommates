@@ -314,18 +314,13 @@ const Reviews = ({ apartment, reviewers }) => {
     e.preventDefault()
 
     if (review.rating && review.review) {
-
-      const reviews = !!apartment.reviews.find(item => item.userId !== user._id) ?
-        [...[apartment.reviews.find(item => item.userId !== user._id)], { ...review, userId: user._id }] :
-        [{ ...review, userId: user._id }]
-
       try {
         await fetch(`/api/apartments/${apartment._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json;charset=utf-8'
           },
-          body: JSON.stringify({ reviews: reviews }),
+          body: JSON.stringify({ reviews: [...apartment.reviews.filter(item => item.userId !== user._id), { ...review, userId: user._id }] }),
         }).then(res => { res.status < 300 && refreshData(); setReviewActive(false) })
       } catch (error) {
         console.log(error)
@@ -340,7 +335,7 @@ const Reviews = ({ apartment, reviewers }) => {
         headers: {
           'Content-Type': 'application/json;charset=utf-8'
         },
-        body: JSON.stringify({ reviews: apartment.reviews.length === 1 ? [] : apartment.reviews.find(item => item.userId !== user._id) }),
+        body: JSON.stringify({ reviews: apartment.reviews.filter(item => item.userId !== user._id) }),
       }).then(res => { res.status < 300 && refreshData(); setReviewActive(false) })
     } catch (error) {
       console.log(error)
@@ -349,7 +344,7 @@ const Reviews = ({ apartment, reviewers }) => {
 
   return (
     <section className={styles.reviews}>
-      {user?.homeId === apartment._id &&
+      {(user && (user?.homeId === apartment._id || apartment.reviews.find(item => item.userId === user._id))) &&
         <div className={styles.newReview}>
           <button className={styles.reviewBtn} onClick={() => setReviewActive(true)}>{reviewers.map(({ _id }) => _id).includes(user._id) ? 'Редактировать отзыв' : 'Оставить отзыв'}</button>
           <Modal active={reviewActive} setActive={setReviewActive}>
