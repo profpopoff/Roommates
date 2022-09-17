@@ -33,8 +33,10 @@ const PostImage = (props) => {
                 <div className={styles.roommates}>
                     <div className={styles.images}>
                         {props.roommates.map(roommate => (
-                            <div key={roommate._id} className={styles.roommate}>
-                                <Image className={styles.src} src={roommate.image} alt="" width={40} height={40} />
+                            <div className={styles.image}>
+                                <div key={roommate._id} className={styles.roommate}>
+                                    <Image className={styles.src} src={roommate.image} alt="" layout="fill" />
+                                </div>
                             </div>
                         ))}
                     </div>

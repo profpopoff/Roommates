@@ -28,7 +28,7 @@ export default function Filters({ apartments }) {
                 <PriceButton price={filters.price} dispatch={dispatch} />
                 <TypeButton type={filters.type} withRoommates={filters.withRoommates} dispatch={dispatch} />
                 <FloorButton floor={filters.floor} dispatch={dispatch} />
-                <button className={styles.button} onClick={() => { dispatch(resetFilters()) }}>
+                <button className={`${styles.button} ${styles.resetButton}`} onClick={() => { dispatch(resetFilters()) }}>
                     <FontAwesomeIcon icon={faArrowRotateLeft} /> Сброс
                 </button>
             </div>

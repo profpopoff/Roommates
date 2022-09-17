@@ -130,9 +130,39 @@
     }
 }
 
-@media screen and (max-width: 85.75rem) {
+@media screen and (max-width: 73rem) {
     .container {
-        grid-template-columns: 1fr 2fr;
+        .buttons {
+
+            .roommates {
+                display: none;
+            }
+
+            .reset {
+                display: none;
+            }
+
+            .filterForm .subtitle:first-child {
+                margin-top: 0;
+            }
+
+            .button {
+                display: none;
+
+                &.filtersButton {
+                    display: block;
+                }
+
+                &.resetButton {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 69.875rem) {
+    .container {
         grid-template-areas:
             'headline headline'
             'buttons sortBy';
@@ -150,14 +180,29 @@
         }
 
         .buttons {
+
+            .roommates {
+                display: block;
+            }
+
+            .reset {
+                display: inline-block;
+            }
+
+            .filterForm .subtitle:first-child {
+                margin-top: 1rem;
+            }
+
+
             .button {
                 display: none;
 
                 &.filtersButton {
                     display: block;
-                    border: none;
-                    padding: 0;
-                    font-size: 1.25rem;
+                }
+
+                &.resetButton {
+                    display: block;
                 }
             }
         }

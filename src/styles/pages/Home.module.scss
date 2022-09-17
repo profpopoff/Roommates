@@ -27,10 +27,11 @@
     }
 }
 
-@media screen and (max-width: 85.75rem) {
+@media screen and (max-width: 73rem) {
     .container {
+        grid-template-columns: minmax(33rem, 41rem) 25rem;
         grid-template-areas:
-            'posts filters'
+            'filters map'
             'posts map '
             'posts .';
     }
