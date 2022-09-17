@@ -152,9 +152,9 @@
         place-self: end;
         font-weight: 400;
 
-        span {
+        .value {
             font-weight: 700;
-            font-size: 24px;
+            font-size: 1.5rem;
         }
     }
 }
@@ -194,6 +194,67 @@
             left: 1.5rem;
             width: 2rem;
             font-size: 1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 64rem) {
+    .post {
+        grid-template-areas:
+            'image headline headline headline'
+            'image conveniences conveniences conveniences'
+            'image rating price price';
+
+        .headline {
+            .title {
+                font-size: 1.25rem;
+            }
+
+            .address {
+                font-size: .9rem;
+            }
+        }
+
+        .conveniences {
+            font-size: .9rem;
+        }
+
+        .rating .averageRating {
+            display: none;
+        }
+
+        .price {
+            .value {
+                font-size: 1.15rem;
+            }
+
+            .month {
+                display: none;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 58rem) {
+    .post {
+        grid-template-areas:
+            'headline headline headline favButton'
+            'conveniences conveniences conveniences conveniences'
+            'rating rating price price';
+
+        .image {
+            display: none;
+        }
+
+        .favBtn {
+            position: relative;
+            top: 0;
+            left: 0;
+        }
+
+        .rating .averageRating {
+            display: block;
+            font-size: 1.1rem;
         }
     }
 }

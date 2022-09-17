@@ -92,11 +92,11 @@ const Rating = (props) => {
 const Price = (props) => {
     return (
         <div className={styles.price}>
-            <span>{props.value.toLocaleString('ru', {
+            <span className={styles.value}>{props.value.toLocaleString('ru', {
                 style: 'currency',
                 currency: props.currency,
                 minimumFractionDigits: 0
-            })}</span>/месяц
+            })}</span>/м<span className={styles.month}>есяц</span>
         </div>
     )
 }

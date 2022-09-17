@@ -186,7 +186,7 @@
             }
 
             .reset {
-                display: inline-block;
+                display: none;
             }
 
             .filterForm .subtitle:first-child {
@@ -205,6 +205,46 @@
                     display: block;
                 }
             }
+        }
+    }
+}
+
+@media screen and (max-width: 62rem) {
+    .container {
+        grid-template-columns: 1fr 2fr;
+
+        .headline {
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .resultNum {
+                font-weight: 300;
+                font-size: 1rem;
+            }
+        }
+
+        .buttons {
+            .reset {
+                display: inline-block;
+            }
+
+            .button {
+
+                &.filtersButton {
+                    padding: 0;
+                    border: none;
+                    font-size: 1.1rem;
+                }
+
+                &.resetButton {
+                    display: none;
+                }
+            }
+        }
+
+        .sortBy {
+            font-size: 1.1rem;
         }
     }
 }

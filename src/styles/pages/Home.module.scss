@@ -29,7 +29,7 @@
 
 @media screen and (max-width: 73rem) {
     .container {
-        grid-template-columns: minmax(33rem, 41rem) 25rem;
+        grid-template-columns: minmax(23rem, 41rem) 25rem;
         grid-template-areas:
             'filters map'
             'posts map '
