@@ -13,12 +13,13 @@ import { getApartments } from './api/apartments/index'
 import Layout from '../components/Layout'
 import Filters from '../components/Filters/Filters'
 import Post from '../components/Post/Post'
-// import Map from '../components/Map/Map'
 import { average, jsonParser } from '../utils/functions'
 
 const Map = dynamic(() => import("../components/Map/Map"), { ssr: false })
 
 export default function Home({ apartments, roommates }) {
+
+
   return (
     <Layout>
       <div className={styles.container}>
@@ -73,19 +74,26 @@ const Posts = ({ apartments, roommates }) => {
     }
   }
 
+  const [showPosts, setShowPosts] = useState(false)
+
   return (
-    <section className={styles.posts}>
-      {apartmentsArray.slice().sort(sortByFunction(filters.sortBy[0], filters.sortBy[1])).map(apartment => {
-        return (
-          apartment.isVisible &&
-          ((filters.withRoommates && ['bed', 'room'].includes(apartment.type)) || (!filters.withRoommates && ['flat', 'house', 'townhouse'].includes(apartment.type))) &&
-          (apartment.price.value <= filters.price[1] && apartment.price.value >= filters.price[0]) &&
-          (apartment.stats.floor <= filters.floor[1] && apartment.stats.floor >= filters.floor[0]) &&
-          filters.type.includes(apartment.type) &&
-          (!filters.city ? true : apartment.address.city === filters.city) &&
-          <Post key={apartment._id} {...apartment} />
-        )
-      })}
+    <section className={styles.posts} data-visible={showPosts}>
+      <div className={styles.postsWrapper}>
+        <button className={styles.showPostsBtn} onClick={() => setShowPosts(prevShowPosts => !prevShowPosts)}></button>
+        <div className={styles.postsContent}>
+          {apartmentsArray.slice().sort(sortByFunction(filters.sortBy[0], filters.sortBy[1])).map(apartment => {
+            return (
+              apartment.isVisible &&
+              ((filters.withRoommates && ['bed', 'room'].includes(apartment.type)) || (!filters.withRoommates && ['flat', 'house', 'townhouse'].includes(apartment.type))) &&
+              (apartment.price.value <= filters.price[1] && apartment.price.value >= filters.price[0]) &&
+              (apartment.stats.floor <= filters.floor[1] && apartment.stats.floor >= filters.floor[0]) &&
+              filters.type.includes(apartment.type) &&
+              (!filters.city ? true : apartment.address.city === filters.city) &&
+              <Post key={apartment._id} {...apartment} />
+            )
+          })}
+        </div>
+      </div>
     </section>
   )
 }

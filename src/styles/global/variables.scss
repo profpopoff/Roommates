@@ -7,7 +7,7 @@
   --blur-color: rgba(43, 103, 246, .1);
   --blur: blur(1rem);
 
-  --header-height: 7.5rem;
+  --header-height: clamp(5rem, 16vw, 7.5rem);
 }
 
 [data-theme='dark'] {

@@ -131,31 +131,28 @@
 }
 
 @media screen and (max-width: 73rem) {
-    .container {
-        .buttons {
+    .container .buttons {
+        .roommates {
+            display: none;
+        }
 
-            .roommates {
-                display: none;
+        .reset {
+            display: none;
+        }
+
+        .filterForm .subtitle:first-child {
+            margin-top: 0;
+        }
+
+        .button {
+            display: none;
+
+            &.filtersButton {
+                display: block;
             }
 
-            .reset {
-                display: none;
-            }
-
-            .filterForm .subtitle:first-child {
-                margin-top: 0;
-            }
-
-            .button {
-                display: none;
-
-                &.filtersButton {
-                    display: block;
-                }
-
-                &.resetButton {
-                    display: block;
-                }
+            &.resetButton {
+                display: block;
             }
         }
     }
@@ -180,7 +177,6 @@
         }
 
         .buttons {
-
             .roommates {
                 display: block;
             }
@@ -230,7 +226,6 @@
             }
 
             .button {
-
                 &.filtersButton {
                     padding: 0;
                     border: none;
@@ -245,6 +240,106 @@
 
         .sortBy {
             font-size: 1.1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 53rem) {
+    .container {
+        grid-template-columns: auto auto;
+        grid-template-areas:
+            'headline roommatesToggle'
+            'buttons sortBy';
+
+        .headline {
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+
+            .title {
+                font-size: 1.75rem;
+            }
+
+            .resultNum {
+                font-weight: 400;
+                font-size: 1.25rem;
+            }
+        }
+
+        .roommatesToggle {
+            display: block;
+        }
+
+        .buttons {
+            .button {
+                display: flex;
+
+                &.filtersButton {
+                    display: none;
+                }
+
+                &.resetButton {
+                    display: block;
+                }
+            }
+        }
+
+        .sortBy {
+            font-size: 1.25rem;
+        }
+    }
+}
+
+@media screen and (max-width: 43.125rem) {
+    .container .buttons {
+        .roommates {
+            display: none;
+        }
+
+        .reset {
+            display: none;
+        }
+
+        .filterForm .subtitle:first-child {
+            margin-top: 0;
+        }
+
+        .button {
+            display: none;
+
+            &.filtersButton {
+                display: block;
+                padding: 0.5rem .7rem;
+                border: 2px solid var(--text-grey);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 42rem) {
+    .container {
+        grid-template-areas:
+            'headline headline'
+            'buttons sortBy';
+
+        .headline {
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .roommatesToggle {
+            display: none;
+        }
+
+        .buttons {
+            .roommates {
+                display: block;
+            }
+
+            .filterForm .subtitle:first-child {
+                margin-top: 1rem;
+            }
         }
     }
 }

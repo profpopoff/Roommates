@@ -1,6 +1,6 @@
 .post {
     position: relative;
-    max-width: 50rem;
+    max-width: 60rem;
     display: grid;
     gap: 1rem 1.5rem;
     grid-template-columns: min-content max-content 1fr min-content;
@@ -255,6 +255,68 @@
         .rating .averageRating {
             display: block;
             font-size: 1.1rem;
+        }
+    }
+}
+
+@media screen and (max-width: 53rem) {
+    .post {
+        padding: 0 1rem 0 0;
+        gap: 1rem 1.5rem;
+        grid-template-rows: repeat(5, min-content);
+        grid-template-areas:
+            'image . . .'
+            'image headline headline favButton'
+            'image conveniences conveniences conveniences'
+            'image rating price price'
+            'image . . .';
+        border-radius: 0;
+
+        .image {
+            display: block;
+            width: 12.5rem;
+            border-radius: 0;
+
+            .roommates {
+                padding: .7rem 1rem;
+
+                .images .image .roommate {
+                    width: 2.2rem;
+                }
+            }
+        }
+
+        .headline {
+            .title {
+                font-size: 1.5rem;
+            }
+
+            .address {
+                font-size: 1rem;
+            }
+        }
+
+        .conveniences {
+            font-size: 1rem;
+        }
+
+        .favBtn {
+            width: 2.4rem;
+            font-size: 1.3rem;
+        }
+
+        .rating .number {
+            display: inline-block;
+        }
+
+        .price {
+            .value {
+                font-size: 1.3rem;
+            }
+
+            .month {
+                display: inline-block;
+            }
         }
     }
 }

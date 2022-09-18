@@ -16,19 +16,100 @@
     .posts {
         grid-area: posts;
         border-radius: 1.25rem 1.25rem 0 0;
-        overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 1.75rem;
+
+        .postsWrapper {
+            display: flex;
+            flex-direction: column;
+
+            .showPostsBtn {
+                display: none;
+            }
+
+            .postsContent {
+                display: flex;
+                flex-direction: column;
+                gap: 1.75rem;
+                overflow-y: auto;
+            }
+        }
 
         &::-webkit-scrollbar {
             display: none;
         }
+
     }
 }
 
 @media screen and (max-width: 73rem) {
     .container {
         grid-template-columns: minmax(23rem, 41rem) 25rem;
+    }
+}
+
+
+@media screen and (max-width: 53rem) {
+    .container {
+        grid-template-columns: min-content auto min-content;
+        grid-template-rows: min-content 1fr;
+        grid-template-areas:
+            '. filters .'
+            'map map map';
+        padding-inline: 0;
+
+        .posts {
+            position: absolute;
+            top: 96vh;
+            height: 4vh;
+            width: 100%;
+            overflow: hidden;
+            z-index: 12;
+            border-radius: 2rem 2rem 0 0;
+            background-color: var(--background-main);
+            transition: .3s all ease-in-out;
+
+            .postsWrapper {
+                position: relative;
+
+                .showPostsBtn {
+                    position: absolute;
+                    top: 0;
+                    height: 2.5rem;
+                    width: 100%;
+                    display: block;
+                    z-index: 12;
+                    border: none;
+                    background-color: var(--background-main);
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        top: 1.25rem;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        width: 5rem;
+                        height: .5rem;
+                        border-radius: 2rem;
+                        background-color: var(--accent-color);
+
+                    }
+                }
+
+                .postsContent {
+                    height: 100%;
+                    overflow-y: auto;
+                    padding-top: 3rem;
+                    gap: 1rem;
+                }
+            }
+
+            &[data-visible=true] {
+                top: 30%;
+                height: 70%;
+
+                .postsWrapper {
+                    height: 100%;
+                }
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@
 
     .wrapper {
         max-width: 120rem;
-        height: clamp(5rem, 16vw, 7.5rem);
+        height: var(--header-height);
         margin-inline: auto;
         padding-inline: clamp(1rem, 3vw, 3.75rem);
         display: flex;
