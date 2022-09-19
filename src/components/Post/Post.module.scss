@@ -320,3 +320,120 @@
         }
     }
 }
+
+@media screen and (max-width: 40rem) {
+    .post {
+        grid-template-areas:
+            'image . . .'
+            'image headline headline headline'
+            'image conveniences conveniences conveniences'
+            'image rating price price'
+            'image . . .';
+
+        .favBtn {
+            position: absolute;
+            top: 1rem;
+            left: .7rem;
+        }
+
+        .rating .number {
+            display: none;
+        }
+    }
+}
+
+@media screen and (max-width: 34.25rem) {
+    .post {
+        gap: .5rem 1rem;
+
+        .image {
+            width: 10rem;
+
+            .roommates {
+                padding: .5rem;
+                gap: .3rem;
+            }
+        }
+
+        .favBtn {
+            position: absolute;
+            top: .5rem;
+            left: .5rem;
+        }
+    }
+}
+
+@media screen and (max-width: 31.25rem) {
+    .post {
+        .image {
+            width: 8rem;
+
+            .roommates .number {
+                font-size: 1rem;
+            }
+        }
+
+        .headline {
+            .title {
+                font-size: 1.25rem;
+            }
+
+            .address {
+                font-size: .9rem;
+            }
+        }
+
+        .conveniences {
+            font-size: .9rem;
+        }
+
+        .rating .averageRating {
+            display: none;
+        }
+
+        .price {
+            .value {
+                font-size: 1.15rem;
+            }
+
+            .month {
+                display: none;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 26rem) {
+    .post {
+        padding: .5rem 1rem;
+        grid-template-rows: repeat(3, min-content);
+        grid-template-areas:
+            'headline headline headline favButton'
+            'conveniences conveniences conveniences conveniences'
+            'rating rating price price';
+
+        .image {
+            display: none;
+        }
+
+        .rating .averageRating {
+            display: block;
+        }
+
+        .price .month {
+            display: inline-block;
+        }
+    }
+}
+
+@media screen and (max-width: 21rem) {
+    .post {
+        .rating .averageRating {
+            display: none;
+        }
+
+        .price .month {
+            display: none;
+        }
+    }
+}
