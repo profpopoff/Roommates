@@ -107,6 +107,7 @@
    }
 
    .box {
+      position: relative;
       height: 97%;
       width: 70%;
       padding: 2rem;
@@ -114,6 +115,14 @@
       flex-direction: column;
       border-radius: 1.5rem;
       background-color: var(--background-element);
+
+      .closeChatBtn {
+         position: absolute;
+         right: 2rem;
+         background-color: transparent;
+         border: none;
+         font-size: 1.5rem;
+      }
 
       .name {
          margin-bottom: 1rem;
@@ -239,6 +248,48 @@
             &:hover {
                color: var(--accent-color);
             }
+         }
+      }
+   }
+}
+
+@media screen and (max-width: 62rem) {
+   .container .conversations {
+      width: 22rem;
+   }
+}
+
+@media screen and (max-width: 50rem) {
+   .container {
+      width: auto;
+
+      .conversations {
+         margin-right: 0;
+      }
+
+      .box {
+         width: 95%;
+         height: calc(100vh - var(--header-height) - 2rem);
+         position: absolute;
+         left: 50%;
+         transform: translateX(-50%);
+      }
+   }
+}
+
+@media screen and (max-width: 24rem) {
+   .container .conversations {
+      width: 95%;
+      padding: 1.3rem 1rem;
+      gap: .5rem;
+
+      .conversation .user {
+         .image {
+            width: 2rem;
+         }
+
+         .name {
+            font-size: 1rem;
          }
       }
    }

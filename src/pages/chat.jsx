@@ -8,7 +8,7 @@ import styles from '../styles/pages/Chat.module.scss'
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEllipsis, faTrashCan, faLocationDot, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import { faEllipsis, faTrashCan, faXmark, faPaperPlane } from '@fortawesome/free-solid-svg-icons'
 import { format } from 'timeago.js'
 
 import { wrapper } from '../redux/store'
@@ -40,7 +40,7 @@ export default function Chat({ userChats, companions, properties }) {
               properties={properties} />
           ))}
         </div>
-        {currentChat && <Box {...currentChat} />}
+        {currentChat && <Box {...currentChat} setCurrentChat={setCurrentChat} />}
       </div>
     </Layout>
   )
@@ -162,7 +162,7 @@ const ConversationMenu = ({ active, setActive, companion, chatId, properties, se
   )
 }
 
-const Box = ({ companion, chat }) => {
+const Box = ({ companion, chat, setCurrentChat }) => {
 
   const router = useRouter()
 
@@ -177,6 +177,7 @@ const Box = ({ companion, chat }) => {
 
   return (
     <div className={styles.box}>
+      <button className={styles.closeChatBtn} onClick={() => setCurrentChat(null)}><FontAwesomeIcon icon={faXmark} /></button>
       <h2 className={styles.name}>{companion.name} {companion.surname}</h2>
       <div className={styles.messages} >
         {messages.map((message, index) => (
