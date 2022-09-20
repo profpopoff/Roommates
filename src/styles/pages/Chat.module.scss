@@ -33,6 +33,7 @@
             cursor: pointer;
 
             .image {
+               flex-shrink: 0;
                position: relative;
                width: 2.5rem;
                aspect-ratio: 1;
