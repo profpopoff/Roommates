@@ -85,17 +85,19 @@ const Images = (props) => {
         </button>
       </div>
       <div className={styles.inactive}>
-        {props.images.map((image, index) => (
-          <div className={styles.image} key={index}>
-            <Image
-              className={styles.src}
-              src={image}
-              alt=""
-              layout="fill"
-              onClick={() => setActiveImage(index)}
-            />
-          </div>
-        ))}
+        <div className={styles.inactiveImages}>
+          {props.images.map((image, index) => (
+            <div className={styles.image} key={index}>
+              <Image
+                className={styles.src}
+                src={image}
+                alt=""
+                layout="fill"
+                onClick={() => setActiveImage(index)}
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -157,7 +159,7 @@ const Headline = (props) => {
       {
         !!props.roommates.length &&
         <div className={styles.roommates}>
-          <div className={styles.images}>
+          <div className={styles.rmImages}>
             {props.roommates.map(roommate => (
               <div key={roommate._id} className={`${styles.roommate} ${user && styles.authorized}`} >
                 <Image className={styles.src} src={roommate.image} alt="" width={50} height={50} />

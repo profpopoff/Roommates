@@ -5,12 +5,12 @@
 
     .info {
         margin-inline: clamp(1em, 3vw, 3.75em);
-        padding: 1.8rem 2rem;
+        padding: clamp(1em, 3vw, 1.8em) clamp(1em, 3vw, 2em);
         border-radius: 1.25rem;
         background-color: var(--background-element);
         display: grid;
-        gap: 3rem;
-        grid-template-columns: 1.5fr auto 1fr min-content;
+        gap: clamp(1rem, 3vw, 3rem);
+        grid-template-columns: clamp(45rem, 50vw, 58rem) 1fr 1fr min-content;
         grid-template-areas:
             'images headline headline favButton'
             'images landlord landlord landlord'
@@ -19,12 +19,13 @@
 
         .images {
             grid-area: images;
-            height: 32rem;
+            height: clamp(25rem, 50vw, 32rem);
             display: flex;
-            gap: 1rem;
+            gap: clamp(.3rem, 2vw, 1rem);
 
             .active {
-                flex: 8;
+                flex: 1;
+                flex-shrink: none;
                 position: relative;
                 border-radius: .7rem;
                 background-color: var(--text-grey);
@@ -68,28 +69,30 @@
             }
 
             .inactive {
-                flex: 1;
+                width: 7rem;
                 border-radius: .7rem;
-                overflow-y: auto;
+                overflow: auto;
 
-                &::-webkit-scrollbar {
-                    display: none;
-                }
+                .inactiveImages {
+                    display: flex;
+                    flex-direction: column;
+                    gap: clamp(.3rem, 2vw, 1rem);
 
-                .image {
-                    position: relative;
-                    width: 100%;
-                    aspect-ratio: 1;
-                    border-radius: .7rem;
-                    cursor: pointer;
-                    overflow: hidden;
-
-                    &:not(:last-child) {
-                        margin-bottom: 1rem;
+                    &::-webkit-scrollbar {
+                        display: none;
                     }
 
-                    .src {
-                        object-fit: cover;
+                    .image {
+                        position: relative;
+                        width: 100%;
+                        aspect-ratio: 1;
+                        border-radius: .7rem;
+                        cursor: pointer;
+                        overflow: hidden;
+
+                        .src {
+                            object-fit: cover;
+                        }
                     }
                 }
             }
@@ -102,13 +105,13 @@
             gap: .3rem;
 
             .title {
-                font-size: 2.2rem;
+                font-size: clamp(1.5rem, 3vw, 2.2rem);
                 font-weight: 500;
             }
 
             .address {
                 font-weight: 300;
-                font-size: 1.5rem;
+                font-size: clamp(1.1rem, 2vw, 1.5rem);
             }
 
             .price {
@@ -116,7 +119,7 @@
 
                 span {
                     font-weight: 700;
-                    font-size: 1.7rem;
+                    font-size: clamp(1.2rem, 4vw, 1.7rem);
                 }
             }
 
@@ -135,7 +138,7 @@
                 align-items: center;
                 gap: 1rem;
 
-                .images {
+                .rmImages {
                     height: 50px;
                     display: flex;
 
@@ -173,7 +176,7 @@
                         }
 
                         &:not(:first-child) {
-                            margin-left: -1.5rem;
+                            margin-left: -1rem;
                         }
 
 
@@ -191,11 +194,12 @@
 
         .favBtn {
             grid-area: favButton;
-            width: 3rem;
+            width: clamp(2.5rem, 6vw, 3rem);
             aspect-ratio: 1;
             border-radius: 30rem;
             background-color: var(--background-main);
-            font-size: 1.5rem;
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            place-self: flex-start flex-end;
         }
 
         .landlord {
@@ -209,22 +213,25 @@
                 flex-direction: column;
                 justify-content: flex-end;
                 align-items: flex-end;
+                text-align: end;
 
                 .role {
                     font-weight: 400;
-                    font-size: 1.5rem;
+                    font-size: clamp(1rem, 3vw, 1.5rem);
                     color: var(--accent-color);
                 }
 
                 .name {
                     font-weight: 500;
-                    font-size: 2.5rem;
+                    font-size: clamp(1.2rem, 3vw, 2.5rem);
                 }
             }
 
             .image {
+                align-self: center;
+                flex-shrink: 0;
                 position: relative;
-                width: 8.75rem;
+                width: clamp(5rem, 9vw, 8.75rem);
                 aspect-ratio: 1;
 
                 .src {
@@ -236,7 +243,7 @@
                     position: absolute;
                     bottom: -.8rem;
                     right: -.8rem;
-                    width: 3.5rem;
+                    width: clamp(2.5rem, 5vw, 3.5rem);
                     aspect-ratio: 1;
                     border: none;
                     border-radius: 50%;
@@ -305,11 +312,12 @@
 
                 .category {
                     font-weight: 400;
-                    font-size: 30px;
+                    font-size: clamp(1.25rem, 3vw, 1.875rem);
                 }
 
                 .value {
-                    font-size: 2rem;
+                    font-size: clamp(1.4rem, 4vw, 2rem);
+                    ;
                     font-weight: 700;
                     color: var(--accent-color);
                 }
@@ -430,6 +438,71 @@
                 font-size: 1.3rem;
                 white-space: pre-wrap;
                 font-weight: 400;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 90rem) {
+    .container .info {
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas:
+            'headline favButton'
+            'headline landlord'
+            'images images'
+            'conveniences stats'
+            'desc desc';
+    }
+}
+
+@media screen and (max-width: 73rem) {
+    .container .info {
+        grid-template-areas:
+            'headline favButton'
+            'headline landlord'
+            'images images'
+            'stats stats'
+            'conveniences conveniences'
+            'desc desc';
+
+        .landlord {
+            place-self: center;
+        }
+    }
+}
+
+@media screen and (max-width: 57rem) {
+    .container .info {
+        grid-template-columns: 1fr min-content;
+        grid-template-areas:
+            'headline favButton'
+            'landlord landlord'
+            'images images'
+            'stats stats'
+            'conveniences conveniences'
+            'desc desc';
+
+        .images {
+            flex-direction: column-reverse;
+
+            .inactive {
+                height: clamp(3rem, 9vw, 5rem);
+                width: auto;
+
+                .inactiveImages {
+                    height: 100%;
+                    width: min-content;
+                    flex-direction: row;
+                }
+            }
+        }
+
+        .desc {
+            font-weight: 300;
+
+            .map {
+                width: 100%;
+                height: 15rem;
             }
         }
     }
