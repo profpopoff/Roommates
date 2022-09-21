@@ -139,3 +139,9 @@ input::file-selector-button {
     text-decoration: underline;
   }
 }
+
+@media screen and (max-width: 38rem) {
+  .auth-form {
+    width: 100%;
+  }
+}

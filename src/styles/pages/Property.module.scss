@@ -126,6 +126,10 @@
             flex-direction: row;
             flex-wrap: wrap;
             justify-content: center;
+
+            .editForm {
+               width: 100%;
+            }
          }
       }
    }
