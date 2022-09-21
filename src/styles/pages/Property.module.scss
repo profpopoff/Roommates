@@ -1,30 +1,29 @@
 .container {
-   // max-width: 1920px;
    margin-block: 1.75rem;
-   // padding: 1rem;
+   padding-inline: 1rem;
    display: flex;
    flex-direction: column;
    gap: 1rem;
 
    .property {
-      width: 50rem;
+      max-width: 50rem;
       margin-inline: auto;
-      padding: 1.5rem;
+      padding: clamp(1rem, 3vw, 1.5rem);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 1rem 2rem;
       border-radius: 1.5rem;
       background-color: var(--background-element);
 
       .headline {
-         margin-right: 2rem;
          max-width: 30rem;
          display: flex;
          flex-direction: column;
          gap: .5rem;
 
          .title {
-            font-size: 1.4rem;
+            font-size: clamp(1.2rem, 5vw, 1.4rem);
             cursor: pointer;
             transition: .15s ease-in-out;
 
@@ -47,11 +46,13 @@
             span {
                font-weight: 700;
                font-size: 1.2rem;
+
             }
          }
       }
 
       .buttons {
+         flex-shrink: 0;
          display: flex;
          flex-direction: column;
          align-items: flex-end;
@@ -112,6 +113,20 @@
       &:hover {
          border-color: var(--accent-color);
          color: var(--accent-color);
+      }
+   }
+}
+
+@media screen and (max-width: 36rem) {
+   .container {
+      .property {
+         flex-direction: column;
+
+         .buttons {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+         }
       }
    }
 }
