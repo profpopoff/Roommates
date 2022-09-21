@@ -1,17 +1,18 @@
 .container {
     height: calc(100vh - var(--header-height));
+    padding-inline: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
 
     .wrapper {
         width: 43rem;
-        padding: 2rem;
+        padding: 2rem clamp(1rem, 3vw, 2rem);
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 2rem;
+        gap: clamp(1rem, 4vw, 2rem);
         border-radius: 1.5rem;
         background-color: var(--background-element);
 
@@ -65,12 +66,12 @@
         flex-direction: column;
         text-align: center;
         gap: .2rem;
-        font-size: 1.5rem;
+        font-size: clamp(1.2rem, 5vw, 1.5rem);
 
         .name {
             margin-bottom: .8rem;
             color: var(--accent-color);
-            font-size: 1.8rem;
+            font-size: clamp(1.5rem, 6vw, 1.8rem);
         }
 
         .contact {
@@ -108,7 +109,7 @@
             user-select: none;
 
             .icon {
-                font-size: 1.5rem;
+                font-size: clamp(1.3rem, 6vw, 1.5rem);
             }
 
             &:not(:last-child) {
@@ -117,6 +118,26 @@
 
             &:hover {
                 color: var(--accent-color);
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 36.25rem) {
+    .container {
+        .wrapper {
+            .navigation {
+                width: min-content;
+                flex-direction: column;
+
+                .navBtn {
+                    font-weight: 400;
+
+                    &:not(:last-child) {
+                        border-right: none;
+                        border-bottom: 1px solid var(--text-main);
+                    }
+                }
             }
         }
     }
