@@ -19,7 +19,7 @@
 
       .flex {
          display: flex;
-         gap: 2rem;
+         column-gap: 2rem;
          align-items: flex-end;
 
          * {
@@ -41,6 +41,7 @@
             *:nth-child(1) {
                text-align: start;
             }
+
             *:nth-child(2) {
                color: var(--accent-color);
                text-align: end;
@@ -76,6 +77,32 @@
          flex-wrap: wrap;
          row-gap: .5rem;
          column-gap: 3rem;
+      }
+   }
+}
+
+@media screen and (max-width: 59rem) {
+   .container {
+      .wrapper {
+         .addForm {
+            width: 100%;
+         }
+      }
+   }
+}
+
+@media screen and (max-width: 31rem) {
+   .container {
+      .wrapper {
+         .addForm {
+            .flex {
+               flex-direction: column;
+
+               * {
+                  width: 100%;
+               }
+            }
+         }
       }
    }
 }
