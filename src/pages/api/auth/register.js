@@ -5,7 +5,7 @@ import CryptoJS from 'crypto-js'
 export default async function handler(req, res) {
     const { method } = req
 
-    dbConnect()
+    await dbConnect()
 
     if (method === 'POST') {
 

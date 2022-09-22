@@ -7,7 +7,7 @@ import cookie from 'cookie'
 export default async function handler(req, res) {
     const { method } = req
 
-    dbConnect()
+    await dbConnect()
 
     if (method === 'POST') {
         try {
