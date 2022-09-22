@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import styles from './CustomTextarea.module.scss'
+import styles from './CustomTextArea.module.scss'
 
 export default function CustomTextarea(props) {
 
