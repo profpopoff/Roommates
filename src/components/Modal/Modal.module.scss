@@ -39,6 +39,12 @@
             background-color: transparent;
             border: none;
             font-size: 2em;
+            cursor: pointer;
+            transition: .15s all ease-in-out;
+
+            &:hover {
+                color: var(--accent-color);
+            }
         }
     }
 }
