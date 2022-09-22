@@ -73,14 +73,14 @@
                 border-radius: .7rem;
                 overflow: auto;
 
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
                 .inactiveImages {
                     display: flex;
                     flex-direction: column;
                     gap: clamp(.3rem, 2vw, 1rem);
-
-                    &::-webkit-scrollbar {
-                        display: none;
-                    }
 
                     .image {
                         position: relative;
