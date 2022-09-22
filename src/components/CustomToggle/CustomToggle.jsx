@@ -1,5 +1,3 @@
-import { useEffect } from 'react'
-import { useState } from 'react'
 import styles from './CustomToggle.module.scss'
 
 export default function CustomToggle(props) {

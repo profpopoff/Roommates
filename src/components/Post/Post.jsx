@@ -1,16 +1,16 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { useSelector } from 'react-redux'
-import styles from './Post.module.scss'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 import StarRatings from 'react-star-ratings'
 
-import FavButton from '../FavButton/FavButton'
+import styles from './Post.module.scss'
 import { enumerate } from '../../utils/functions'
+import FavButton from '../FavButton/FavButton'
 
 export default function Post(props) {
+
     return (
         <div className={styles.post}>
             <PostImage id={props._id} src={props.images[0]} roommates={props.roommates} />
@@ -33,8 +33,8 @@ const PostImage = (props) => {
                 <div className={styles.roommates}>
                     <div className={styles.images}>
                         {props.roommates.map(roommate => (
-                            <div className={styles.image}>
-                                <div key={roommate._id} className={styles.roommate}>
+                            <div key={roommate._id} className={styles.image}>
+                                <div className={styles.roommate}>
                                     <Image className={styles.src} src={roommate.image} alt="" layout="fill" />
                                 </div>
                             </div>

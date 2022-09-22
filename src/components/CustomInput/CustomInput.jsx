@@ -1,8 +1,8 @@
-import styles from './CustomInput.module.scss'
 import { useState } from 'react'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+
+import styles from './CustomInput.module.scss'
 
 export default function CustomInput(props) {
 

@@ -1,13 +1,12 @@
 import Link from 'next/link'
 import { useEffect, useState, useMemo } from 'react'
 import { useSelector } from 'react-redux'
-import styles from './Map.module.scss'
-
 import ReactMapGL, { Marker, Popup } from "react-map-gl"
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLocationDot } from '@fortawesome/free-solid-svg-icons'
 
+import styles from './Map.module.scss'
 import Loading from '../Loading/Loading'
 
 export default function Map({ apartments }) {

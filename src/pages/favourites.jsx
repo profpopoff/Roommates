@@ -1,18 +1,17 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import styles from '../styles/pages/Favourites.module.scss'
 
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 
-import { getApartment } from './api/apartments/[id]'
+import styles from '../styles/pages/Favourites.module.scss'
 import { wrapper } from '../redux/store'
 import { getUser } from './api/users/[id]'
 import { setUser } from '../redux/slices/user'
+import { getApartment } from './api/apartments/[id]'
+import { jsonParser, average } from '../utils/functions'
 import Layout from '../components/Layout'
-import { jsonParser } from '../utils/functions'
 import Post from '../components/Post/Post'
-import { average } from '../utils/functions'
 
 export default function Favourites({ favourites = [], roommates }) {
 

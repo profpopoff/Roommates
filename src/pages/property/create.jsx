@@ -2,21 +2,20 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import styles from '../../styles/pages/CreateProperty.module.scss'
-
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 
+import styles from '../../styles/pages/CreateProperty.module.scss'
 import { wrapper } from '../../redux/store'
 import { setUser } from '../../redux/slices/user'
 import { getUser } from '../api/users/[id]'
+import { useHttp } from '../../hooks/http.hook'
+import { jsonParser } from '../../utils/functions'
 import Layout from '../../components/Layout'
 import Dropdown from '../../components/Dropdown/Dropdown'
 import CustomToggle from '../../components/CustomToggle/CustomToggle'
 import CustomInput from '../../components/CustomInput/CustomInput'
 import CustomTextArea from '../../components/CustomTextArea/CustomTextArea'
-import { useHttp } from '../../hooks/http.hook'
-import { jsonParser } from '../../utils/functions'
 
 export default function CreateProperty() {
   return (

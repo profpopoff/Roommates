@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { useHttp } from '../../hooks/http.hook'
 import { setModal } from '../../redux/slices/modal'
+import { useHttp } from '../../hooks/http.hook'
 import Modal from '../Modal/Modal'
 import CustomInput from '../CustomInput/CustomInput'
 

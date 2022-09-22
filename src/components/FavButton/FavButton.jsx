@@ -1,15 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import styles from './FavButton.module.scss'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
-import { useHttp } from '../../hooks/http.hook'
+import styles from './FavButton.module.scss'
 import { setModal } from '../../redux/slices/modal'
 import { setUser } from '../../redux/slices/user'
-import { useEffect } from 'react'
+import { useHttp } from '../../hooks/http.hook'
 
 export default function FavButton({ id }) {
 

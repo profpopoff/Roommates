@@ -3,21 +3,20 @@ import Image from 'next/image'
 import Router from 'next/router'
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import styles from '../styles/pages/Profile.module.scss'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPhone, faEnvelope, faPenToSquare, faComments, faHeart, faBuilding, faHouseChimney } from '@fortawesome/free-solid-svg-icons'
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 
+import styles from '../styles/pages/Profile.module.scss'
 import { wrapper } from '../redux/store'
-import { getUser } from './api/users/[id]'
 import { setUser } from '../redux/slices/user'
+import { getUser } from './api/users/[id]'
+import { useHttp } from '../hooks/http.hook'
+import { jsonParser } from '../utils/functions'
 import Layout from '../components/Layout'
 import Modal from '../components/Modal/Modal'
-import { useHttp } from '../hooks/http.hook'
 import CustomInput from '../components/CustomInput/CustomInput'
-import { jsonParser } from '../utils/functions'
 
 export default function Profile() {
 

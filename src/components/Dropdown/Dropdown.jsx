@@ -1,5 +1,6 @@
-import styles from './Dropdown.module.scss'
 import { useEffect, useRef } from 'react'
+
+import styles from './Dropdown.module.scss'
 
 export default function Dropdown({ active, setActive, children, button }) {
 

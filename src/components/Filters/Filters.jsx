@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import styles from './Filters.module.scss'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTag, faBuilding, faStairs, faSliders, faArrowDownShortWide, faArrowDownWideShort, faArrowRotateLeft } from '@fortawesome/free-solid-svg-icons'
 import { cityIn } from 'lvovich'
 import Slider from "rc-slider"
 import "rc-slider/assets/index.css"
 
+import styles from './Filters.module.scss'
 import { setFilters, resetFilters } from '../../redux/slices/filters'
 import { enumerate } from '../../utils/functions'
 import CustomToggle from '../CustomToggle/CustomToggle'

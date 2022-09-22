@@ -1,25 +1,22 @@
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import styles from '../styles/pages/Home.module.scss'
-
+import { useState } from 'react'
+import { useSelector } from 'react-redux'
 import * as cookie from 'cookie'
 import jwt from 'jsonwebtoken'
 
+import styles from '../styles/pages/Home.module.scss'
 import { wrapper } from '../redux/store'
 import { getUser } from './api/users/[id]'
 import { setUser } from '../redux/slices/user'
 import { getApartments } from './api/apartments/index'
+import { average, jsonParser } from '../utils/functions'
 import Layout from '../components/Layout'
 import Filters from '../components/Filters/Filters'
 import Post from '../components/Post/Post'
-import { average, jsonParser } from '../utils/functions'
 
 const Map = dynamic(() => import("../components/Map/Map"), { ssr: false })
 
 export default function Home({ apartments, roommates }) {
-
-
   return (
     <Layout>
       <div className={styles.container}>
