@@ -7,6 +7,13 @@
     <a href="https://roommates-profpopoff.vercel.app/">Live Demo</a>
 </h2>
 
+### Test user:
+
+- test@email.com
+- 1234
+
+---
+
 ![alt text](public/img/home-page.png)
 
 ---
