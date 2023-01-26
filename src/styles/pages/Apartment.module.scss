@@ -2,6 +2,7 @@
     max-width: 1920px;
     margin: 1.75rem auto;
     padding-bottom: 3rem;
+    padding-top: var(--header-height);
 
     .info {
         margin-inline: clamp(1em, 3vw, 3.75em);

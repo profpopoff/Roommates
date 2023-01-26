@@ -1,5 +1,5 @@
 .container {
-   padding: 1.75rem;
+   padding: calc(var(--header-height) + 1.75rem) 1.75rem;
    display: flex;
    justify-content: center;
 

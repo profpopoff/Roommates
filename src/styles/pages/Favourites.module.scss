@@ -1,7 +1,8 @@
 .container {
    max-width: calc(1920px - 1.75rem);
-   margin: 1.75rem auto;
+   margin-inline: auto;
    padding-inline: 1.75rem;
+   padding-top: calc(var(--header-height) + 2rem);
    padding-bottom: 3rem;
    display: flex;
    flex-wrap: wrap;

@@ -53,7 +53,7 @@ export default function Settings() {
             />
             <input className="submit-btn" type="submit" disabled={loading} value={loading ? 'Вход...' : 'Войти'} />
             {error && <span className='error'>{error}</span>}
-            <a className="register-link" onClick={() => dispatch(setModal({ registerActive: true }))}>Нет аккаунта?</a>
+            <a className="register-link" onClick={() => dispatch(setModal({ registerActive: true }))} style={{ cursor: 'pointer' }}>Нет аккаунта?</a>
          </form>
       </Modal>
    )
