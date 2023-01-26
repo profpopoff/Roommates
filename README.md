@@ -1,8 +1,11 @@
-# <center>Roommates</center>
+<p align="center">
+    <img width="100" src="./public/img/logo.svg" alt="Roommates logo">
+</p>
+<h1 align="center">Roommates</h1>
 
-## <center>[Live Demo](https://roommates-next-js-6erj.vercel.app)</center>
-
-<br>
+<h2 align="center">
+    <a href="https://roommates-profpopoff.vercel.app/">Live Demo</a>
+</h2>
 
 ![alt text](public/img/home-page.png)
 
