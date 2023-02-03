@@ -7,6 +7,13 @@
     <a href="https://roommates-profpopoff.vercel.app/">Live Demo</a>
 </h2>
 
+### Test user:
+
+- test@email.com
+- 1234
+
+---
+
 ![alt text](public/img/home-page.png)
 
 ---
@@ -34,4 +41,15 @@
 - Rating system for real estate
 - Chat for tenants and landlords to communicate
 - Tenants control system
+<<<<<<< HEAD
 - Save images to cloude server
+=======
+- Save images to cloude server
+
+### Technological stack:
+
+- Next.js
+- MongoDB (mongoose)
+- Redux
+- Scss
+>>>>>>> 0e3cf9fc58d138c157790f866da1ed217032164b
