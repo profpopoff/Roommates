@@ -15,6 +15,17 @@
 
 **Roommates** is a web app for renting apartments with roommates.
 
+### Technological stack:
+
+- Next.js
+- MongoDB 
+- Mongoose
+- Socket.IO
+- Redux
+- Scss
+- MapBox
+- Cloudinary
+  
 ### Functional requirements:
 
 - Registration/authorization
@@ -24,10 +35,3 @@
 - Chat for tenants and landlords to communicate
 - Tenants control system
 - Save images to cloude server
-
-### Technological stack:
-
-- Next.js
-- MongoDB (mongoose)
-- Redux
-- Scss
