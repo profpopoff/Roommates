@@ -54,63 +54,7 @@
         grid-template-rows: min-content 1fr;
         grid-template-areas:
             '. filters .'
-            'map map map';
+            'posts posts posts';
         padding-inline: 0;
-
-        .posts {
-            position: absolute;
-            top: 96vh;
-            height: 4vh;
-            width: 100%;
-            overflow: hidden;
-            z-index: 12;
-            border-radius: 2rem 2rem 0 0;
-            background-color: var(--background-main);
-            transition: .3s all ease-in-out;
-
-            .postsWrapper {
-                position: relative;
-
-                .showPostsBtn {
-                    position: absolute;
-                    top: 0;
-                    height: 2.5rem;
-                    width: 100%;
-                    display: block;
-                    z-index: 12;
-                    border: none;
-                    background-color: var(--background-main);
-
-                    &::before {
-                        content: '';
-                        position: absolute;
-                        top: 1.25rem;
-                        left: 50%;
-                        transform: translate(-50%, -50%);
-                        width: 5rem;
-                        height: .5rem;
-                        border-radius: 2rem;
-                        background-color: var(--accent-color);
-
-                    }
-                }
-
-                .postsContent {
-                    height: 100%;
-                    overflow-y: auto;
-                    padding-top: 3rem;
-                    gap: 1rem;
-                }
-            }
-
-            &[data-visible=true] {
-                top: 30%;
-                height: 70%;
-
-                .postsWrapper {
-                    height: 100%;
-                }
-            }
-        }
     }
 }

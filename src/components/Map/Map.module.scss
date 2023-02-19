@@ -27,12 +27,6 @@
 
 @media screen and (max-width: 53rem) {
     .container {
-        border-radius: 0;
-
-        .marker {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            cursor: pointer;
-        }
+        display: none;
     }
 }
